@@ -1,0 +1,43 @@
+package main.java.kontabill.mvc.model.forms.base;
+
+import main.java.kontabill.layout.elements.forms.model.InputType;
+
+/**
+ *
+ */
+public class ElementConfig {
+
+    private InputType inputType;
+
+    private String inputLabel;
+
+    private String inputKey;
+
+
+    public InputType getInputType() {
+        return inputType;
+    }
+
+    public ElementConfig setInputType(InputType inputType) {
+        this.inputType = inputType;
+        return this;
+    }
+
+    public String getInputLabel() {
+        return inputLabel;
+    }
+
+    public ElementConfig setInputLabel(String inputLabel) {
+        this.inputLabel = inputLabel;
+        return this;
+    }
+
+    public String getInputKey() {
+        return inputKey;
+    }
+
+    public ElementConfig setInputKey(String inputKey) {
+        this.inputKey = inputKey;
+        return this;
+    }
+}

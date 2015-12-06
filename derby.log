@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Dec 06 03:11:21 GMT 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0151-7545-b531-00000e0e0e48 
+on database directory /home/cbitoi/Documents/java-projects/kontabill/db/kontabill with class loader sun.misc.Launcher$AppClassLoader@45ee12a7 
+Loaded from file:/home/cbitoi/Documents/java-projects/kontabill/src/main/java/kontabill/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_20-b26
+user.dir=/home/cbitoi/Documents/java-projects/kontabill
+os.name=Linux
+os.arch=amd64
+os.version=3.19.3-200.fc21.x86_64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
