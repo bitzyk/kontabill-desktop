@@ -19,6 +19,8 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
     private LegalEntities legalEntities = new LegalEntities();
 
+    private LegalEntitiesDetail legalEntitiesDetail = new LegalEntitiesDetail();
+
     public LegalEntitiesTypes() {
         super(TABLE_NAME);
     }
@@ -32,14 +34,15 @@ public class LegalEntitiesTypes extends DbTableAbstract {
             legalEntities.insertLegalEntity(((LegalEntity) delegat));
 
             // add detail
+            legalEntitiesDetail.insertLegalEntityDetail(delegat);
 
             // add specific legalEntityType with id of legalEntity in the specific column
             insertLegalEntityType(delegat);
 
-
             // end transaction
             getConnection().commit();
             getConnection().setAutoCommit(true);
+
             System.out.println("-- add delegat a luat sfarsit --");
 
         } catch (Exception e) {
