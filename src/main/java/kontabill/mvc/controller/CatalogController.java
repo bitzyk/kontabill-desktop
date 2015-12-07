@@ -46,6 +46,7 @@ public class CatalogController extends BaseAbstractController {
         catalogDelegatesView.render();
     }
 
+
     public void deleteDelegatesAction(ArrayList<Delegat> delegats)
     {
         // delete delegates
@@ -57,15 +58,16 @@ public class CatalogController extends BaseAbstractController {
 
     public void addDelegatAction(BaseAbstractForm form)
     {
-        // deal with the form
         if(form.validate()) {
+            // deal with the form
             Delegat delegatEntity = new Delegat();
             ((DelegatForm)form).hydrateEntity(delegatEntity);
 
             model.addDelegat(delegatEntity);
-        }
 
-        // redirect
+            // redirect
+            getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
+        }
     }
 
 

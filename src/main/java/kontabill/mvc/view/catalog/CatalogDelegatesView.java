@@ -138,6 +138,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (formLayout.validate() == true) {
+                        getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
                         ((CatalogController) getControllerForView()).addDelegatAction(form);
                     }
                 }

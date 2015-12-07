@@ -36,6 +36,11 @@ public class Request {
         }
     }
 
+    public void removeDataItem(String key)
+    {
+        dataPayload.remove(key);
+    }
+
     public void resetDataItems()
     {
         dataPayload.clear();
