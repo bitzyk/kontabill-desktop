@@ -342,13 +342,15 @@ tabela detailLegalEntities
 	- definire tabel legal entities detail - ok
 		- creare dbTable - ok
 	- insert legalEntitiesDetail la adaugareDelegat - ok
-	- reinitializare controler -> mvc->runcController dupa aduagare delegat (afisare cursiva)
+	- reinitializare controler -> mvc->runcController dupa aduagare delegat (afisare cursiva) - ok
+	- la stergere delegt, sterge si detalii persoana - ok
 
-	- afisare serie si numarul buletinul in tabel delegat si nu cnp
-		- modificare select sa includa legalEntititesDetail la getDelegat
+	- afisare serie si numarul buletinul in tabel delegat si nu cnp - ok
+		- modificare select sa includa legalEntititesDetail la getDelegat - ok
 
 - buton submit hover background
 - input focus background
+- adaugare formular la apasare key enter - behaviour adaugat in parinte layoutform
 
 
 - editeaza delegat

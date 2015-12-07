@@ -118,4 +118,26 @@ public class LegalEntity extends Entity {
         return hasMultipleReference;
     }
 
+    public boolean isPerson()
+    {
+        boolean isPerson = false;
+
+        if (getType().equals(TYPE_PF)) {
+            isPerson = true;
+        }
+
+        return isPerson;
+    }
+
+    public boolean isCompany()
+    {
+        boolean isCompany = false;
+
+        if (getType().equals(TYPE_PJ)) {
+            isCompany = true;
+        }
+
+        return isCompany;
+    }
+
 }

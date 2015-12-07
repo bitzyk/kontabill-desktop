@@ -1,6 +1,7 @@
 package main.java.kontabill.mvc.model.entities.table_models;
 
 import main.java.kontabill.mvc.model.entities.Delegat;
+import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -31,9 +32,15 @@ public class DelegatTableModel extends BaseAbstract {
                     "left",
             },
             {
-                    "CNP (cod numeric personal)",
+                    "Serie buletin",
                     null,
-                    "40",
+                    "20",
+                    "left",
+            },
+            {
+                    "Numar buletin",
+                    null,
+                    "20",
                     "left",
             },
             {
@@ -48,6 +55,7 @@ public class DelegatTableModel extends BaseAbstract {
             String.class,
             String.class,
             String.class,
+            String.class,
             Boolean.class,
     };
 
@@ -55,7 +63,7 @@ public class DelegatTableModel extends BaseAbstract {
         super(mapEntitiesCollection, COLUMN_DEFINITION, COLUMN_TYPES);
     }
 
-    protected static final int CHECKED_COLUMN_INDEX = 3;
+    protected static final int CHECKED_COLUMN_INDEX = 4;
 
 
     @Override
@@ -73,7 +81,10 @@ public class DelegatTableModel extends BaseAbstract {
                 value = delegat.getName();
                 break;
             case 2:
-                value = delegat.getIdentifier();
+                value = ((LegalEntityDetailPerson) delegat.getLegalEntityDetail()).getIdSerial();
+                break;
+            case 3:
+                value = ((LegalEntityDetailPerson) delegat.getLegalEntityDetail()).getIdNo();;
                 break;
             case CHECKED_COLUMN_INDEX:
                 value = checkedEntitiesArray[rowIndex];

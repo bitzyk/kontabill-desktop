@@ -1,9 +1,7 @@
 package main.java.kontabill.mvc.model.db_model;
 
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
-import main.java.kontabill.mvc.model.entities.Delegat;
-import main.java.kontabill.mvc.model.entities.LegalEntity;
-import main.java.kontabill.mvc.model.entities.LegalEntityType;
+import main.java.kontabill.mvc.model.entities.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -43,8 +41,6 @@ public class LegalEntitiesTypes extends DbTableAbstract {
             getConnection().commit();
             getConnection().setAutoCommit(true);
 
-            System.out.println("-- add delegat a luat sfarsit --");
-
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -73,9 +69,10 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
         Statement sta = getConnection().createStatement();
 
-        String sql = "SELECT lt.*, le.*, lt.ID as LEGAL_ENTITY_TYPE_ID, le.ID as LEGAL_ENTITY_ID" +
-                " FROM " + TABLE_NAME + " lt " +
-                "JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID" +
+        String sql = "SELECT lt.*, le.*, led.*, lt.ID as LEGAL_ENTITY_TYPE_ID, le.ID as LEGAL_ENTITY_ID" +
+                " FROM " + TABLE_NAME + " lt" +
+                " JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID" +
+                " JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_DELEGAT = led.ID_LEGAL_ENTITY" +
                 " WHERE ID_DELEGAT IS NOT NULL";
 
         ResultSet resultSet = sta.executeQuery(sql);
@@ -92,6 +89,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
     ) throws SQLException {
         while (resultSet.next()) {
             Delegat delegat = hydrateDelegat(resultSet, new Delegat());
+
             delegates.put(delegat.getId(), delegat);
         }
 
@@ -110,6 +108,16 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         legalEntityType.setId(resultSet.getInt("LEGAL_ENTITY_TYPE_ID"));
         delegat.setLegalEntityType(legalEntityType);
 
+        // assoc legal entityDetail to legalEntity
+        if (delegat.isPerson()) {
+            LegalEntityDetailPerson legalEntityDetailPerson = new LegalEntityDetailPerson();
+            hydrateLegalEntityDetailPerson(resultSet, legalEntityDetailPerson);
+            delegat.setLegalEntityDetail(legalEntityDetailPerson);
+        } else if (delegat.isCompany()) {
+
+        }
+
+
         return delegat;
     }
 
@@ -118,6 +126,13 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         legalEntityType.setId(resultSet.getInt("LEGAL_ENTITY_TYPE_ID"));
 
         return legalEntityType;
+    }
+
+    private void hydrateLegalEntityDetailPerson(ResultSet resultSet, LegalEntityDetailPerson legalEntityDetailPerson) throws SQLException
+    {
+        legalEntityDetailPerson
+                .setIdSerial(resultSet.getString("ID_SERIAL"))
+                .setIdNo(resultSet.getString("ID_NO"));
     }
 
 
@@ -155,6 +170,10 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
         // if this legal entity does not have multiple references delete also the legal entity
         if (hasMultipleEntityTypeReferences == false) {
+            // delete first details of legal entity
+            sql = "DELETE FROM " + LegalEntitiesDetail.TABLE_NAME + " WHERE ID_LEGAL_ENTITY=" + legalEntity.getId();
+            sta.executeUpdate(sql);
+
             sql = "DELETE FROM " + LegalEntities.TABLE_NAME + " WHERE ID=" + legalEntity.getId();
             sta.executeUpdate(sql);
         }
