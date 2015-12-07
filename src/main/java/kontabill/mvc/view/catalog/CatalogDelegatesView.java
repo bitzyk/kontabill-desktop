@@ -148,7 +148,6 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         // add row panel 4 and submit button
         JPanel rowPanel4 = viewLayout.getPanelControl().addRowPanel(RowTypePanels.DEFAULT);
 
-
         rowPanel4.add(submitButton);
     }
 

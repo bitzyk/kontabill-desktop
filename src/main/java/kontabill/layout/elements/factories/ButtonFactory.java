@@ -47,7 +47,7 @@ public class ButtonFactory {
     {
         Button1 button = new Button1(text);
         button.setBackgroundColorDefault(Color.decode("#99bd2c"));
-        button.setHoverBackgroundColorDefault(Color.decode("#99bd2c"));
+        button.setHoverBackgroundColorDefault(Color.decode("#658406"));
         button.setForegroundColor(Color.WHITE);
         button.setBorderColorDefault(Color.decode("#658406"));
         button.setBorderColorHover(Color.decode("#658406"));

@@ -348,9 +348,29 @@ tabela detailLegalEntities
 	- afisare serie si numarul buletinul in tabel delegat si nu cnp - ok
 		- modificare select sa includa legalEntititesDetail la getDelegat - ok
 
-- buton submit hover background
-- input focus background
-- adaugare formular la apasare key enter - behaviour adaugat in parinte layoutform
+- buton submit hover background - ok
+- input focus background - ok
+
+-- ai ramas aici --
+- adaugare formular la apasare key enter - behaviour adaugat in parinte layoutform - ok
+
+	- nu se poata apela submit button din formLayout - refactorizare
+			- integrare buton submit in formLayout
+					- definire label submit button in clasa concreta de form
+					- definire trigger submit function in clasa concreta de form (callback)
+					 		- formlayout asculta enter key si executa callback (nu mai este necesara executia directa FormLayout:validate)
+			- adaugare buton submit intr-un panel specific se realizeaza in afara formLayout
+					- getter submit button (setter-ul nu este necesar)
+
+	- tooltip form la enter defocus si afisare 2 tooltipuri
+			- refactorizare: FormTooltipManager class
+					- map ce pastreaza referitne tooltip <keyInput><tooltip>
+							- metodaAddTooltip(errorString) - singurul entrypoint pentru adaugare tooltip - isi sterge automat referentia anterioare de tooltip din map
+- editare delegat
+		- integrare form cu clasa concreta de layoutPopupForm
+
+
+
 
 
 - editeaza delegat
