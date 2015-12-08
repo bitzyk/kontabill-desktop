@@ -1,9 +1,7 @@
 package main.java.kontabill.layout.elements.forms;
 
 import main.java.kontabill.layout.elements.inputs.FormElement;
-import main.java.kontabill.layout.elements.tooltips.TooltipDefault;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
-import net.java.balloontip.BalloonTip;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -18,7 +16,7 @@ abstract public class FormLayoutBaseAbstract {
 
     private JPanel panel;
 
-    private Map<String, BalloonTip> tooltipsErrorWarnings = new HashMap<>();
+    private FormTooltipManager formTooltip = new FormTooltipManager();
 
     public FormLayoutBaseAbstract(BaseAbstractForm form, JPanel panel)
     {
@@ -37,7 +35,7 @@ abstract public class FormLayoutBaseAbstract {
     public boolean validate()
     {
         // close previous tooltips warnings
-        closeAllTooltipsWarning();
+        formTooltip.closeAllTooltipsWarning();
 
         boolean isValid = getForm().getFormValidator().validateForm();
 
@@ -47,20 +45,6 @@ abstract public class FormLayoutBaseAbstract {
         }
 
         return isValid;
-    }
-
-    private void closeAllTooltipsWarning()
-    {
-        Set<String> keys = tooltipsErrorWarnings.keySet();
-        Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            BalloonTip balloonTip = tooltipsErrorWarnings.get(key);
-            if (balloonTip instanceof BalloonTip) {
-                balloonTip.closeBalloon();
-            }
-
-        }
     }
 
     private void addListeners()
@@ -106,16 +90,10 @@ abstract public class FormLayoutBaseAbstract {
         while (iterator.hasNext()) {
             String formKey = iterator.next();
             JComponent formElement = (JComponent) formElementMap.get(formKey);
-
             List<String> errors = getForm().getFormValidator().getValidationElementErrors(formKey);
 
             if(errors.size() > 0) {
-                tooltipsErrorWarnings.put(formKey,
-                        new TooltipDefault(
-                                formElement,
-                                errors.get(0)
-                        )
-                );
+                formTooltip.addTooltip(formKey, formElement, errors.get(0));
             }
         }
     }
@@ -164,11 +142,7 @@ abstract public class FormLayoutBaseAbstract {
         @Override
         public void focusGained(FocusEvent e)
         {
-            BalloonTip balloonTip = tooltipsErrorWarnings.get(formKey);
-
-            if(balloonTip instanceof BalloonTip) {
-                balloonTip.closeBalloon();
-            }
+            formTooltip.closeTooltip(formKey);
         }
 
         @Override
@@ -181,13 +155,7 @@ abstract public class FormLayoutBaseAbstract {
                 List<String> errors = form.getFormValidator().getValidationElementErrors(formKey);
 
                 if(errors.size() > 0) {
-                    tooltipsErrorWarnings.put(formKey,
-                            new TooltipDefault(
-                                    formElement,
-                                    errors.get(0)
-
-                            )
-                    );
+                    formTooltip.addTooltip(formKey, formElement, errors.get(0));
                 }
             }
         }

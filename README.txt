@@ -362,10 +362,10 @@ tabela detailLegalEntities
 			- adaugare buton submit intr-un panel specific se realizeaza in afara formLayout
 					- getter submit button (setter-ul nu este necesar)
 
-	- tooltip form la enter defocus si afisare 2 tooltipuri
-			- refactorizare: FormTooltipManager class
-					- map ce pastreaza referitne tooltip <keyInput><tooltip>
-							- metodaAddTooltip(errorString) - singurul entrypoint pentru adaugare tooltip - isi sterge automat referentia anterioare de tooltip din map
+	- tooltip form la enter defocus si afisare 2 tooltipuri - ok
+			- refactorizare: FormTooltipManager class - ok
+					- map ce pastreaza referitne tooltip <keyInput><tooltip> - ok
+							- metodaAddTooltip(errorString) - singurul entrypoint pentru adaugare tooltip - isi sterge automat referentia anterioare de tooltip din map - ok
 - editare delegat
 		- integrare form cu clasa concreta de layoutPopupForm
 
