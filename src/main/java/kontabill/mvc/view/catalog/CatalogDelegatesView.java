@@ -134,13 +134,11 @@ public class CatalogDelegatesView extends BaseAbstractView  {
             FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
 
             submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga delegat");
-            submitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (formLayout.validate() == true) {
-                        getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
-                        ((CatalogController) getControllerForView()).addDelegatAction(form);
-                    }
+
+            form.registerSubmitButton(submitButton,  () -> {
+                if (formLayout.validate() == true) {
+                    getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
+                    ((CatalogController) getControllerForView()).addDelegatAction(form);
                 }
             });
         }

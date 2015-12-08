@@ -355,12 +355,12 @@ tabela detailLegalEntities
 - adaugare formular la apasare key enter - behaviour adaugat in parinte layoutform - ok
 
 	- nu se poata apela submit button din formLayout - refactorizare
-			- integrare buton submit in formLayout
-					- definire label submit button in clasa concreta de form
-					- definire trigger submit function in clasa concreta de form (callback)
-					 		- formlayout asculta enter key si executa callback (nu mai este necesara executia directa FormLayout:validate)
-			- adaugare buton submit intr-un panel specific se realizeaza in afara formLayout
-					- getter submit button (setter-ul nu este necesar)
+			- integrare buton submit in formLayout - ok
+					- definire label submit button in clasa concreta de form -ok
+					- definire trigger submit function in clasa concreta de form (callback) - ok
+					 		- formlayout asculta enter key si executa callback (nu mai este necesara executia directa FormLayout:validate) - ok
+			- adaugare buton submit intr-un panel specific se realizeaza in afara formLayout - ok
+					- getter submit button (setter-ul nu este necesar) -lk
 
 	- tooltip form la enter defocus si afisare 2 tooltipuri - ok
 			- refactorizare: FormTooltipManager class - ok

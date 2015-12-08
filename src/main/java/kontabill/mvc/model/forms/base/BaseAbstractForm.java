@@ -1,10 +1,11 @@
 package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.factories.FormElementFactory;
-import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.elements.inputs.FormElement;
+import main.java.kontabill.lib.core.functional_interfaces.BlockRunner;
 import main.java.kontabill.mvc.model.entities.Entity;
 
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -17,6 +18,10 @@ abstract public class BaseAbstractForm {
     private FormValidator formValidator;
 
     private FormElementConfig formElementConfig;
+
+    private JButton submitButton;
+
+    private BlockRunner submitBlockRunner;
 
     public static final int ELEMENT_DEFINITION_KEY_INPUT_TYPE = 0;
     public static final int ELEMENT_DEFINITION_KEY_LABEL = 1;
@@ -90,6 +95,18 @@ abstract public class BaseAbstractForm {
 
     }
 
+    public void registerSubmitButton(JButton submitButton, BlockRunner submitBlockRunner)
+    {
+        this.submitButton = submitButton;
+        this.submitBlockRunner = submitBlockRunner;
+
+        // attach action listener to submit button
+        this.submitButton.addActionListener(e -> {
+            submitBlockRunner.run();
+        });
+    }
+
+
     public boolean validate()
     {
         return formValidator.validateForm();
@@ -107,5 +124,9 @@ abstract public class BaseAbstractForm {
 
     public Map<String, FormElement> getFormElements() {
         return formElements;
+    }
+
+    public BlockRunner getSubmitBlockRunner() {
+        return submitBlockRunner;
     }
 }

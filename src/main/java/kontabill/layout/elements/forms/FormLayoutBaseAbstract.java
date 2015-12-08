@@ -121,7 +121,8 @@ abstract public class FormLayoutBaseAbstract {
         @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                validate();
+                // on enter inside form run the subbmit block runner behaviour
+                form.getSubmitBlockRunner().run();
             }
 
         }
