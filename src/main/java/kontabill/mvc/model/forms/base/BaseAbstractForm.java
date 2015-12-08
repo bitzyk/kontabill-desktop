@@ -129,4 +129,9 @@ abstract public class BaseAbstractForm {
     public BlockRunner getSubmitBlockRunner() {
         return submitBlockRunner;
     }
+
+
+    public FormElementConfig getFormElementConfig() {
+        return formElementConfig;
+    }
 }

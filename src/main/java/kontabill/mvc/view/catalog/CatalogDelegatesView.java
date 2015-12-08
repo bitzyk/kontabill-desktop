@@ -6,6 +6,7 @@ import main.java.kontabill.layout.elements.factories.ButtonFactory;
 import main.java.kontabill.layout.elements.forms.FormLayout;
 import main.java.kontabill.layout.elements.forms.FormLayoutBaseAbstract;
 import main.java.kontabill.layout.elements.forms.FormLayoutControlPanel;
+import main.java.kontabill.layout.elements.forms.FormLayoutDialog;
 import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.elements.tables.TableDefault;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
@@ -23,6 +24,7 @@ import main.java.kontabill.mvc.view.BaseAbstractView;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -155,6 +157,27 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         JPanel panelTableRow1 = viewLayout.getPanelTable().addRowPanel(RowTypePanels.DEFAULT);
         JButton deleteDelegatesButton = ButtonFactory.createButtonDeleteDefault("Sterge delegat/delegati");
         JButton editDelegatButton = ButtonFactory.createButtonEditDefault("Editeaza delegat");
+
+        // begin test
+
+        editDelegatButton.addActionListener(e -> {
+            BaseAbstractForm form = new DelegatForm();
+            FormLayoutBaseAbstract formLayout = new FormLayoutDialog(form, new JPanel());
+
+            form.registerSubmitButton(editDelegatButton,  () -> {
+                if (formLayout.validate() == true) {
+                    getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
+                    ((CatalogController) getControllerForView()).addDelegatAction(form);
+                }
+            });
+        });
+
+        // end test
+
+
+
+
+
 
         // add table control buttons to row panel
         panelTableRow1.add(deleteDelegatesButton);

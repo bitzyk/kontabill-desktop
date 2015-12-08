@@ -2,7 +2,7 @@ package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.forms.model.InputType;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class FormElementConfig {
 
-    private Map<String, ElementConfig> elementConfigMap =  new HashMap<>();
+    private Map<String, ElementConfig> elementConfigMap =  new LinkedHashMap<>(); // for mantaing the order
 
     private String[][] initialElementsDefinition;
 

@@ -366,6 +366,14 @@ tabela detailLegalEntities
 			- refactorizare: FormTooltipManager class - ok
 					- map ce pastreaza referitne tooltip <keyInput><tooltip> - ok
 							- metodaAddTooltip(errorString) - singurul entrypoint pentru adaugare tooltip - isi sterge automat referentia anterioare de tooltip din map - ok
+
+
+- principii dialog form:
+	- width si height automat generat pe baza lungimii formularului (vezi pack)
+	- adaugarea de dialogForm unei instrante de form prin initializare setLayout obiectului de form
+
+
+
 - editare delegat
 		- integrare form cu clasa concreta de layoutPopupForm
 
