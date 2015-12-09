@@ -157,9 +157,9 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
         editDelegatButton.addActionListener(e -> {
             BaseAbstractForm form = new DelegatForm();
-            FormLayoutBaseAbstract formLayout = new FormLayoutDialog(form, new JPanel());
+            FormLayoutDialog formLayout = new FormLayoutDialog(form, new JPanel());
 
-            form.registerSubmitButton(editDelegatButton,  () -> {
+            formLayout.registerSubmitButtonRunner(() -> {
                 if (formLayout.validate() == true) {
                     getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
                     ((CatalogController) getControllerForView()).addDelegatAction(form);

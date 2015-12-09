@@ -21,6 +21,8 @@ public class FormValidator {
         this.form = form;
     }
 
+    private boolean lastFormValidationValid = false;
+
     public void addValidatorToElement(String key, Validator validator)
     {
 
@@ -66,6 +68,9 @@ public class FormValidator {
                 validForm = false;
             }
         }
+
+        // set lastFormValidationValid property
+        this.lastFormValidationValid = validForm;
 
         return validForm;
     }
@@ -137,5 +142,9 @@ public class FormValidator {
     public void clearAllValidationErrors()
     {
 
+    }
+
+    public boolean isLastFormValidationValid() {
+        return lastFormValidationValid;
     }
 }

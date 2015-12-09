@@ -5,12 +5,15 @@ import main.java.kontabill.layout.containers.FrameMain;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
 import main.java.kontabill.layout.elements.labels.LabelForm;
 import main.java.kontabill.layout.elements.separators.LineSeparator;
+import main.java.kontabill.lib.core.functional_interfaces.BlockRunner;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.model.forms.base.ElementConfig;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -31,11 +34,19 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private static final JButton SUBMIT_BUTTON = ButtonFactory.createButtonGreenSubmitSmall("Salveaza editare");
 
+    private BlockRunner closeButtonRunner = () -> {
+        dialogForm.dispose();
+    };
+
+    private BlockRunner submitButtonRunner;
+
+
     private JPanel headerPanel;
 
     private JPanel formPanel;
 
     private JPanel footerPanel;
+
 
 
     @Override
@@ -56,6 +67,7 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         dialogForm.setVisible(true);
 
         initButtonListeners();
+        initDialogListeners();
     }
 
     private void composeDialogSections()
@@ -199,7 +211,6 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
         JPanel lineSeparator = new LineSeparator();
 
-
         headerPanel.add(label);
         headerPanel.add(lineSeparator, gbc);
 
@@ -209,9 +220,34 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
     private void initButtonListeners()
     {
         CANCEL_BUTTON.addActionListener(e -> {
-            dialogForm.dispose();
+            closeButtonRunner.run();
+        });
+
+        SUBMIT_BUTTON.addActionListener(e -> {
+            submitButtonRunner.run();
         });
     }
 
+    private void initDialogListeners()
+    {
+        dialogForm.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeButtonRunner.run();
+            }
+        });
+    }
+
+    public void registerSubmitButtonRunner(BlockRunner runner)
+    {
+        submitButtonRunner = () -> {
+            runner.run();
+            if(getForm().getFormValidator().isLastFormValidationValid()) {
+                closeButtonRunner.run();
+            }
+        };
+
+        getForm().registerSubmitButton(SUBMIT_BUTTON, submitButtonRunner);
+    }
 
 }

@@ -389,11 +389,11 @@ tabela detailLegalEntities
 
 - butoane actiune dialog form -> CANCEL | EDITEAZA
 	- CANCEL
-			-> inchide dialog
-			-> elibereaza memorie
-			-> adaugare listener la inchidere frame -> apelarea aceleiasi functionalitati ca butonul de inchdere custom
+			-> inchide dialog - ok
+			-> elibereaza memorie - ok
+			-> adaugare listener la inchidere frame -> apelarea aceleiasi functionalitati ca butonul de inchdere custom - ok
 	- EDIT  -> valideaza, editeaza delegat
-			-> inchide dialog dupa editare in db
+			-> inchide dialog dupa editare in db - ok
 			-> semnalizeaza liniile editate
 
 
