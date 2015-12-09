@@ -369,8 +369,48 @@ tabela detailLegalEntities
 
 
 - principii dialog form:
-	- width si height automat generat pe baza lungimii formularului (vezi pack)
-	- adaugarea de dialogForm unei instrante de form prin initializare setLayout obiectului de form
+	- width si height automat generat pe baza lungimii formularului (vezi pack) - ok
+	- adaugarea de dialogForm unei instrante de form prin initializare setLayout obiectului de form -ok
+
+
+-- ai ramas aici --
+- setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
+- despartire HR intre titlu si formular, formular si butoane
+
+- metoda abstracta populate form in ForbBAseAbstract(Entity)
+	- implementare concreta populate pe baza de entitate
+
+- optiune editare multipla
+	- maxim 5
+	- normalizare height din afara pentru vizualizare in acordeon
+
+- preluare entity checked la editare - similar delete
+
+
+- butoane actiune dialog form -> CANCEL | EDITEAZA
+	- CANCEL
+			-> inchide dialog
+			-> elibereaza memorie
+			-> adaugare listener la inchidere frame -> apelarea aceleiasi functionalitati ca butonul de inchdere custom
+	- EDIT  -> valideaza, editeaza delegat
+			-> inchide dialog dupa editare in db
+			-> semnalizeaza liniile editate
+
+
+
+- refactorizeaza adaugare linie
+	- Line Object independent
+	- LinePanel creare panel, layout, constraint
+	 	- LineObject incapsulat in LinePanel - error . nu exista concept de line object ci de line panel
+
+
+- split screen bug tooltip
+- multiple tooltip bug
+	- on focus tooltip with errors is shown only one at a time
+
+
+- search delegat
+
 
 
 

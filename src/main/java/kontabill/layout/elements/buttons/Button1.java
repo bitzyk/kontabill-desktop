@@ -136,7 +136,7 @@ public class Button1 extends JButton implements UIElement {
         buttonFont = new Font(fontFamily, fontStyle, fontSize);
     }
 
-    private void setButtonFontDefault()
+    public void setButtonFontDefault()
     {
         // @todo - font default read from config, font size always computed relative to default from config
         setButtonFont("Dialog", Font.BOLD, 12);

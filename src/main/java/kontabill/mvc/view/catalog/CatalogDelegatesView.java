@@ -50,11 +50,6 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
     private final String VIEW_BUTTON_IMPORT_DELEGATES = "importDelegates";
 
-    public static final int SECTION_PANEL_CONTROL = 1;
-
-    public static final int SECTION_PANEL_TABLE = 2;
-
-
     private String[][] viewButtonPanelControl = {
             {
                     "Adaugare delegat",

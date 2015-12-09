@@ -60,6 +60,19 @@ public class ButtonFactory {
         return button;
     }
 
+    public static JButton createButtonGreenSubmitSmall(String text)
+    {
+        Button1 button = (Button1) createButtonGreenSubmitControlPanel(text);
+
+        // overwrite padding and border
+        button.setPaddingPx(6, 6, 5, 6);
+        button.setBorderSizePx(1, 1, 2, 1);
+        button.setButtonFontDefault();
+        button.init();
+
+        return button;
+    }
+
 
     public static JButton createButtonEditDefault(String text)
     {
@@ -91,7 +104,10 @@ public class ButtonFactory {
         return button;
     }
 
+    public static JButton createButtonCancelDefault(String text)
+    {
+        return createButtonDeleteDefault(text);
+    }
 
-    //
 
 }
