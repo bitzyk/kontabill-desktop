@@ -54,6 +54,11 @@ public class TextFieldForm extends JTextField implements UIElement, FormElement
     }
 
     @Override
+    public void setValue(String value) {
+        this.setText(value);
+    }
+
+    @Override
     public FormElement setLabel(String label) {
         this.label = label;
         return this;

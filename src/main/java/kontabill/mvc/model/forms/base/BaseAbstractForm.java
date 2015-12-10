@@ -118,12 +118,25 @@ abstract public class BaseAbstractForm {
 
     public abstract void hydrateEntity(Entity entity);
 
+    public abstract void  hydrateForm(Entity entity);
+
     public FormValidator getFormValidator() {
         return formValidator;
     }
 
     public Map<String, FormElement> getFormElements() {
         return formElements;
+    }
+
+    public FormElement getFormElement(String key)
+    {
+        FormElement formElement = formElements.get(key);
+
+        if(! (formElement instanceof FormElement)) {
+            throw new RuntimeException("Element for key " + key + " is not a valid form element.");
+        }
+
+        return formElement;
     }
 
     public BlockRunner getSubmitBlockRunner() {

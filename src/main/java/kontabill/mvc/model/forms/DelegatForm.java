@@ -164,4 +164,13 @@ public class DelegatForm extends BaseAbstractForm {
 
         delegat.setLegalEntityDetail(legalEntityDetailPerson);
     }
+
+    public void hydrateForm(Entity entity)
+    {
+        Delegat delegat = (Delegat) entity;
+
+        getFormElement(KEY_DELEGAT_NAME).setValue(delegat.getName());
+        getFormElement(KEY_ID_SERIAL).setValue(delegat.getLegalEntityDetail().getIdSerial());
+        getFormElement(KEY_ID_NO).setValue(delegat.getLegalEntityDetail().getIdNo());
+    }
 }

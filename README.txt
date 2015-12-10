@@ -386,7 +386,7 @@ tabela detailLegalEntities
 
 - ai ramas aici  -> - setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 
-- preluare entity checked la editare - similar delete
+- preluare entity checked la editare - similar delete - ok
 
 
 - butoane actiune dialog form -> CANCEL | EDITEAZA
@@ -394,16 +394,15 @@ tabela detailLegalEntities
 			-> inchide dialog - ok
 			-> elibereaza memorie - ok
 			-> adaugare listener la inchidere frame -> apelarea aceleiasi functionalitati ca butonul de inchdere custom - ok
-	- EDIT  -> valideaza, editeaza delegat
+	- EDIT  -> valideaza, - ok
+			-> editeaza delegat
 			-> inchide dialog dupa editare in db - ok
 			-> semnalizeaza liniile editate
 
 
 
 - refactorizeaza adaugare linie
-	- Line Object independent
-	- LinePanel creare panel, layout, constraint
-	 	- LineObject incapsulat in LinePanel - error . nu exista concept de line object ci de line panel
+	- Line Object independent - ok
 
 
 - split screen bug tooltip

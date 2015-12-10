@@ -250,6 +250,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                                 Delegat delegat = delegats.get(i);
 
                                 BaseAbstractForm form = new DelegatForm();
+                                form.hydrateForm(delegat);
                                 FormLayoutDialog formLayout = new FormLayoutDialog(form, new JPanel(), i);
                                 formLayout.showForm();
 

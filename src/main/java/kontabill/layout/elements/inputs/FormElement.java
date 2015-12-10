@@ -11,4 +11,6 @@ public interface FormElement extends ValidableElement {
 
     public FormElement setLabel(String label);
 
+    public void setValue(String value);
+
 }
