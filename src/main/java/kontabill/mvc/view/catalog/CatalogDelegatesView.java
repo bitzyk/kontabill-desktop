@@ -153,27 +153,6 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         JButton deleteDelegatesButton = ButtonFactory.createButtonDeleteDefault("Sterge delegat/delegati");
         JButton editDelegatButton = ButtonFactory.createButtonEditDefault("Editeaza delegat");
 
-        // begin test
-
-        editDelegatButton.addActionListener(e -> {
-            BaseAbstractForm form = new DelegatForm();
-            FormLayoutDialog formLayout = new FormLayoutDialog(form, new JPanel());
-
-            formLayout.registerSubmitButtonRunner(() -> {
-                if (formLayout.validate() == true) {
-                    getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
-                    ((CatalogController) getControllerForView()).addDelegatAction(form);
-                }
-            });
-        });
-
-        // end test
-
-
-
-
-
-
         // add table control buttons to row panel
         panelTableRow1.add(deleteDelegatesButton);
         ViewUtils.addComponentPadding(deleteDelegatesButton, panelTableRow1);
@@ -241,6 +220,51 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                         }
                     }
                 });
+
+
+                editDelegatButton.addActionListener(e -> {
+                    if (! delegatTableModel.hasSelectedRows()) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Nu ati selectat delegati pentru a fi editati!",
+                                "Comanda invalida",
+                                JOptionPane.WARNING_MESSAGE
+                        );
+                    } else {
+
+                        int noSelectedRows = delegatTableModel.countSelectedRows();
+
+                        if(noSelectedRows > 5) {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Puteti edita un numar de maxim 5 delegati simultan",
+                                    "Comanda invalida",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                        }
+                        else {
+                            ArrayList<Delegat> delegats = delegatTableModel.getSelectedEntities();
+
+                            for (int i = 0; i < delegats.size(); i++) {
+
+                                Delegat delegat = delegats.get(i);
+
+                                BaseAbstractForm form = new DelegatForm();
+                                FormLayoutDialog formLayout = new FormLayoutDialog(form, new JPanel(), i);
+                                formLayout.showForm();
+
+                                formLayout.registerSubmitButtonRunner(() -> {
+                                    if (formLayout.validate() == true) {
+                                        getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
+                                        ((CatalogController) getControllerForView()).addDelegatAction(form);
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+                });
+
 
                 // add listener to table
                 table.getModel().addTableModelListener(new TableModelListener() {

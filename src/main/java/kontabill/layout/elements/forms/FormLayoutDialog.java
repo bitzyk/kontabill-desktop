@@ -29,10 +29,18 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         super(form, panel);
     }
 
+    public FormLayoutDialog(BaseAbstractForm form, JPanel panel, int indexOpenInARow) {
+        super(form, panel);
+        this.indexOpenInARow = indexOpenInARow;
+    }
 
-    private static final JButton CANCEL_BUTTON = ButtonFactory.createButtonCancelDefault("Anuleaza");
+//    public FormLayoutDialog(BaseAbstractForm form, JPanel panel, int indexOpenInARow) {
+//        this(form, panel);
+//    }
 
-    private static final JButton SUBMIT_BUTTON = ButtonFactory.createButtonGreenSubmitSmall("Salveaza editare");
+    private JButton cancelButton;
+
+    private  JButton submitButton;
 
     private BlockRunner closeButtonRunner = () -> {
         dialogForm.dispose();
@@ -47,12 +55,14 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private JPanel footerPanel;
 
+    private int indexOpenInARow = 0;
 
 
     @Override
     protected void initLayout()
     {
         initDialog();
+        initButtons();
 
         initHeaderSection();
         initFormSection();
@@ -61,13 +71,18 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         composeDialogSections();
 
         dialogForm.pack(); // this will set the initial with)
-        setDialogLocation(); // set size and location
-
-        //. make dalog visible
-        dialogForm.setVisible(true);
 
         initButtonListeners();
         initDialogListeners();
+    }
+
+    public void showForm()
+    {
+        // set size and location
+        setDialogLocation();
+
+        //. make dalog visible
+        dialogForm.setVisible(true);
     }
 
     private void composeDialogSections()
@@ -145,10 +160,12 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
     private void setDialogLocation()
     {
         // middle on x axis
-        int width = (getDialogFrame().getWidthF()) / 2 - (dialogForm.getWidth() / 2);
+        int width = (getDialogFrame().getWidthF()) / 2 - ((dialogForm.getWidth() / 2) + (indexOpenInARow * 30));
 
         // the bottom stop on the middle if the dialog is less than half of the screen, if not will continue starting from top
-        int height = (getDialogFrame().getHeightF() / 2) - (dialogForm.getHeight());
+        int height = (getDialogFrame().getHeightF() / 2) - ((dialogForm.getHeight()) + (indexOpenInARow * 30));
+
+        System.out.println(width + " - " + height);
 
         dialogForm.setLocation(width, height);
     }
@@ -177,11 +194,11 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         gbcPanelButtons.gridy = 0;
         gbcPanelButtons.gridx = 0;
         gbcPanelButtons.insets = new Insets(0, 0, 0, 5);
-        panelButtons.add(CANCEL_BUTTON, gbcPanelButtons);
+        panelButtons.add(cancelButton, gbcPanelButtons);
 
         gbcPanelButtons.insets = new Insets(0, 5, 0, 0);
         gbcPanelButtons.gridx = 1;
-        panelButtons.add(SUBMIT_BUTTON, gbcPanelButtons);
+        panelButtons.add(submitButton, gbcPanelButtons);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -219,11 +236,11 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private void initButtonListeners()
     {
-        CANCEL_BUTTON.addActionListener(e -> {
+        cancelButton.addActionListener(e -> {
             closeButtonRunner.run();
         });
 
-        SUBMIT_BUTTON.addActionListener(e -> {
+        submitButton.addActionListener(e -> {
             submitButtonRunner.run();
         });
     }
@@ -247,7 +264,13 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
             }
         };
 
-        getForm().registerSubmitButton(SUBMIT_BUTTON, submitButtonRunner);
+        getForm().registerSubmitButton(submitButton, submitButtonRunner);
+    }
+
+    private void initButtons()
+    {
+        this.cancelButton = ButtonFactory.createButtonCancelDefault("Anuleaza");
+        this.submitButton = ButtonFactory.createButtonGreenSubmitSmall("Salveaza editare");
     }
 
 }

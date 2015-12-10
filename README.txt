@@ -375,14 +375,16 @@ tabela detailLegalEntities
 
 -- ai ramas aici --
 - setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
-- despartire HR intre titlu si formular, formular si butoane
+- despartire HR intre titlu si formular, formular si butoane - ok
 
 - metoda abstracta populate form in ForbBAseAbstract(Entity)
 	- implementare concreta populate pe baza de entitate
 
-- optiune editare multipla
-	- maxim 5
-	- normalizare height din afara pentru vizualizare in acordeon
+- optiune editare multipla - ok
+	- maxim 5 - ok
+	- normalizare height din afara pentru vizualizare in acordeon - ok
+
+- ai ramas aici  -> - setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 
 - preluare entity checked la editare - similar delete
 
