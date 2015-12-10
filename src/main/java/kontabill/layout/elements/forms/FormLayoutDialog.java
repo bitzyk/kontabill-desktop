@@ -34,10 +34,6 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         this.indexOpenInARow = indexOpenInARow;
     }
 
-//    public FormLayoutDialog(BaseAbstractForm form, JPanel panel, int indexOpenInARow) {
-//        this(form, panel);
-//    }
-
     private JButton cancelButton;
 
     private  JButton submitButton;
@@ -72,7 +68,7 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
         dialogForm.pack(); // this will set the initial with)
 
-        initButtonListeners();
+        initCancelButtonListener();
         initDialogListeners();
     }
 
@@ -234,15 +230,12 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
     }
 
 
-    private void initButtonListeners()
+    private void initCancelButtonListener()
     {
         cancelButton.addActionListener(e -> {
             closeButtonRunner.run();
         });
 
-        submitButton.addActionListener(e -> {
-            submitButtonRunner.run();
-        });
     }
 
     private void initDialogListeners()

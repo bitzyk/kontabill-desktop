@@ -400,9 +400,14 @@ tabela detailLegalEntities
 			-> semnalizeaza liniile editate
 
 
-
 - refactorizeaza adaugare linie
 	- Line Object independent - ok
+
+
+- edit delegat action - call controller
+	- pricipiu: redirect after edit -> test if window is closed
+	- bug: executie dubla action controller
+
 
 
 - split screen bug tooltip

@@ -70,6 +70,13 @@ public class CatalogController extends BaseAbstractController {
         }
     }
 
+    public void editDelegatAction(Delegat delegat, BaseAbstractForm form)
+    {
+        if (form.validate()) {
+            System.out.println("-- form valid --");
+        }
+    }
+
 
     @Override
     protected void setModelOfController() {
