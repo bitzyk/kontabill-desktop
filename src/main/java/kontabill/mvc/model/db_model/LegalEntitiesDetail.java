@@ -56,4 +56,37 @@ public class LegalEntitiesDetail extends DbTableAbstract {
 
         return insertedId;
     }
+
+
+
+    public int editLegalEntityDetail(LegalEntity legalEntity) throws SQLException
+    {
+        // prepare statement and insert
+        String prepared = "UPDATE " + TABLE_NAME +
+                " SET ID_NO = ?, ID_SERIAL = ?, REG_TRADE = ?" +
+                " WHERE ID = ?";
+
+        PreparedStatement preparedStatement = getConnection().prepareStatement(prepared);
+
+        LegalEntityDetail legalEntityDetail = legalEntity.getLegalEntityDetail();
+
+        if (legalEntityDetail instanceof LegalEntityDetailPerson) {
+            preparedStatement.setString(1, ((LegalEntityDetailPerson) legalEntityDetail).getIdNo());
+            preparedStatement.setString(2, ((LegalEntityDetailPerson) legalEntityDetail).getIdSerial());
+
+            preparedStatement.setNull(3, Types.VARCHAR);
+        } else if (legalEntityDetail instanceof LegalEntityDetailCompany) {
+            preparedStatement.setString(3, ((LegalEntityDetailCompany) legalEntityDetail).getRegTrade());
+
+            preparedStatement.setNull(1, Types.VARCHAR);
+            preparedStatement.setNull(2, Types.VARCHAR);
+        }
+
+        preparedStatement.setInt(4, legalEntityDetail.getId());
+
+        int edited = preparedStatement.executeUpdate();
+
+        return edited;
+    }
+
 }

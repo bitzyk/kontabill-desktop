@@ -70,10 +70,13 @@ public class CatalogController extends BaseAbstractController {
         }
     }
 
-    public void editDelegatAction(Delegat delegat, BaseAbstractForm form)
+    public void editDelegatAction(Delegat delegatEntity, BaseAbstractForm form)
     {
         if (form.validate()) {
-            System.out.println("-- form valid --");
+            // rewrite entity with values from form (except the id)
+            ((DelegatForm)form).hydrateEntity(delegatEntity);
+
+            model.editDelegat(delegatEntity);
         }
     }
 

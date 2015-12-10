@@ -44,4 +44,22 @@ public class LegalEntities extends DbTableAbstract {
 
         return insertedId;
     }
+
+    public int editLegalEntity(LegalEntity legalEntity) throws SQLException
+    {
+        // prepare statement and insert
+        String prepared = "UPDATE " + TABLE_NAME +
+                " SET NAME = ?" +
+                " WHERE ID = ?";
+
+        PreparedStatement preparedStatement = getConnection().prepareStatement(prepared);
+        preparedStatement.setString(1, legalEntity.getName());
+        preparedStatement.setInt(2, legalEntity.getId());
+
+        int edited = preparedStatement.executeUpdate();
+
+        return edited;
+    }
+
+
 }

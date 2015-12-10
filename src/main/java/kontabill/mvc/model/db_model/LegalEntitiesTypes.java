@@ -23,8 +23,10 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         super(TABLE_NAME);
     }
 
-    public void addDelegat(Delegat delegat)
+    public boolean addDelegat(Delegat delegat)
     {
+        boolean added = false;
+
         try {
             // start transaction
             getConnection().setAutoCommit(false);
@@ -41,10 +43,38 @@ public class LegalEntitiesTypes extends DbTableAbstract {
             getConnection().commit();
             getConnection().setAutoCommit(true);
 
+            added = true; // set added flag to true
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
+
+        return added;
+    }
+
+    public boolean editDelegat(Delegat delegat)
+    {
+        boolean added = false;
+
+        try {
+            // start transaction
+            getConnection().setAutoCommit(false);
+
+            // edit legal entity (name)
+            legalEntities.editLegalEntity(delegat);
+
+            // edit legal entity details
+            legalEntitiesDetail.editLegalEntityDetail(delegat);
+
+            // end transaction
+            getConnection().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return added;
     }
 
     public int insertLegalEntityType(LegalEntity legalEntity) throws SQLException
@@ -69,7 +99,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
         Statement sta = getConnection().createStatement();
 
-        String sql = "SELECT lt.*, le.*, led.*, lt.ID as LEGAL_ENTITY_TYPE_ID, le.ID as LEGAL_ENTITY_ID" +
+        String sql = "SELECT lt.*, le.*, led.*, lt.ID as LEGAL_ENTITY_TYPE_ID, le.ID as LEGAL_ENTITY_ID, led.ID as LEGAL_ENTITY_DETAIL_ID" +
                 " FROM " + TABLE_NAME + " lt" +
                 " JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID" +
                 " JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_DELEGAT = led.ID_LEGAL_ENTITY" +
@@ -112,6 +142,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         if (delegat.isPerson()) {
             LegalEntityDetailPerson legalEntityDetailPerson = new LegalEntityDetailPerson();
             hydrateLegalEntityDetailPerson(resultSet, legalEntityDetailPerson);
+            legalEntityDetailPerson.setId(resultSet.getInt("LEGAL_ENTITY_DETAIL_ID"));
             delegat.setLegalEntityDetail(legalEntityDetailPerson);
         } else if (delegat.isCompany()) {
 

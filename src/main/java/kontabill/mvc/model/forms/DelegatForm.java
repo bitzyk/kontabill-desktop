@@ -157,12 +157,17 @@ public class DelegatForm extends BaseAbstractForm {
                 .setName(getFormElements().get(KEY_DELEGAT_NAME).getValue())
                 .setType(LegalEntity.TYPE_PF);
 
-        LegalEntityDetailPerson legalEntityDetailPerson = new LegalEntityDetailPerson();
+        // if LegalEntity does not already contain LegalEntityDetailPerson set a new object
+        if(! (delegat.getLegalEntityDetail() instanceof LegalEntityDetailPerson)) {
+            delegat.setLegalEntityDetail(new LegalEntityDetailPerson());
+        }
+
+        LegalEntityDetailPerson legalEntityDetailPerson = delegat.getLegalEntityDetail();
+
         legalEntityDetailPerson
                 .setIdNo(getFormElements().get(KEY_ID_NO).getValue())
                 .setIdSerial(getFormElements().get(KEY_ID_SERIAL).getValue());
 
-        delegat.setLegalEntityDetail(legalEntityDetailPerson);
     }
 
     public void hydrateForm(Entity entity)

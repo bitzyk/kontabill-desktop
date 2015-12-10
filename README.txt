@@ -404,9 +404,14 @@ tabela detailLegalEntities
 	- Line Object independent - ok
 
 
-- edit delegat action - call controller
+- edit delegat action - call controller - ok
 	- pricipiu: redirect after edit -> test if window is closed
-	- bug: executie dubla action controller
+	- bug: executie dubla action controller - ok
+
+	 - editeza delegat db
+
+
+	 - close window after controller executed with success ?? se face oricum redirect ? cum main inchizi
 
 
 
