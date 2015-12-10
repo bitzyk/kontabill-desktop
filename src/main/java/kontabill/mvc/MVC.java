@@ -1,10 +1,9 @@
 package main.java.kontabill.mvc;
 
 import main.java.kontabill.Kontabill;
+import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.mvc.controller.BaseAbstractController;
 
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.lang.reflect.Constructor;
 
 

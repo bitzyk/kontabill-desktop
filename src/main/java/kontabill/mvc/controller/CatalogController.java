@@ -1,11 +1,9 @@
 package main.java.kontabill.mvc.controller;
 
 import main.java.kontabill.Kontabill;
-import main.java.kontabill.mvc.Request;
 import main.java.kontabill.mvc.model.catalog.CatalogModel;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.entities.Delegat;
-import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.catalog.CatalogClientsView;
@@ -77,6 +75,9 @@ public class CatalogController extends BaseAbstractController {
             ((DelegatForm)form).hydrateEntity(delegatEntity);
 
             model.editDelegat(delegatEntity);
+
+            // redirect back to catalogDelegatesAction
+            getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
         }
     }
 

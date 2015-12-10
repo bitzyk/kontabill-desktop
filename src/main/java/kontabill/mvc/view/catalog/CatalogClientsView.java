@@ -6,7 +6,7 @@ import main.java.kontabill.layout.elements.forms.FormLayout;
 import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.model.RowTypePanels;
-import main.java.kontabill.mvc.Request;
+import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.mvc.controller.BaseAbstractController;
 import main.java.kontabill.mvc.view.BaseAbstractView;
 import javax.swing.*;

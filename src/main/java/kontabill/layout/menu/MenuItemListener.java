@@ -1,7 +1,7 @@
 package main.java.kontabill.layout.menu;
 
 import main.java.kontabill.Kontabill;
-import main.java.kontabill.mvc.Request;
+import main.java.kontabill.lib.core.request.Request;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

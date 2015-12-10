@@ -1,7 +1,7 @@
 package main.java.kontabill.mvc.controller;
 
 import main.java.kontabill.Kontabill;
-import main.java.kontabill.mvc.Request;
+import main.java.kontabill.lib.core.request.Request;
 
 /**
  * - creeaza modelul pt controller-ul curent

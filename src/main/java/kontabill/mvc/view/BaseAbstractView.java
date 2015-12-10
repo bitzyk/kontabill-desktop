@@ -3,7 +3,7 @@ package main.java.kontabill.mvc.view;
 import main.java.kontabill.layout.Layout;
 import main.java.kontabill.layout.containers.ControllerJPanel;
 import main.java.kontabill.mvc.MVC;
-import main.java.kontabill.mvc.Request;
+import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.mvc.controller.BaseAbstractController;
 
 /**

@@ -1,4 +1,4 @@
-package main.java.kontabill.mvc;
+package main.java.kontabill.lib.core.request;
 
 import java.util.HashMap;
 import java.util.Map;

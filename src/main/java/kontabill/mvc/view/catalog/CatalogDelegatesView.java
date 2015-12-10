@@ -1,6 +1,5 @@
 package main.java.kontabill.mvc.view.catalog;
 
-import main.java.kontabill.Kontabill;
 import main.java.kontabill.layout.ViewUtils;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
 import main.java.kontabill.layout.elements.forms.FormLayout;
@@ -11,7 +10,6 @@ import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.elements.tables.TableDefault;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.model.RowTypePanels;
-import main.java.kontabill.mvc.Request;
 import main.java.kontabill.mvc.controller.BaseAbstractController;
 import main.java.kontabill.mvc.controller.CatalogController;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
@@ -21,15 +19,10 @@ import main.java.kontabill.mvc.model.entities.table_models.DelegatTableModel;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.styles.BalloonTipStyle;
-import net.java.balloontip.styles.EdgedBalloonStyle;
-import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 

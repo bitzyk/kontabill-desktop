@@ -405,13 +405,20 @@ tabela detailLegalEntities
 
 
 - edit delegat action - call controller - ok
-	- pricipiu: redirect after edit -> test if window is closed
 	- bug: executie dubla action controller - ok
 
-	 - editeza delegat db
+	 - editeza delegat db - ok
+	 - eroare stergere delegat
+	 - pricipiu: redirect after edit -> test if window is closed - ok
 
 
-	 - close window after controller executed with success ?? se face oricum redirect ? cum main inchizi
+	 - close window after controller executed with success ?? se face oricum redirect ? cum main inchizi ok
+	 	- work smoothly and fine
+
+-> semnalizeaza liniile editate
+	-> implementare concept data per sesisune in request object
+		-> la primul get se sterg - new object in request main object
+
 
 
 
