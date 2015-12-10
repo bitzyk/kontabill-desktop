@@ -74,7 +74,11 @@ public class CatalogController extends BaseAbstractController {
             // rewrite entity with values from form (except the id)
             ((DelegatForm)form).hydrateEntity(delegatEntity);
 
-            model.editDelegat(delegatEntity);
+            boolean edited = model.editDelegat(delegatEntity);
+
+            if(edited == true) {
+                getRequest().getSessionPayload().addDataItem("delegatIdEdited", delegatEntity.getId());
+            }
 
             // redirect back to catalogDelegatesAction
             getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());

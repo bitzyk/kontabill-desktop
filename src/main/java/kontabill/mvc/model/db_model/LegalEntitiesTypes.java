@@ -54,7 +54,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
     public boolean editDelegat(Delegat delegat)
     {
-        boolean added = false;
+        boolean edited = false;
 
         try {
             // start transaction
@@ -69,12 +69,14 @@ public class LegalEntitiesTypes extends DbTableAbstract {
             // end transaction
             getConnection().commit();
 
+            edited = true;
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        return added;
+        return edited;
     }
 
     public int insertLegalEntityType(LegalEntity legalEntity) throws SQLException

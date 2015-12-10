@@ -89,20 +89,16 @@ public class MVC {
     public void runController(String actionName, Request request) throws RuntimeException
     {
         try {
-            // remmove previous components from controller panel when repaint is true
-            if(request.getRepaintComponents() == true) {
-                kontabill.getLayout().getControllerPanel().removeComponents();
-            }
+            // remmove previous components from controller panel
+            kontabill.getLayout().getControllerPanel().removeComponents();
 
             // invoke controller action method -> this will trigger the view and adding components
             actionControllerCurrent = actionName;
             controller.setRequest(request);
             controller.getClass().getMethod(actionName).invoke(controller);
 
-            // repaint and revalid controller panel after view has added the components if repaiang is true
-            if(request.getRepaintComponents() == true) {
-                kontabill.getLayout().getControllerPanel().repaintComponents();
-            }
+            // repaint and revalid controller panel after view has added the components
+            kontabill.getLayout().getControllerPanel().repaintComponents();
 
         } catch (Exception e) {
             e.printStackTrace();

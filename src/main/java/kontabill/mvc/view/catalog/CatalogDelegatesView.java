@@ -70,8 +70,8 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
 
     @Override
-    public void render() {
-
+    public void render()
+    {
         renderPanelControl();
         renderPanelTable();
 

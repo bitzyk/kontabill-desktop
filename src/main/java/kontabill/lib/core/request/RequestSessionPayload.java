@@ -4,26 +4,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Request Payload class with session behaviour
+ *  - when data is retrieved is is deleted from the payload
  *
  */
-public class Request implements RequestPayloadContainer {
-
+public class RequestSessionPayload implements RequestPayloadContainer {
 
     private Map<String, Object> dataPayload = new HashMap<>();
 
-    private RequestSessionPayload sessionPayload = new RequestSessionPayload();
 
+    @Override
     public void addDataItem(String key, Object data)
     {
         dataPayload.put(key, data);
     }
 
+    @Override
     public Object getDataItem(String key)
     {
         Object data = dataPayload.get(key);
+        removeDataItem(key); // session behaviour
+
         return data;
     }
 
+    @Override
     public Boolean hasDataItem(String key)
     {
         if(getDataItem(key) != null) {
@@ -33,17 +38,15 @@ public class Request implements RequestPayloadContainer {
         }
     }
 
+    @Override
     public void removeDataItem(String key)
     {
         dataPayload.remove(key);
     }
 
+    @Override
     public void resetDataItems()
     {
         dataPayload.clear();
-    }
-
-    public RequestSessionPayload getSessionPayload() {
-        return sessionPayload;
     }
 }
