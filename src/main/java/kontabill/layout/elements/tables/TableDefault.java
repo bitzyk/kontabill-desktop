@@ -6,6 +6,7 @@ import main.java.kontabill.mvc.model.entities.table_models.BaseAbstract;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -28,6 +29,26 @@ public class TableDefault extends JTable {
         this.dataModel = dataModel;
 
         initAfterSetModel();
+    }
+
+    @Override
+    public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+    {
+        Component c = super.prepareRenderer(renderer, row, column);
+
+        BaseAbstract model = (BaseAbstract) getModel();
+
+        // set background for row accordingly
+            // if is a edited row -> edited background, added row -> added background, default otherwise
+        if (model.getEditedRowsIndexes().contains(row)) {
+            c.setBackground(TableRowsStyle.BACKGROUND_EDITED);
+        } else if (model.getAddedRowsIndexes().contains(row)) {
+            c.setBackground(TableRowsStyle.BACKGROUND_ADDED);
+        } else {
+            c.setBackground(TableRowsStyle.BACKGROUND_DEFAULT);
+        }
+
+        return c;
     }
 
     private void initAfterSetModel()

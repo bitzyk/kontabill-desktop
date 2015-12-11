@@ -23,6 +23,7 @@ import main.java.kontabill.mvc.view.BaseAbstractView;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
@@ -164,6 +165,25 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                 // set table with model
                 DelegatTableModel delegatTableModel = new DelegatTableModel(delegatesHashMap);
                 table.setModel(delegatTableModel);
+
+                // ai ramas aici, refactorizeaza aici
+                if(getRequest().getSessionPayload().hasDataItem("delegatIdEdited")) {
+                    int rowEdited = delegatTableModel.getRowAtEntityId(
+                            (int) getRequest().getSessionPayload().getDataItem("delegatIdEdited")
+                    );
+                    delegatTableModel.getEditedRowsIndexes().add(rowEdited);
+                    delegatTableModel.fireTableRowsUpdated(rowEdited, rowEdited);
+                }
+
+                if(getRequest().getSessionPayload().hasDataItem("delegatIdAdded")) {
+                    int rowAdded = delegatTableModel.getRowAtEntityId(
+                            (int) getRequest().getSessionPayload().getDataItem("delegatIdAdded")
+                    );
+                    delegatTableModel.getAddedRowsIndexes().add(rowAdded);
+                    delegatTableModel.fireTableRowsUpdated(rowAdded, rowAdded);
+                }
+                // ai ramas aici, refactorizeaza aici
+
 
                 // set/reset table checked values to the previous state
                 if (! getRequest().hasDataItem("checkedEntitiesDelegatTableModel")) {

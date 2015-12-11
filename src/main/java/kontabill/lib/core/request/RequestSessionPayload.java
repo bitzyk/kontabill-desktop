@@ -31,7 +31,7 @@ public class RequestSessionPayload implements RequestPayloadContainer {
     @Override
     public Boolean hasDataItem(String key)
     {
-        if(getDataItem(key) != null) {
+        if(dataPayload.get(key) != null) {
             return true;
         } else {
             return false;

@@ -63,6 +63,11 @@ public class CatalogController extends BaseAbstractController {
 
             model.addDelegat(delegatEntity);
 
+            // if delegat has been edited set addedId in session
+            if(delegatEntity.getId() > 0) {
+                getRequest().getSessionPayload().addDataItem("delegatIdAdded", delegatEntity.getId());
+            }
+
             // redirect
             getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
         }
@@ -76,6 +81,7 @@ public class CatalogController extends BaseAbstractController {
 
             boolean edited = model.editDelegat(delegatEntity);
 
+            // if delegat has been edited set editedId in session
             if(edited == true) {
                 getRequest().getSessionPayload().addDataItem("delegatIdEdited", delegatEntity.getId());
             }

@@ -1,6 +1,7 @@
 package main.java.kontabill.mvc.model.entities.table_models;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import main.java.kontabill.mvc.model.entities.Entity;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -13,18 +14,21 @@ import java.util.List;
  */
 public abstract class BaseAbstract extends AbstractTableModel {
 
-    protected HashMap<Object, Object> mapEntitiesCollection;
+    protected HashMap<Object, Entity> mapEntitiesCollection;
 
-    protected List<Object> listEntitiesCollection;
+    protected List<Entity> listEntitiesCollection;
 
     protected Boolean[] checkedEntitiesArray;
 
     private ColumnsDefinition columnsDefinition;
 
-
     protected Class<?>[] columnTypes;
 
     protected Boolean stateGlobalChecked = false;
+
+    protected List<Integer> editedRowsIndexes = new ArrayList<>();
+
+    protected List<Integer> addedRowsIndexes = new ArrayList<>();
 
     public BaseAbstract(HashMap mapEntitiesCollection, String[][] columnDefinition, Class[] columnTypes)
     {
@@ -150,5 +154,34 @@ public abstract class BaseAbstract extends AbstractTableModel {
         }
 
         return selectedRows;
+    }
+
+    /**
+     * Get the row index where the provided entity id exist
+     * @return
+     */
+    public int getRowAtEntityId(int entityId)
+    {
+        int rowIndex = -1;
+
+        int rowCounter = 0;
+        for (Entity entity:listEntitiesCollection) {
+            if(entityId == entity.getId()) {
+                rowIndex = rowCounter;
+                break;
+            }
+            rowCounter++;
+        }
+
+        return rowIndex;
+    }
+
+
+    public List<Integer> getEditedRowsIndexes() {
+        return editedRowsIndexes;
+    }
+
+    public List<Integer> getAddedRowsIndexes() {
+        return addedRowsIndexes;
     }
 }

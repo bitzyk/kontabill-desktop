@@ -10,8 +10,6 @@ import java.util.List;
  */
 public class LegalEntity extends Entity {
 
-    private int id;
-
     private String name;
 
     private String identifier;
@@ -61,14 +59,6 @@ public class LegalEntity extends Entity {
     public LegalEntity setType(String type) {
         this.type = type;
         return this;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public LegalEntityType getLegalEntityType() {
