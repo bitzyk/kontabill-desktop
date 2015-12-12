@@ -2,21 +2,10 @@ package main.java.kontabill.layout.elements.forms;
 
 import main.java.kontabill.layout.elements.inputs.FormElement;
 import main.java.kontabill.layout.elements.labels.LabelForm;
-import main.java.kontabill.mvc.model.entities.table_models.BaseAbstract;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.styles.BalloonTipStyle;
-import net.java.balloontip.styles.EdgedBalloonStyle;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *

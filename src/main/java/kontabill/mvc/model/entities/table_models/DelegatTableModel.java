@@ -2,8 +2,8 @@ package main.java.kontabill.mvc.model.entities.table_models;
 
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
+import main.java.kontabill.mvc.model.entities.table_models.base.BaseAbstract;
 
-import javax.swing.*;
 import java.util.HashMap;
 
 /**

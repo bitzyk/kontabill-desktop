@@ -1,6 +1,7 @@
 package main.java.kontabill.mvc.controller;
 
 import main.java.kontabill.Kontabill;
+import main.java.kontabill.lib.core.request.RequestSessionKey;
 import main.java.kontabill.mvc.model.catalog.CatalogModel;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.entities.Delegat;
@@ -65,7 +66,7 @@ public class CatalogController extends BaseAbstractController {
 
             // if delegat has been edited set addedId in session
             if(delegatEntity.getId() > 0) {
-                getRequest().getSessionPayload().addDataItem("delegatIdAdded", delegatEntity.getId());
+                getRequest().getSessionPayload().addDataItem(RequestSessionKey.ADDED_KEY, delegatEntity.getId());
             }
 
             // redirect
@@ -83,7 +84,7 @@ public class CatalogController extends BaseAbstractController {
 
             // if delegat has been edited set editedId in session
             if(edited == true) {
-                getRequest().getSessionPayload().addDataItem("delegatIdEdited", delegatEntity.getId());
+                getRequest().getSessionPayload().addDataItem(RequestSessionKey.EDITED_KEY, delegatEntity.getId());
             }
 
             // redirect back to catalogDelegatesAction

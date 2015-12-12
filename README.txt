@@ -373,8 +373,6 @@ tabela detailLegalEntities
 	- adaugarea de dialogForm unei instrante de form prin initializare setLayout obiectului de form -ok
 
 
--- ai ramas aici --
-- setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 - despartire HR intre titlu si formular, formular si butoane - ok
 
 - metoda abstracta populate form in ForbBAseAbstract(Entity)
@@ -397,7 +395,7 @@ tabela detailLegalEntities
 	- EDIT  -> valideaza, - ok
 			-> editeaza delegat
 			-> inchide dialog dupa editare in db - ok
-			-> semnalizeaza liniile editate
+			-> semnalizeaza liniile editate - ok
 
 
 - refactorizeaza adaugare linie
@@ -416,8 +414,30 @@ tabela detailLegalEntities
 	 	- work smoothly and fine
 
 -> semnalizeaza liniile editate
-	-> implementare concept data per sesisune in request object
-		-> la primul get se sterg - new object in request main object
+	-> implementare concept data per sesisune in request object - ok
+		-> la primul get se sterg - new object in request main object - ko
+
+	- semnalizare in tabel
+		table layout abstract - ok
+			- set layoutStyle -ok
+					- edited - ok
+					- added -ok
+			- concept identificator per rand - nu exista -> implementat getRowIndexAtEntity - ok
+
+
+-- ai ramas aici --
+
+- refactorizare setStyle when editedd. added in view - ok
+	- implementare globala - ok
+		- dependinte: request | model tabel - ok
+		- setare identificator in controller pe baza de constanta - ok
+
+
+- revizuieste nevioe de existenta a rowsIndexeseditead and addded ?????
+
+- setare culori edited, added
+
+- setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 
 
 

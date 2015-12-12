@@ -1,9 +1,10 @@
-package main.java.kontabill.mvc.model.entities.table_models;
+package main.java.kontabill.mvc.model.entities.table_models.base;
 
 import javax.swing.*;
 
 /**
- * Class that deals with computing values based on columnsDefinition configuration
+ * Class that deals with computing values based on columnsDefinition configuration from concrete table class
+ * implementation
  */
 public class ColumnsDefinition {
 

@@ -1,13 +1,11 @@
 package main.java.kontabill.layout.elements.tables;
 
-import main.java.kontabill.Kontabill;
-import main.java.kontabill.mvc.model.entities.table_models.BaseAbstract;
+import main.java.kontabill.mvc.model.entities.table_models.base.BaseAbstract;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
