@@ -435,7 +435,8 @@ tabela detailLegalEntities
 
 - revizuieste nevioe de existenta a rowsIndexeseditead and addded ????? - ok
 
-- setare culori edited, added
+- setare culori edited, added - ok
+- refactorizare culori de baza - ok
 
 - setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 

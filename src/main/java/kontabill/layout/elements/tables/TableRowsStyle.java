@@ -1,5 +1,7 @@
 package main.java.kontabill.layout.elements.tables;
 
+import main.java.kontabill.layout.ColorContextBase;
+
 import java.awt.*;
 
 /**
@@ -7,10 +9,10 @@ import java.awt.*;
  */
 public interface TableRowsStyle {
 
-    public static final Color BACKGROUND_EDITED = Color.GREEN;
+    public static final Color BACKGROUND_EDITED = ColorContextBase.EDIT_CONTEXT;
 
-    public static final Color BACKGROUND_ADDED = Color.BLUE;
+    public static final Color BACKGROUND_ADDED = ColorContextBase.EDIT_CONTEXT;
 
-    public static final Color BACKGROUND_DEFAULT = Color.WHITE;
+    public static final Color BACKGROUND_DEFAULT = ColorContextBase.BACKGROUND_DEFAULT_CONTEXT;
 
 }

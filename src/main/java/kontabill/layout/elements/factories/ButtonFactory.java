@@ -1,5 +1,6 @@
 package main.java.kontabill.layout.elements.factories;
 
+import main.java.kontabill.layout.ColorContextBase;
 import main.java.kontabill.layout.elements.buttons.Button1;
 
 import javax.swing.*;
@@ -46,7 +47,7 @@ public class ButtonFactory {
     public static JButton createButtonGreenSubmitControlPanel(String text)
     {
         Button1 button = new Button1(text);
-        button.setBackgroundColorDefault(Color.decode("#99bd2c"));
+        button.setBackgroundColorDefault(ColorContextBase.SUBMIT_CONTEXT);
         button.setHoverBackgroundColorDefault(Color.decode("#658406"));
         button.setForegroundColor(Color.WHITE);
         button.setBorderColorDefault(Color.decode("#658406"));
@@ -92,7 +93,7 @@ public class ButtonFactory {
     public static JButton createButtonDeleteDefault(String text)
     {
         Button1 button = new Button1(text);
-        button.setBackgroundColorDefault(Color.decode("#df5757"));
+        button.setBackgroundColorDefault(ColorContextBase.DELETE_CONTEXT);
         button.setHoverBackgroundColorDefault(Color.decode("#be1e1e"));
         button.setForegroundColor(Color.WHITE);
         button.setBorderColorDefault(Color.decode("#be1e1e"));
