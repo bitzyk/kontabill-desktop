@@ -25,14 +25,9 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private JDialog dialogForm;
 
-    public FormLayoutDialog(BaseAbstractForm form, JPanel panel) {
-        super(form, panel);
-    }
+    private String windowTitle;
 
-    public FormLayoutDialog(BaseAbstractForm form, JPanel panel, int indexOpenInARow) {
-        super(form, panel);
-        this.indexOpenInARow = indexOpenInARow;
-    }
+    private String windowPanelTitle;
 
     private JButton cancelButton;
 
@@ -53,12 +48,27 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private int indexOpenInARow = 0;
 
+    public FormLayoutDialog(BaseAbstractForm form, JPanel panel, int indexOpenInARow, String windowTitle, String windowPanelTitle) {
+        super(form, panel);
+
+        this.indexOpenInARow = indexOpenInARow;
+        this.windowTitle = windowTitle;
+        this.windowPanelTitle = windowPanelTitle;
+
+        initDialogLayout();
+    }
+
 
     @Override
     protected void initLayout()
     {
-        initDialog();
         initButtons();
+        initCancelButtonListener();
+    }
+
+    private void initDialogLayout()
+    {
+        initDialog();
 
         initHeaderSection();
         initFormSection();
@@ -68,7 +78,6 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
         dialogForm.pack(); // this will set the initial with)
 
-        initCancelButtonListener();
         initDialogListeners();
     }
 
@@ -110,7 +119,7 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
     {
         dialogForm = new JDialog(
                 getDialogFrame(),
-                "Editeaza delegat",
+                windowTitle,
                 false
         );
 
@@ -214,7 +223,7 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         gbc.gridy = 0;
         gbc.gridx = 0;
 
-        JLabel label = new JLabel("Editeaza delegat xxxxxxxx");
+        JLabel label = new JLabel(windowPanelTitle);
         label.setFont(new Font("Dialog", Font.BOLD, 16));
 
         gbc.gridy = 1;

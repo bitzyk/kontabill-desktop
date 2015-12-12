@@ -168,7 +168,6 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
                 table.setModel(delegatTableModel);
 
-
                 // set/reset table checked values to the previous state
                 if (! getRequest().hasDataItem("checkedEntitiesDelegatTableModel")) {
                     Boolean[] checkedEntitiesDelegatTableModel = delegatTableModel.getCheckedEntitiesArray();
@@ -249,7 +248,13 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                                 BaseAbstractForm form = new DelegatForm();
                                 form.hydrateForm(delegat);
 
-                                FormLayoutDialog formLayout = new FormLayoutDialog(form, new JPanel(), i);
+                                FormLayoutDialog formLayout = new FormLayoutDialog(
+                                        form,
+                                        new JPanel(),
+                                        i,
+                                        "Editare",
+                                        "Editeaza delegat `" + delegat.getName() + "`"
+                                );
                                 formLayout.showForm();
 
                                 formLayout.registerSubmitButtonRunner(() -> {

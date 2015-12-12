@@ -438,8 +438,15 @@ tabela detailLegalEntities
 - setare culori edited, added - ok
 - refactorizare culori de baza - ok
 
-- setare titlu dialog din view (window) si titlu in Jpanel (detaliat)
 
+- editeaza delegat - ok
+	- folosire  acelasi obiect de form - ok
+	- diralog window - afisare form in dialog - centrat ok
+
+Reguli JTable:
+	- butoane deasupra tabelului ok
+	- editarea deschde dialog window - ok
+	- stergerea deshide alert window si permite bulk - ok
 
 
 
@@ -448,31 +455,16 @@ tabela detailLegalEntities
 	- on focus tooltip with errors is shown only one at a time
 
 
+- setare titlu dialog din view (window) si titlu in Jpanel (detaliat) - ok
+
 - search delegat
 
+- dupa adaugare delegat refocusare pe primul input (in reqeust nou)
 
 
-
-- editare delegat
-		- integrare form cu clasa concreta de layoutPopupForm
-
-
-
-
-
-- editeaza delegat
-	- folosire  acelasi obiect de form
-	- diralog window - afisare form in dialog - centrat
-
-
-
-
-
-
-Reguli JTable:
-	- butoane deasupra tabelului ok
-	- editarea deschde dialog window
-	- stergerea deshide alert window si permite bulk
+- reprezentati legali (functionalitate similara delegati )
+	- refactorizare view
+	- refactorizare model
 
 
 - Learn builder pattern
