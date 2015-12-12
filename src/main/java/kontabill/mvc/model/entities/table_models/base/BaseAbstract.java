@@ -1,6 +1,6 @@
-package main.java.kontabill.mvc.model.entities.table_models;
+package main.java.kontabill.mvc.model.entities.table_models.base;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.mvc.model.entities.Entity;
 
 import javax.swing.table.AbstractTableModel;
@@ -174,6 +174,12 @@ public abstract class BaseAbstract extends AbstractTableModel {
         }
 
         return rowIndex;
+    }
+
+    public void initTableModelActivityListener(Request request)
+    {
+        TableModelActivityListener tableModelActivityListener = new TableModelActivityListener(this, request);
+        tableModelActivityListener.listenActivity();
     }
 
 
