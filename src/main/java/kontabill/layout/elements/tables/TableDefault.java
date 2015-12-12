@@ -38,9 +38,9 @@ public class TableDefault extends JTable {
 
         // set background for row accordingly
             // if is a edited row -> edited background, added row -> added background, default otherwise
-        if (model.getEditedRowsIndexes().contains(row)) {
+        if (model.getTableModelActivityListener().getEditedRowsIndexes().contains(row)) {
             c.setBackground(TableRowsStyle.BACKGROUND_EDITED);
-        } else if (model.getAddedRowsIndexes().contains(row)) {
+        } else if (model.getTableModelActivityListener().getAddedRowsIndexes().contains(row)) {
             c.setBackground(TableRowsStyle.BACKGROUND_ADDED);
         } else {
             c.setBackground(TableRowsStyle.BACKGROUND_DEFAULT);

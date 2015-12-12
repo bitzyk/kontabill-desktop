@@ -26,9 +26,7 @@ public abstract class BaseAbstract extends AbstractTableModel {
 
     protected Boolean stateGlobalChecked = false;
 
-    protected List<Integer> editedRowsIndexes = new ArrayList<>();
-
-    protected List<Integer> addedRowsIndexes = new ArrayList<>();
+    private TableModelActivityListener tableModelActivityListener;
 
     public BaseAbstract(HashMap mapEntitiesCollection, String[][] columnDefinition, Class[] columnTypes)
     {
@@ -178,16 +176,12 @@ public abstract class BaseAbstract extends AbstractTableModel {
 
     public void initTableModelActivityListener(Request request)
     {
-        TableModelActivityListener tableModelActivityListener = new TableModelActivityListener(this, request);
+        tableModelActivityListener = new TableModelActivityListener(this, request);
         tableModelActivityListener.listenActivity();
     }
 
-
-    public List<Integer> getEditedRowsIndexes() {
-        return editedRowsIndexes;
+    public TableModelActivityListener getTableModelActivityListener() {
+        return tableModelActivityListener;
     }
 
-    public List<Integer> getAddedRowsIndexes() {
-        return addedRowsIndexes;
-    }
 }

@@ -3,6 +3,9 @@ package main.java.kontabill.mvc.model.entities.table_models.base;
 import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.lib.core.request.RequestSessionKey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  */
@@ -11,6 +14,10 @@ public class TableModelActivityListener {
     private BaseAbstract tableBaseAbstract;
 
     private Request request;
+
+    protected List<Integer> editedRowsIndexes = new ArrayList<>();
+
+    protected List<Integer> addedRowsIndexes = new ArrayList<>();
 
 
     public TableModelActivityListener(BaseAbstract tableBaseAbstract, Request request)
@@ -30,7 +37,8 @@ public class TableModelActivityListener {
             int rowEdited = tableBaseAbstract.getRowAtEntityId(
                     (int) request.getSessionPayload().getDataItem(RequestSessionKey.EDITED_KEY)
             );
-            tableBaseAbstract.getEditedRowsIndexes().add(rowEdited);
+            editedRowsIndexes.add(rowEdited);
+
             tableBaseAbstract.fireTableRowsUpdated(rowEdited, rowEdited);
         }
 
@@ -38,10 +46,17 @@ public class TableModelActivityListener {
             int rowAdded = tableBaseAbstract.getRowAtEntityId(
                     (int) request.getSessionPayload().getDataItem(RequestSessionKey.ADDED_KEY)
             );
-            tableBaseAbstract.getAddedRowsIndexes().add(rowAdded);
+            addedRowsIndexes.add(rowAdded);
             tableBaseAbstract.fireTableRowsUpdated(rowAdded, rowAdded);
         }
     }
 
+    public List<Integer> getEditedRowsIndexes() {
+        return editedRowsIndexes;
+    }
+
+    public List<Integer> getAddedRowsIndexes() {
+        return addedRowsIndexes;
+    }
 
 }

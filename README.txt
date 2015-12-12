@@ -433,7 +433,7 @@ tabela detailLegalEntities
 		- setare identificator in controller pe baza de constanta - ok
 
 
-- revizuieste nevioe de existenta a rowsIndexeseditead and addded ?????
+- revizuieste nevioe de existenta a rowsIndexeseditead and addded ????? - ok
 
 - setare culori edited, added
 
