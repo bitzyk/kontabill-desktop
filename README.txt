@@ -509,17 +509,27 @@ solutie2:
 	- se va seta filterTerm
 	- se va initaliza tabel::filter (functie custom)
 		- tabel::filter va triggerui refilter tabel
+
+
+
+- reguli default filter - ok
+		filtrare inceputuri parti de cuvant
+		ex; Andrei Anton / term: andre / true
+						 / term: anto / true
+						 / tem: ton / false
+						 / term: andrei anto / true
+						 / term: andrei anton / true
+						 / term: ndrei an / false
+
+
 -------------------------
 
-
-
-
-
-
+-- ai ramas aici --
 
 - lista entitati (afisare in table) - selectie initial ordonata
 
 - dupa adaugare delegat refocusare pe primul input (in reqeust nou)
+
 
 
 - reprezentati legali (functionalitate similara delegati )

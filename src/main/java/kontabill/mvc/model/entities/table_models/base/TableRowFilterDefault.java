@@ -4,6 +4,8 @@ import main.java.kontabill.mvc.model.entities.Entity;
 import main.java.kontabill.mvc.model.entities.base.FilterableEntity;
 
 import javax.swing.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -34,15 +36,16 @@ public class TableRowFilterDefault<M, Object> extends RowFilter {
         if(entity instanceof FilterableEntity) {
             String filterableValue = ((FilterableEntity) entity).getFiletrableEntityValue();
 
-            if(compareCaseSensitive == true) {
-                if (filterableValue.equals(filterTerm)) {
-                    include = true;
-                }
-            } else {
-                if (filterableValue.equalsIgnoreCase(filterTerm)) {
-                    include = true;
-                }
+            String patternTerm = "(^|\\s)" + Pattern.quote(filterTerm);
+
+            if(compareCaseSensitive == false) {
+                patternTerm = "(?i)" + patternTerm;
             }
+
+            Pattern pattern = Pattern.compile(patternTerm);
+            Matcher matcher = pattern.matcher(filterableValue);
+
+            include = matcher.find();
         }
 
         return include;
