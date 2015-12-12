@@ -457,7 +457,67 @@ Reguli JTable:
 
 - setare titlu dialog din view (window) si titlu in Jpanel (detaliat) - ok
 
+
+- implementare formular search
+----------------
 - search delegat
+	- alegere intre query in bd sau filter in tabel
+		- solutie de filter in tabel optima doar daca toate entitatile se regasec in tabel
+			- acesta nu va fi cazul la listare facturi, unde nu vor fi afisate in mod default toate facturile
+				- cautarea se va initia mai intai printr-un query in d.b.
+
+
+- table filter input activat cand thread ul de populare a tabelului a fost finalizat
+- default row filter
+
+entiatati:
+	delegat
+	reprezentatn legal
+		- filter default dupa numer
+
+	client - filter default dupa nume
+
+	produs
+		- filter automat dupa nume
+
+delegat, reprezentanti si clienti - poate fi folosita baza legalEntity in sorter
+problema: identifier pt produs poate diferi, nu trebuie cuplat cu baza legalEntities in niciun fel
+
+solutie1:
+	- setare getMainIdentifier in baza comuna (Entity)
+		- problema
+			- obliga toate entitatile sa implementeze
+				- pot exista entiati pt care aceasta metoda nu are o logica imediata -> care este mainIdentifier pentru o factura
+			- obliga o noua proprietate care se foloseste doar pt un comportament de filtrare
+
+solutie2:
+	- entitatile ce sunt filterable implementeza filterable
+		- api-ul filterable are o metoda getFiletrableEntityValue
+	- entitatile implementeaza metoda ce returneaza un Object
+		- ele pot grupa un return a mai mult proprietati sau sub-obiecte (object/string)
+
+
+- orice table are un obiect default tableRowSorter
+		- extine TableRowSorter
+	- orice TableRowSorter are un obiect default RowFilter
+		- extinde RowFilter
+			- orice RowFilter are o proprietate filterTerm ce semnifica identificatorul pe baza careia se va produce filtrarea
+			- proprietatea are setter
+
+
+- singura comunicare din view cu tabelul pt filtrare se va produce intr-un key listener la un event de key pressed
+	- se va seta filterTerm
+	- se va initaliza tabel::filter (functie custom)
+		- tabel::filter va triggerui refilter tabel
+-------------------------
+
+
+
+
+
+
+
+- lista entitati (afisare in table) - selectie initial ordonata
 
 - dupa adaugare delegat refocusare pe primul input (in reqeust nou)
 

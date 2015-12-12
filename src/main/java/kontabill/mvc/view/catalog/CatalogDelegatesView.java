@@ -2,11 +2,9 @@ package main.java.kontabill.mvc.view.catalog;
 
 import main.java.kontabill.layout.ViewUtils;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
-import main.java.kontabill.layout.elements.forms.FormLayout;
 import main.java.kontabill.layout.elements.forms.FormLayoutBaseAbstract;
 import main.java.kontabill.layout.elements.forms.FormLayoutControlPanel;
 import main.java.kontabill.layout.elements.forms.FormLayoutDialog;
-import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.elements.tables.TableDefault;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.model.RowTypePanels;
@@ -17,13 +15,13 @@ import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.table_models.DelegatTableModel;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
+import main.java.kontabill.mvc.model.forms.SearchFormTable;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
@@ -33,6 +31,8 @@ import java.util.*;
 public class CatalogDelegatesView extends BaseAbstractView  {
 
     private SubscribeableHashMap delegatesHashMap;
+
+    private TableDefault tableDelegates = new TableDefault();
 
     private final ViewLayout viewLayout = new ViewLayout(getLayout());
 
@@ -108,18 +108,11 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
         // add search formular by default when showForm does not exist in request
         if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_DELEGATES)) {
-            FormLayout searchDelegatForm = new FormLayout(rowPanel3);
-
-            searchDelegatForm.addInputs(new String[][]{
-                    {InputType.TEXT_FIELD.toString(), "Nume delegat"},
-            });
             submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Cauta delegat");
-            submitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // action listener for search delegat
-                }
-            });
+            BaseAbstractForm form = new SearchFormTable("Nume delegat", tableDelegates, submitButton);
+
+            FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
+
         } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_DELEGAT)) {
             BaseAbstractForm form = new DelegatForm();
             FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
@@ -155,7 +148,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         // add row2 in panel table section
         JPanel panelTableRow2 = viewLayout.getPanelTable().addRowPanel(RowTypePanels.TABLE);
         // add table component in panelTable row reference
-        TableDefault table = viewLayout.getPanelTable().addTable(panelTableRow2);
+        viewLayout.getPanelTable().addTableToPanel(panelTableRow2, tableDelegates);
 
         // add hash map listener for delegates references (it is runned in a thread)
         SubscribeableHashMapListener subscribeableHashMapListener = new SubscribeableHashMapListener() {
@@ -166,7 +159,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                 DelegatTableModel delegatTableModel = new DelegatTableModel(delegatesHashMap);
                 delegatTableModel.initTableModelActivityListener(request);
 
-                table.setModel(delegatTableModel);
+                tableDelegates.setModel(delegatTableModel);
 
                 // set/reset table checked values to the previous state
                 if (! getRequest().hasDataItem("checkedEntitiesDelegatTableModel")) {
@@ -182,7 +175,6 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                 deleteDelegatesButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
                         // if no delegates was selected warn
                         if (! delegatTableModel.hasSelectedRows()) {
                             JOptionPane.showMessageDialog(
@@ -271,7 +263,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
 
                 // add listener to table
-                table.getModel().addTableModelListener(new TableModelListener() {
+                tableDelegates.getModel().addTableModelListener(new TableModelListener() {
                     @Override
                     public void tableChanged(TableModelEvent e) {
 

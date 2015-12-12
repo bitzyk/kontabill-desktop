@@ -1,6 +1,7 @@
 package main.java.kontabill.layout.elements.tables;
 
 import main.java.kontabill.mvc.model.entities.table_models.base.BaseAbstract;
+import main.java.kontabill.mvc.model.entities.table_models.base.TableRowSorterDefault;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -18,13 +19,34 @@ public class TableDefault extends JTable {
 
     private BaseAbstract dataModel;
 
+    private TableRowSorterDefault<BaseAbstract> tableRowSorter;
+
+
+    public TableDefault() {
+        super();
+    }
+
+
+    private void setRowSorter()
+    {
+        this.tableRowSorter = new TableRowSorterDefault<BaseAbstract>(dataModel);
+        super.setRowSorter(this.tableRowSorter);
+    }
+
+    public TableRowSorterDefault<BaseAbstract> getTableRowSorter() {
+        return tableRowSorter;
+    }
+
     /**
      * On setModel we add mouselistener on checkbox table header
      * @param dataModel
      */
     public void setModel(BaseAbstract dataModel) {
+
         super.setModel(dataModel);
         this.dataModel = dataModel;
+
+        setRowSorter();
 
         initAfterSetModel();
     }

@@ -174,6 +174,18 @@ public abstract class BaseAbstract extends AbstractTableModel {
         return rowIndex;
     }
 
+    /**
+     * Get entity at row index
+     * @param rowIndex
+     * @return
+     */
+    public Entity getEntityAtRow(int rowIndex)
+    {
+        Entity entity = listEntitiesCollection.get(rowIndex);
+
+        return entity;
+    }
+
     public void initTableModelActivityListener(Request request)
     {
         tableModelActivityListener = new TableModelActivityListener(this, request);

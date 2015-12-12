@@ -73,7 +73,7 @@ public class PanelTable extends BasePanelAbstract {
     }
 
 
-    public TableDefault addTable(JPanel tablePanel)
+    public void addTableToPanel(JPanel tablePanel, TableDefault table)
     {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -82,15 +82,12 @@ public class PanelTable extends BasePanelAbstract {
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
 
-        TableDefault table = new TableDefault();
         JScrollPane scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, gbc);
 
         // add background to the rest of scroll pane (if any)
         scrollPane.getViewport().setBackground(Color.WHITE);
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.decode("#aaaaaa"), 1));
-
-        return table;
     }
 
     private void addRowLineSeparator()

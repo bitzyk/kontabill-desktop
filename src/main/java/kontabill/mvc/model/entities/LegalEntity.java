@@ -1,6 +1,7 @@
 package main.java.kontabill.mvc.model.entities;
 
 import main.java.kontabill.mvc.model.db_model.LegalEntitiesTypes;
+import main.java.kontabill.mvc.model.entities.base.FilterableEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  *
  */
-public class LegalEntity extends Entity {
+public class LegalEntity extends Entity implements FilterableEntity {
 
     private String name;
 
@@ -130,4 +131,8 @@ public class LegalEntity extends Entity {
         return isCompany;
     }
 
+    @Override
+    public String getFiletrableEntityValue() {
+        return getName();
+    }
 }
