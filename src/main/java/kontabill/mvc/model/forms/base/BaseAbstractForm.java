@@ -38,6 +38,7 @@ abstract public class BaseAbstractForm {
         initFormElementConfig();
         initFormValidator();
         initInputElements();
+        initInitialInputFocus();
         initInputValidators();
     }
 
@@ -63,7 +64,21 @@ abstract public class BaseAbstractForm {
             ElementConfig elementConfig = elementConfigMap.get(iterator.next());
             initInputElement(elementConfig);
         }
+
     }
+
+    private void initInitialInputFocus()
+    {
+        JTextField textField =  ((JTextField)getFormElement(getElementsDefinition()[0][BaseAbstractForm.ELEMENT_DEFINITION_KEY_KEYID]));
+
+        SwingUtilities.invokeLater( new Runnable() {
+
+            public void run() {
+                textField.requestFocusInWindow();
+            }
+        } );
+    }
+
 
     private void initInputElement(ElementConfig elementConfig)
     {
