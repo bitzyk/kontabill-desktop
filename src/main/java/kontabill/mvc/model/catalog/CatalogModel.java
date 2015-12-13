@@ -15,9 +15,9 @@ public class CatalogModel extends BaseAbstractModel {
 
     private LegalEntitiesTypes legalEntitiesTypeDbTable = new LegalEntitiesTypes();
 
-    public SubscribeableHashMap<String, Delegat> getDelegates()
+    public SubscribeableHashMap<Integer, Delegat> getDelegates()
     {
-        SubscribeableHashMap<String, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
+        SubscribeableHashMap<Integer, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
 
         try {
             subscribeableHashMap = legalEntitiesTypeDbTable.getDelegates(subscribeableHashMap);
@@ -29,16 +29,16 @@ public class CatalogModel extends BaseAbstractModel {
         return subscribeableHashMap;
     }
 
-    public SubscribeableHashMap<String, Delegat> getDelegatesThread()
+    public SubscribeableHashMap<Integer, Delegat> getDelegatesThread()
     {
-        SubscribeableHashMap<String, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
+        SubscribeableHashMap<Integer, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
 
 
         class GetDelegatesRunable implements Runnable {
 
-            SubscribeableHashMap<String, Delegat> subscribeableHashMap;
+            SubscribeableHashMap<Integer, Delegat> subscribeableHashMap;
 
-            public GetDelegatesRunable(SubscribeableHashMap<String, Delegat> subscribeableHashMap) {
+            public GetDelegatesRunable(SubscribeableHashMap<Integer, Delegat> subscribeableHashMap) {
                 this.subscribeableHashMap = subscribeableHashMap;
             }
 

@@ -151,9 +151,9 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         viewLayout.getPanelTable().addTableToPanel(panelTableRow2, tableDelegates);
 
         // add hash map listener for delegates references (it is runned in a thread)
-        SubscribeableHashMapListener subscribeableHashMapListener = new SubscribeableHashMapListener() {
+        SubscribeableHashMapListener<String, Delegat> subscribeableHashMapListener = new SubscribeableHashMapListener<String, Delegat>() {
             @Override
-            public void run(HashMap<Object, Object> delegatesHashMap) {
+            public void run(HashMap<String, Delegat> delegatesHashMap) {
 
                 // set table with model
                 DelegatTableModel delegatTableModel = new DelegatTableModel(delegatesHashMap);

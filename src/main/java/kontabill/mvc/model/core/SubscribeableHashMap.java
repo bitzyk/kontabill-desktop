@@ -1,9 +1,6 @@
 package main.java.kontabill.mvc.model.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -13,7 +10,7 @@ public class SubscribeableHashMap<K,V> extends HashMap {
     /**
      * Hash map to store the collection
      */
-    protected HashMap<Object, Object> observedMap = new HashMap();
+    protected HashMap<K, V> observedMap = new LinkedHashMap<>();
 
     /**
      * List to store hash map listeners
@@ -23,8 +20,7 @@ public class SubscribeableHashMap<K,V> extends HashMap {
     protected Boolean threadFinished = false;
 
 
-    @Override
-    public Object put(Object key, Object value) {
+    public V putInMap(K key, V value) {
         return observedMap.put(key, value);
     }
 
@@ -65,7 +61,7 @@ public class SubscribeableHashMap<K,V> extends HashMap {
         this.threadFinished = threadFinished;
     }
 
-    public HashMap<Object, Object> getObservedMap() {
+    public HashMap<K, V> getObservedMap() {
         return observedMap;
     }
 }

@@ -97,7 +97,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         return preparedStatement.executeUpdate();
     }
 
-    public SubscribeableHashMap<String, Delegat> getDelegates(SubscribeableHashMap<String, Delegat> delegates) throws SQLException {
+    public SubscribeableHashMap<Integer, Delegat> getDelegates(SubscribeableHashMap<Integer, Delegat> delegates) throws SQLException {
 
         Statement sta = getConnection().createStatement();
 
@@ -105,7 +105,8 @@ public class LegalEntitiesTypes extends DbTableAbstract {
                 " FROM " + TABLE_NAME + " lt" +
                 " JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID" +
                 " JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_DELEGAT = led.ID_LEGAL_ENTITY" +
-                " WHERE ID_DELEGAT IS NOT NULL";
+                " WHERE ID_DELEGAT IS NOT NULL" +
+                " ORDER BY le.NAME";
 
         ResultSet resultSet = sta.executeQuery(sql);
 
@@ -115,14 +116,14 @@ public class LegalEntitiesTypes extends DbTableAbstract {
     }
 
 
-    public SubscribeableHashMap<String, Delegat> hydrateDelegates(
+    public SubscribeableHashMap<Integer, Delegat> hydrateDelegates(
             ResultSet resultSet,
-            SubscribeableHashMap<String, Delegat> delegates
+            SubscribeableHashMap<Integer, Delegat> delegates
     ) throws SQLException {
         while (resultSet.next()) {
             Delegat delegat = hydrateDelegat(resultSet, new Delegat());
 
-            delegates.put(delegat.getId(), delegat);
+            delegates.putInMap(delegat.getId(), delegat);
         }
 
         return delegates;

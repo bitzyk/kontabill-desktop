@@ -526,7 +526,7 @@ solutie2:
 
 -- ai ramas aici --
 
-- lista entitati (afisare in table) - selectie initial ordonata
+- lista entitati (afisare in table) - selectie initial ordonata ok
 
 - dupa adaugare delegat refocusare pe primul input (in reqeust nou) - ok
 

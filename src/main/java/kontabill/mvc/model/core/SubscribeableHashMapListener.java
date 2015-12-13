@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Created by cbitoi on 24/11/15.
  */
-public interface SubscribeableHashMapListener {
+public interface SubscribeableHashMapListener<K, V> {
 
-    public void run(HashMap<Object, Object> observedMap);
+    public void run(HashMap<K, V> observedMap);
 }
