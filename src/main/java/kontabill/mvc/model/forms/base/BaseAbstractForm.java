@@ -154,6 +154,35 @@ abstract public class BaseAbstractForm {
         return formElement;
     }
 
+    /**
+     * Get form key for speciied formElement
+     * @param formElement
+     * @return
+     */
+    public String getFormKey(FormElement formElement)
+    {
+        String keyFormElement = "";
+
+        Set set = formElements.keySet();
+        Iterator<String> iterator = set.iterator();
+
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            FormElement formElementCurrent = formElements.get(key);
+
+            if(formElement == formElementCurrent) {
+                keyFormElement = key;
+                break;
+            }
+        }
+
+        if(keyFormElement.length() == 0) {
+            throw new RuntimeException("Form key for the specified formElement does not exist.");
+        }
+
+        return keyFormElement;
+    }
+
     public BlockRunner getSubmitBlockRunner() {
         return submitBlockRunner;
     }

@@ -4,8 +4,10 @@ import main.java.kontabill.layout.elements.inputs.FormElement;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 
 /**
  *
@@ -143,22 +145,34 @@ abstract public class FormLayoutBaseAbstract {
         @Override
         public void focusGained(FocusEvent e)
         {
+            // close tooltips for the current input
             formTooltip.closeTooltip(formKey);
+
+            Component c = e.getOppositeComponent();
+
+            if(c instanceof FormElement && c instanceof JComponent) {
+
+                String prevFormkey = getForm().getFormKey((FormElement) c);
+
+                boolean isValid = form.getFormValidator().validateElement(prevFormkey, (FormElement) c);
+
+                // if is not valid show the tooltip with the error
+                if (! isValid) {
+                    List<String> errors = form.getFormValidator().getValidationElementErrors(prevFormkey);
+
+                    if(errors.size() > 0) {
+                        formTooltip.addTooltip(prevFormkey, (JComponent) c, errors.get(0));
+                    }
+                }
+
+            }
+
         }
 
         @Override
         public void focusLost(FocusEvent e)
         {
-            boolean isValid = form.getFormValidator().validateElement(formKey, (FormElement)formElement);
 
-            // if is not valid show the tooltip with the error
-            if (! isValid) {
-                List<String> errors = form.getFormValidator().getValidationElementErrors(formKey);
-
-                if(errors.size() > 0) {
-                    formTooltip.addTooltip(formKey, formElement, errors.get(0));
-                }
-            }
         }
     }
 }

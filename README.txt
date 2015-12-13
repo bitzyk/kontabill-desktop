@@ -530,9 +530,8 @@ solutie2:
 
 - dupa adaugare delegat refocusare pe primul input (in reqeust nou) - ok
 
-- afisare tooltip eroare doar cand looseFocus se produce cu refocusare catre alt form element
-	- altfel tooltip cu eroare se poate afisa cand spre ex un text input isi pierde focusul in favoare unui checkbox extern formularului
-
+- afisare tooltip eroare doar cand looseFocus se produce cu refocusare catre alt form element - ok
+	- altfel tooltip cu eroare se poate afisa cand spre ex un text input isi pierde focusul in favoare unui checkbox extern formularului -ok
 
 
 - reprezentati legali (functionalitate similara delegati )
