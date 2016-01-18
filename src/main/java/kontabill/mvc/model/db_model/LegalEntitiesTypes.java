@@ -1,7 +1,9 @@
 package main.java.kontabill.mvc.model.db_model;
 
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
+import main.java.kontabill.mvc.model.db_model.model_filters.*;
 import main.java.kontabill.mvc.model.entities.*;
+import main.java.kontabill.mvc.model.entities.LegalEntityType;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -97,62 +99,112 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         return preparedStatement.executeUpdate();
     }
 
-    public SubscribeableHashMap<Integer, Delegat> getDelegates(SubscribeableHashMap<Integer, Delegat> delegates) throws SQLException {
-
+    private ResultSet getLegalEntities(LegalEntitiesTypesFilter legalEntitiesTypesFilter) throws SQLException
+    {
         Statement sta = getConnection().createStatement();
 
         String sql = "SELECT lt.*, le.*, led.*, lt.ID as LEGAL_ENTITY_TYPE_ID, le.ID as LEGAL_ENTITY_ID, led.ID as LEGAL_ENTITY_DETAIL_ID" +
-                " FROM " + TABLE_NAME + " lt" +
-                " JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID" +
-                " JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_DELEGAT = led.ID_LEGAL_ENTITY" +
-                " WHERE ID_DELEGAT IS NOT NULL" +
-                " ORDER BY le.NAME";
+                " FROM " + TABLE_NAME + " lt";
+
+        // check legal entity type and create sql accordingly
+        if (legalEntitiesTypesFilter.getLegalEntityType() == main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.DELEGAT) {
+            sql = sql.concat(" JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_DELEGAT = le.ID");
+            sql = sql.concat(" JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_DELEGAT = led.ID_LEGAL_ENTITY");
+            sql = sql.concat(" WHERE ID_DELEGAT IS NOT NULL");
+        } else if (legalEntitiesTypesFilter.getLegalEntityType() == main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.REPRESENTATIVE) {
+            sql = sql.concat(" JOIN " + LegalEntities.TABLE_NAME + " le ON lt.ID_REPRESENTATIVE = le.ID");
+            sql = sql.concat(" JOIN " + LegalEntitiesDetail.TABLE_NAME + " led ON lt.ID_REPRESENTATIVE = led.ID_LEGAL_ENTITY");
+            sql = sql.concat(" WHERE ID_REPRESENTATIVE IS NOT NULL");
+        }
+
+
+        sql = sql.concat(" ORDER BY le.NAME");
 
         ResultSet resultSet = sta.executeQuery(sql);
 
-        hydrateDelegates(resultSet, delegates);
+        return resultSet;
+    }
+
+    public SubscribeableHashMap<Integer, Delegat> getDelegates(SubscribeableHashMap<Integer, Delegat> delegates) throws SQLException
+    {
+        LegalEntitiesTypesFilter legalEntitiesTypesFilter = new LegalEntitiesTypesFilter();
+        legalEntitiesTypesFilter.setLegalEntityType(main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.DELEGAT);
+
+        ResultSet resultSet = getLegalEntities(legalEntitiesTypesFilter);
+
+        hydrateDelegates(resultSet, delegates, legalEntitiesTypesFilter);
+
+        return delegates;
+    }
+
+    public SubscribeableHashMap<Integer, Delegat> getLegalRepresentatives(SubscribeableHashMap<Integer, Delegat> delegates) throws SQLException
+    {
+        LegalEntitiesTypesFilter legalEntitiesTypesFilter = new LegalEntitiesTypesFilter();
+        legalEntitiesTypesFilter.setLegalEntityType(main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.REPRESENTATIVE);
+
+        ResultSet resultSet = getLegalEntities(legalEntitiesTypesFilter);
+
+        hydrateDelegates(resultSet, delegates, legalEntitiesTypesFilter);
 
         return delegates;
     }
 
 
-    public SubscribeableHashMap<Integer, Delegat> hydrateDelegates(
+//    public SubscribeableHashMap<Integer, Delegat> hydrateDelegates(
+//            ResultSet resultSet,
+//            SubscribeableHashMap<Integer, Delegat> delegates
+//    ) throws SQLException {
+//        while (resultSet.next()) {
+//            Delegat delegat = (Delegat) hydrateDelegat(resultSet, new Delegat());
+//
+//            delegates.putInMap(delegat.getId(), delegat);
+//        }
+//
+//        return delegates;
+//    }
+
+    public <K, V extends LegalEntity> SubscribeableHashMap<Integer, V> hydrateDelegates(
             ResultSet resultSet,
-            SubscribeableHashMap<Integer, Delegat> delegates
+            SubscribeableHashMap<Integer, V> subscribeableHashMap,
+            LegalEntitiesTypesFilter legalEntitiesTypesFilter
     ) throws SQLException {
         while (resultSet.next()) {
-            Delegat delegat = hydrateDelegat(resultSet, new Delegat());
 
-            delegates.putInMap(delegat.getId(), delegat);
+            // ai ramas aici
+            if (legalEntitiesTypesFilter.getLegalEntityType() == main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.DELEGAT) {
+                V legalEntity = (V) hydrateDelegat(resultSet, new Delegat());
+
+                subscribeableHashMap.putInMap(legalEntity.getId(), legalEntity);
+            }
         }
 
-        return delegates;
+        return subscribeableHashMap;
     }
 
-    private Delegat hydrateDelegat(ResultSet resultSet, Delegat delegat) throws SQLException
+    private LegalEntity hydrateDelegat(ResultSet resultSet, LegalEntity legalEntity) throws SQLException
     {
-        delegat.setId(resultSet.getInt("LEGAL_ENTITY_ID"));
-        delegat.setIdentifier(resultSet.getString("IDENTIFIER"));
-        delegat.setType(resultSet.getString("TYPE"));
-        delegat.setName(resultSet.getString("NAME"));
+        legalEntity.setId(resultSet.getInt("LEGAL_ENTITY_ID"));
+        legalEntity.setIdentifier(resultSet.getString("IDENTIFIER"));
+        legalEntity.setType(resultSet.getString("TYPE"));
+        legalEntity.setName(resultSet.getString("NAME"));
 
         // assoc legal entityType to legalEntity
         LegalEntityType legalEntityType = hydrateLegalEntityType(resultSet, new LegalEntityType());
         legalEntityType.setId(resultSet.getInt("LEGAL_ENTITY_TYPE_ID"));
-        delegat.setLegalEntityType(legalEntityType);
+        legalEntity.setLegalEntityType(legalEntityType);
 
         // assoc legal entityDetail to legalEntity
-        if (delegat.isPerson()) {
+        if (legalEntity.isPerson()) {
             LegalEntityDetailPerson legalEntityDetailPerson = new LegalEntityDetailPerson();
             hydrateLegalEntityDetailPerson(resultSet, legalEntityDetailPerson);
             legalEntityDetailPerson.setId(resultSet.getInt("LEGAL_ENTITY_DETAIL_ID"));
-            delegat.setLegalEntityDetail(legalEntityDetailPerson);
-        } else if (delegat.isCompany()) {
+            legalEntity.setLegalEntityDetail(legalEntityDetailPerson);
+        } else if (legalEntity.isCompany()) {
 
         }
 
 
-        return delegat;
+        return legalEntity;
     }
 
     private LegalEntityType hydrateLegalEntityType(ResultSet resultSet, LegalEntityType legalEntityType) throws SQLException

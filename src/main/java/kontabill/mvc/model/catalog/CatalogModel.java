@@ -29,6 +29,20 @@ public class CatalogModel extends BaseAbstractModel {
         return subscribeableHashMap;
     }
 
+    public SubscribeableHashMap<Integer, Delegat> getLegalRepresentatives()
+    {
+        SubscribeableHashMap<Integer, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
+
+        try {
+            subscribeableHashMap = legalEntitiesTypeDbTable.getLegalRepresentatives(subscribeableHashMap);
+        } catch (SQLException e) {
+            System.out.println("-- Error: sql exception --");
+            System.exit(1);
+        }
+
+        return subscribeableHashMap;
+    }
+
     public SubscribeableHashMap<Integer, Delegat> getDelegatesThread()
     {
         SubscribeableHashMap<Integer, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();

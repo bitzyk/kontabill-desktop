@@ -534,9 +534,29 @@ solutie2:
 	- altfel tooltip cu eroare se poate afisa cand spre ex un text input isi pierde focusul in favoare unui checkbox extern formularului -ok
 
 
+-- ai ramas aici --
 - reprezentati legali (functionalitate similara delegati )
-	- refactorizare view
+	- adaugare action - ok
+	- adaugare functionalitate similare delegati - ok
+
 	- refactorizare model
+		- refactorizeaza sql din LegalEntitiesTypes::getDelegates
+			- refactorizare sql intr o singura metoda - ok
+			- metoda primeste obiect filtru - ok
+
+			// ai ramas aici
+			- reafactorizare hydrateDelegates by using generics
+
+
+
+	- refactorizare view
+
+
+
+- export/import delegati
+	- write to a buffer
+	- save to specified directory
+		- window directory structure
 
 
 - Learn builder pattern

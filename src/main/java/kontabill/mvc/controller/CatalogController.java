@@ -9,6 +9,7 @@ import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.catalog.CatalogClientsView;
 import main.java.kontabill.mvc.view.catalog.CatalogDelegatesView;
+import main.java.kontabill.mvc.view.catalog.CatalogLegalRepresentativesView;
 
 import java.util.ArrayList;
 
@@ -38,11 +39,25 @@ public class CatalogController extends BaseAbstractController {
 
     public void catalogDelegatesAction()
     {
-        //SubscribeableHashMap delegatesHashMap = model.getDelegates();
         SubscribeableHashMap delegatesHashMap = model.getDelegatesThread();
 
         CatalogDelegatesView catalogDelegatesView = new CatalogDelegatesView(this, delegatesHashMap);
         catalogDelegatesView.render();
+    }
+
+    public void catalogLegalRepresentativesAction()
+    {
+        SubscribeableHashMap delegatesHashMap = model.getLegalRepresentatives();
+
+        System.out.println(
+                delegatesHashMap.getObservedMap().size()
+        );
+
+
+//        CatalogLegalRepresentativesView catalogLegalRepresentativesView
+//                = new CatalogLegalRepresentativesView(this, delegatesHashMap);
+//
+//        catalogLegalRepresentativesView.render();
     }
 
 
