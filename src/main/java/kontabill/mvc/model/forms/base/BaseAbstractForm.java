@@ -183,6 +183,25 @@ abstract public class BaseAbstractForm {
         return keyFormElement;
     }
 
+    public boolean formElementBelongToThisForm(FormElement formElement)
+    {
+        boolean belong = false;
+
+        Set set = formElements.keySet();
+        Iterator<String> iterator = set.iterator();
+
+        while (iterator.hasNext()) {
+            FormElement testAgainst = formElements.get(iterator.next());
+
+            if(formElement == testAgainst) {
+                belong = true;
+                break;
+            }
+        }
+
+        return belong;
+    }
+
     public BlockRunner getSubmitBlockRunner() {
         return submitBlockRunner;
     }

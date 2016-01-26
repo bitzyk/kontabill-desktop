@@ -135,6 +135,24 @@ public class CatalogController extends BaseAbstractController {
         }
     }
 
+    public void editRepresentativeAction(Representative representativeEntity, BaseAbstractForm form)
+    {
+        if (form.validate()) {
+            // rewrite entity with values from form (except the id)
+            ((RepresentativeForm)form).hydrateEntity(representativeEntity);
+
+            boolean edited = model.editRepresentative(representativeEntity);
+
+            // if representative has been edited set editedId in session
+            if(edited == true) {
+                getRequest().getSessionPayload().addDataItem(RequestSessionKey.EDITED_KEY, representativeEntity.getId());
+            }
+
+            // redirect back to catalogLegalRepresentativesAction
+            getKontabill().getMVC().runController("catalogLegalRepresentativesAction", getRequest());
+        }
+    }
+
 
     @Override
     protected void setModelOfController() {

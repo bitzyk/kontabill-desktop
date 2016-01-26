@@ -148,9 +148,15 @@ abstract public class FormLayoutBaseAbstract {
             // close tooltips for the current input
             formTooltip.closeTooltip(formKey);
 
+            /**
+             * algorithm:
+             *  - when focus is gained on the current form element get opposite form element which lost focus
+             *      - if opposite form element is a form element for the current form (on multe form dialogs this could not be the case)
+             *          - if opposite form element is not valid show errors for that opposite element
+             */
             Component c = e.getOppositeComponent();
 
-            if(c instanceof FormElement && c instanceof JComponent) {
+            if(c instanceof FormElement && c instanceof JComponent && getForm().formElementBelongToThisForm((FormElement)c)) {
 
                 String prevFormkey = getForm().getFormKey((FormElement) c);
 

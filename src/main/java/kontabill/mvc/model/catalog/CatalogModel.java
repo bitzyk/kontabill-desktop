@@ -170,5 +170,13 @@ public class CatalogModel extends BaseAbstractModel {
         return edited;
     }
 
+    public boolean editRepresentative(Representative representative)
+    {
+        boolean edited = false;
+
+        edited = legalEntitiesTypeDbTable.editRepresentative(representative);
+
+        return edited;
+    }
 
 }

@@ -154,7 +154,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
         // add table component in panelTable row reference
         viewLayout.getPanelTable().addTableToPanel(panelTableRow2, tableRepresentative);
 
-        // add hash map listener for delegates references (it is runned in a thread)
+        // add hash map listener for representatives references (it is runned in a thread)
         SubscribeableHashMapListener<String, Delegat> subscribeableHashMapListener = new SubscribeableHashMapListener<String, Delegat>() {
             @Override
             public void run(HashMap<String, Delegat> representativeHashMap) {
@@ -175,11 +175,11 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                 }
 
 
-                // add listener to delete delegates button
+                // add listener to delete representatives button
                 deleteRepresentativeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // if no delegates was selected warn
+                        // if no representatives was selected warn
                         if (!representativeTableModel.hasSelectedRows()) {
                             JOptionPane.showMessageDialog(
                                     null,
@@ -199,13 +199,13 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                             );
 
                             if (option == JOptionPane.YES_OPTION) {
-                                // call delete delegates for selected delegates
+                                // call delete representatives for selected representatives
                                 ArrayList<Representative> representatives = representativeTableModel.getSelectedEntities();
 
                                 // reset checked values to not be auto-populated on future request (could be less rows that curently are)
                                 getRequest().addDataItem("checkedEntitiesRepresentantTableModel", null);
 
-                                // call method controller for deleting delegates
+                                // call method controller for deleting representatives
                                 ((CatalogController) getControllerForView()).deleteLegalRepresentativesAction(
                                         representatives
                                 );
@@ -219,7 +219,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                     if (!representativeTableModel.hasSelectedRows()) {
                         JOptionPane.showMessageDialog(
                                 null,
-                                "Nu ati selectat delegati pentru a fi editati!",
+                                "Nu ati selectat reprezentanti legali pentru a fi editati!",
                                 "Comanda invalida",
                                 JOptionPane.WARNING_MESSAGE
                         );
@@ -230,33 +230,34 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                         if (noSelectedRows > 5) {
                             JOptionPane.showMessageDialog(
                                     null,
-                                    "Puteti edita un numar de maxim 5 delegati simultan",
+                                    "Puteti edita un numar de maxim 5 reprezentanti legali simultan",
                                     "Comanda invalida",
                                     JOptionPane.WARNING_MESSAGE
                             );
                         } else {
-                            ArrayList<Delegat> delegats = representativeTableModel.getSelectedEntities();
+                            ArrayList<Representative> representatives = representativeTableModel.getSelectedEntities();
 
-                            for (int i = 0; i < delegats.size(); i++) {
+                            for (int i = 0; i < representatives.size(); i++) {
 
-                                Delegat delegat = delegats.get(i);
+                                Representative representative = representatives.get(i);
 
-                                BaseAbstractForm form = new DelegatForm();
-                                form.hydrateForm(delegat);
+                                BaseAbstractForm form = new RepresentativeForm();
+                                form.hydrateForm(representative);
 
                                 FormLayoutDialog formLayout = new FormLayoutDialog(
                                         form,
                                         new JPanel(),
                                         i,
                                         "Editare",
-                                        "Editeaza delegat `" + delegat.getName() + "`"
+                                        "Editeaza reprezentant legal `" + representative.getName() + "`"
                                 );
                                 formLayout.showForm();
 
                                 formLayout.registerSubmitButtonRunner(() -> {
                                     if (formLayout.validate() == true) {
                                         getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
-                                        ((CatalogController) getControllerForView()).editDelegatAction(delegat, form);
+                                        ((CatalogController) getControllerForView()).
+                                                editRepresentativeAction(representative, form);
                                     }
                                 });
                             }

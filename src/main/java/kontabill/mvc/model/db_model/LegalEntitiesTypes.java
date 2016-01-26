@@ -80,6 +80,31 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         return edited;
     }
 
+
+    public boolean editRepresentative(Representative representative)
+    {
+        boolean edited = false;
+
+        try {
+            // start transaction
+            getConnection().setAutoCommit(false);
+
+            // edit legal entity (name)
+            legalEntities.editLegalEntity(representative);
+
+            // end transaction
+            getConnection().commit();
+
+            edited = true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return edited;
+    }
+
     public int insertLegalEntityType(LegalEntity legalEntity) throws SQLException
     {
         // prepare statement and insert

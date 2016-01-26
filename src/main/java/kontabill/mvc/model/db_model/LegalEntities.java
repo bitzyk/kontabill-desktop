@@ -49,12 +49,14 @@ public class LegalEntities extends DbTableAbstract {
     {
         // prepare statement and insert
         String prepared = "UPDATE " + TABLE_NAME +
-                " SET NAME = ?" +
+                " SET NAME = ?, " +
+                " IDENTIFIER = ?" +
                 " WHERE ID = ?";
 
         PreparedStatement preparedStatement = getConnection().prepareStatement(prepared);
         preparedStatement.setString(1, legalEntity.getName());
-        preparedStatement.setInt(2, legalEntity.getId());
+        preparedStatement.setString(2, legalEntity.getIdentifier());
+        preparedStatement.setInt(3, legalEntity.getId());
 
         int edited = preparedStatement.executeUpdate();
 
