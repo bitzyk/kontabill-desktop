@@ -13,8 +13,9 @@ import main.java.kontabill.mvc.controller.CatalogController;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Delegat;
-import main.java.kontabill.mvc.model.entities.table_models.DelegatTableModel;
+import main.java.kontabill.mvc.model.entities.table_models.RepresentativeTableModel;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
+import main.java.kontabill.mvc.model.forms.RepresentativeForm;
 import main.java.kontabill.mvc.model.forms.SearchFormTable;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
@@ -32,43 +33,43 @@ import java.util.HashMap;
  */
 public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
-    private SubscribeableHashMap delegatesHashMap;
+    private SubscribeableHashMap representativeHashMap;
 
-    private TableDefault tableDelegates = new TableDefault();
+    private TableDefault tableRepresentative = new TableDefault();
 
     private final ViewLayout viewLayout = new ViewLayout(getLayout());
 
-    private final String VIEW_BUTTON_ADD_DELEGAT = "addDelegat";
+    private final String VIEW_BUTTON_ADD_REPRESENTATIVE = "addRepresentative";
 
-    private final String VIEW_BUTTON_SEARCH_DELEGATES = "searchDelegates";
+    private final String VIEW_BUTTON_SEARCH_REPRESENTATIVE = "searchRepresentatives";
 
-    private final String VIEW_BUTTON_EXPORT_DELEGATES = "exportDelegates";
+    private final String VIEW_BUTTON_EXPORT_REPRESENTATIVE = "exportRepresentatives";
 
-    private final String VIEW_BUTTON_IMPORT_DELEGATES = "importDelegates";
+    private final String VIEW_BUTTON_IMPORT_REPRESENTATIVE = "importRepresentatives";
 
     private String[][] viewButtonPanelControl = {
             {
-                    "Adaugare delegat",
-                    VIEW_BUTTON_ADD_DELEGAT,
+                    "Adaugare reprezentant legal",
+                    VIEW_BUTTON_ADD_REPRESENTATIVE,
             },
             {
                     "Cautare",
-                    VIEW_BUTTON_SEARCH_DELEGATES,
+                    VIEW_BUTTON_SEARCH_REPRESENTATIVE,
             },
             {
                     "Export",
-                    VIEW_BUTTON_EXPORT_DELEGATES,
+                    VIEW_BUTTON_EXPORT_REPRESENTATIVE,
             },
             {
                     "Import",
-                    VIEW_BUTTON_IMPORT_DELEGATES,
+                    VIEW_BUTTON_IMPORT_REPRESENTATIVE,
             }
     };
 
 
-    public CatalogLegalRepresentativesView(BaseAbstractController controller, SubscribeableHashMap delegatesHashMap) {
+    public CatalogLegalRepresentativesView(BaseAbstractController controller, SubscribeableHashMap representativeHashMap) {
         super(controller);
-        this.delegatesHashMap = delegatesHashMap;
+        this.representativeHashMap = representativeHashMap;
     }
 
 
@@ -109,22 +110,22 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
         JButton submitButton = null;
 
         // add search formular by default when showForm does not exist in request
-        if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_DELEGATES)) {
-            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Cauta delegat");
-            BaseAbstractForm form = new SearchFormTable("Nume delegat", tableDelegates, submitButton);
+        if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_REPRESENTATIVE)) {
+            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Cauta reprezentant legal");
+            BaseAbstractForm form = new SearchFormTable("Nume reprezentant", tableRepresentative, submitButton);
 
             FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
 
-        } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_DELEGAT)) {
-            BaseAbstractForm form = new DelegatForm();
+        } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_REPRESENTATIVE)) {
+            BaseAbstractForm form = new RepresentativeForm();
             FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
 
-            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga delegat");
+            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga reprezentant");
 
             form.registerSubmitButton(submitButton,  () -> {
                 if (formLayout.validate() == true) {
-                    getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
-                    ((CatalogController) getControllerForView()).addDelegatAction(form);
+                    getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
+                    ((CatalogController) getControllerForView()).addLegalRepresentativeAction(form);
                 }
             });
         }
@@ -150,26 +151,26 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
         // add row2 in panel table section
         JPanel panelTableRow2 = viewLayout.getPanelTable().addRowPanel(RowTypePanels.TABLE);
         // add table component in panelTable row reference
-        viewLayout.getPanelTable().addTableToPanel(panelTableRow2, tableDelegates);
+        viewLayout.getPanelTable().addTableToPanel(panelTableRow2, tableRepresentative);
 
         // add hash map listener for delegates references (it is runned in a thread)
         SubscribeableHashMapListener<String, Delegat> subscribeableHashMapListener = new SubscribeableHashMapListener<String, Delegat>() {
             @Override
-            public void run(HashMap<String, Delegat> delegatesHashMap) {
+            public void run(HashMap<String, Delegat> representativeHashMap) {
 
                 // set table with model
-                DelegatTableModel delegatTableModel = new DelegatTableModel(delegatesHashMap);
-                delegatTableModel.initTableModelActivityListener(request);
+                RepresentativeTableModel representativeTableModel = new RepresentativeTableModel(representativeHashMap);
+                representativeTableModel.initTableModelActivityListener(request);
 
-                tableDelegates.setModel(delegatTableModel);
+                tableRepresentative.setModel(representativeTableModel);
 
                 // set/reset table checked values to the previous state
-                if (! getRequest().hasDataItem("checkedEntitiesDelegatTableModel")) {
-                    Boolean[] checkedEntitiesDelegatTableModel = delegatTableModel.getCheckedEntitiesArray();
-                    getRequest().addDataItem("checkedEntitiesDelegatTableModel", checkedEntitiesDelegatTableModel);
+                if (! getRequest().hasDataItem("checkedEntitiesRepresentantTableModel")) {
+                    Boolean[] checkedEntitiesRepresentantTableModel = representativeTableModel.getCheckedEntitiesArray();
+                    getRequest().addDataItem("checkedEntitiesRepresentantTableModel", checkedEntitiesRepresentantTableModel);
                 } else {
-                    Boolean[] checkedEntitiesDelegatTableModel = (Boolean[])getRequest().getDataItem("checkedEntitiesDelegatTableModel");
-                    delegatTableModel.setCheckedEntitiesArray(checkedEntitiesDelegatTableModel);
+                    Boolean[] checkedEntitiesRepresentantTableModel = (Boolean[])getRequest().getDataItem("checkedEntitiesRepresentantTableModel");
+                    representativeTableModel.setCheckedEntitiesArray(checkedEntitiesRepresentantTableModel);
                 }
 
 
@@ -178,7 +179,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // if no delegates was selected warn
-                        if (! delegatTableModel.hasSelectedRows()) {
+                        if (! representativeTableModel.hasSelectedRows()) {
                             JOptionPane.showMessageDialog(
                                     null,
                                     "Nu ati selectat delegati pentru a fi stersi din baza de date!",
@@ -187,7 +188,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                             );
                         }
                         else {
-                            int noSelectedRows = delegatTableModel.countSelectedRows();
+                            int noSelectedRows = representativeTableModel.countSelectedRows();
 
                             int option = JOptionPane.showConfirmDialog(
                                     null,
@@ -199,10 +200,10 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
                             if (option == JOptionPane.YES_OPTION) {
                                 // call delete delegates for selected delegates
-                                ArrayList<Delegat> delegats = delegatTableModel.getSelectedEntities();
+                                ArrayList<Delegat> delegats = representativeTableModel.getSelectedEntities();
 
                                 // reset checked values to not be auto-populated on future request (could be less rows that curently are)
-                                getRequest().addDataItem("checkedEntitiesDelegatTableModel", null);
+                                getRequest().addDataItem("checkedEntitiesRepresentantTableModel", null);
 
                                 // call method controller for deleting delegates
                                 ((CatalogController)getControllerForView()).deleteDelegatesAction(delegats);
@@ -213,7 +214,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
 
                 editDelegatButton.addActionListener(e -> {
-                    if (! delegatTableModel.hasSelectedRows()) {
+                    if (! representativeTableModel.hasSelectedRows()) {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Nu ati selectat delegati pentru a fi editati!",
@@ -222,7 +223,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                         );
                     } else {
 
-                        int noSelectedRows = delegatTableModel.countSelectedRows();
+                        int noSelectedRows = representativeTableModel.countSelectedRows();
 
                         if(noSelectedRows > 5) {
                             JOptionPane.showMessageDialog(
@@ -233,7 +234,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
                             );
                         }
                         else {
-                            ArrayList<Delegat> delegats = delegatTableModel.getSelectedEntities();
+                            ArrayList<Delegat> delegats = representativeTableModel.getSelectedEntities();
 
                             for (int i = 0; i < delegats.size(); i++) {
 
@@ -253,7 +254,7 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
                                 formLayout.registerSubmitButtonRunner(() -> {
                                     if (formLayout.validate() == true) {
-                                        getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
+                                        getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
                                         ((CatalogController) getControllerForView()).editDelegatAction(delegat, form);
                                     }
                                 });
@@ -265,15 +266,15 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
 
                 // add listener to table
-                tableDelegates.getModel().addTableModelListener(new TableModelListener() {
+                tableRepresentative.getModel().addTableModelListener(new TableModelListener() {
                     @Override
                     public void tableChanged(TableModelEvent e) {
 
-                        DelegatTableModel delegatTableModel = (DelegatTableModel) e.getSource();
+                        RepresentativeTableModel representativeTableModel1 = (RepresentativeTableModel) e.getSource();
                         int row = e.getFirstRow();
                         int column = e.getColumn();
 
-                        Object value = delegatTableModel.getValueAt(row, column);
+                        Object value = representativeTableModel1.getValueAt(row, column);
 
                         // if the column is boolean then checkbox has been triggered
                         // update info number of selecteed rows
@@ -286,20 +287,20 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
         };
 
         // if thread child is already finished run hashMapListener directly
-        if(delegatesHashMap.isThreadFinished()) {
-            subscribeableHashMapListener.run(delegatesHashMap.getObservedMap());
+        if(representativeHashMap.isThreadFinished()) {
+            subscribeableHashMapListener.run(representativeHashMap.getObservedMap());
         }
         // if thread child is not finished (normally the case when is run first time), then subscribe hashMapListener
         // to the map resource
         else {
-            delegatesHashMap.addHashMapListener(subscribeableHashMapListener);
+            representativeHashMap.addHashMapListener(subscribeableHashMapListener);
         }
     }
 
     private Boolean isViewButtonActive(String viewButtonIdentifier)
     {
         if(! getRequest().hasDataItem("showForm")
-                && viewButtonIdentifier.equals(VIEW_BUTTON_SEARCH_DELEGATES)) {
+                && viewButtonIdentifier.equals(VIEW_BUTTON_SEARCH_REPRESENTATIVE)) {
             return true;
         }
 
@@ -316,13 +317,12 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
             // when form buttons are pressed toggle forms
             if(
-                    e.getActionCommand() == VIEW_BUTTON_ADD_DELEGAT ||
-                    e.getActionCommand() == VIEW_BUTTON_SEARCH_DELEGATES
+                    e.getActionCommand() == VIEW_BUTTON_ADD_REPRESENTATIVE ||
+                    e.getActionCommand() == VIEW_BUTTON_SEARCH_REPRESENTATIVE
             ) {
                 getRequest().addDataItem("showForm", e.getActionCommand());
-                getMvc().runController("catalogDelegatesAction", request);
+                getMvc().runController("catalogLegalRepresentativesAction", request);
             }
-
         }
 
     }

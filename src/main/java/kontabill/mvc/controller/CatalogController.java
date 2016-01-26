@@ -5,7 +5,9 @@ import main.java.kontabill.lib.core.request.RequestSessionKey;
 import main.java.kontabill.mvc.model.catalog.CatalogModel;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.entities.Delegat;
+import main.java.kontabill.mvc.model.entities.Representative;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
+import main.java.kontabill.mvc.model.forms.RepresentativeForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.catalog.CatalogClientsView;
 import main.java.kontabill.mvc.view.catalog.CatalogDelegatesView;
@@ -47,17 +49,16 @@ public class CatalogController extends BaseAbstractController {
 
     public void catalogLegalRepresentativesAction()
     {
-        SubscribeableHashMap delegatesHashMap = model.getLegalRepresentatives();
+        SubscribeableHashMap representativeHashMap = model.getRepresentativeThread();
 
-        System.out.println(
-                delegatesHashMap.getObservedMap().size()
-        );
+//        System.out.println(
+//                "size: " + delegatesHashMap.getObservedMap().size()
+//        );
 
+        CatalogLegalRepresentativesView catalogLegalRepresentativesView
+                = new CatalogLegalRepresentativesView(this, representativeHashMap);
 
-//        CatalogLegalRepresentativesView catalogLegalRepresentativesView
-//                = new CatalogLegalRepresentativesView(this, delegatesHashMap);
-//
-//        catalogLegalRepresentativesView.render();
+        catalogLegalRepresentativesView.render();
     }
 
 
@@ -86,6 +87,27 @@ public class CatalogController extends BaseAbstractController {
 
             // redirect
             getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
+        }
+    }
+
+    public void addLegalRepresentativeAction(BaseAbstractForm form)
+    {
+        if(form.validate()) {
+            // deal with the form
+            Representative entity = new Representative();
+            ((RepresentativeForm)form).hydrateEntity(entity);
+
+            //model.addDelegat(delegatEntity);
+
+            // if delegat has been edited set addedId in session
+            if(entity.getId() > 0) {
+                getRequest().getSessionPayload().addDataItem(RequestSessionKey.ADDED_KEY, entity.getId());
+            }
+
+            // redirect
+            getKontabill().getMVC().runController("catalogLegalRepresentativesAction", getRequest());
+
+            System.out.println("-- s-a adaugat virtual --");
         }
     }
 

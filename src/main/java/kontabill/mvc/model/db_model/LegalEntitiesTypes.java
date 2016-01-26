@@ -8,7 +8,6 @@ import main.java.kontabill.mvc.model.entities.LegalEntityType;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -132,56 +131,48 @@ public class LegalEntitiesTypes extends DbTableAbstract {
 
         ResultSet resultSet = getLegalEntities(legalEntitiesTypesFilter);
 
-        hydrateDelegates(resultSet, delegates, legalEntitiesTypesFilter);
+        hydrateLegalEntities(resultSet, delegates, legalEntitiesTypesFilter);
 
         return delegates;
     }
 
-    public SubscribeableHashMap<Integer, Delegat> getLegalRepresentatives(SubscribeableHashMap<Integer, Delegat> delegates) throws SQLException
+    public SubscribeableHashMap<Integer, Representative> getLegalRepresentatives(SubscribeableHashMap<Integer, Representative> representatives) throws SQLException
     {
         LegalEntitiesTypesFilter legalEntitiesTypesFilter = new LegalEntitiesTypesFilter();
         legalEntitiesTypesFilter.setLegalEntityType(main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.REPRESENTATIVE);
 
         ResultSet resultSet = getLegalEntities(legalEntitiesTypesFilter);
 
-        hydrateDelegates(resultSet, delegates, legalEntitiesTypesFilter);
+        hydrateLegalEntities(resultSet, representatives, legalEntitiesTypesFilter);
 
-        return delegates;
+        return representatives;
     }
 
 
-//    public SubscribeableHashMap<Integer, Delegat> hydrateDelegates(
-//            ResultSet resultSet,
-//            SubscribeableHashMap<Integer, Delegat> delegates
-//    ) throws SQLException {
-//        while (resultSet.next()) {
-//            Delegat delegat = (Delegat) hydrateDelegat(resultSet, new Delegat());
-//
-//            delegates.putInMap(delegat.getId(), delegat);
-//        }
-//
-//        return delegates;
-//    }
-
-    public <K, V extends LegalEntity> SubscribeableHashMap<Integer, V> hydrateDelegates(
+    public <K, V extends LegalEntity> SubscribeableHashMap<Integer, V> hydrateLegalEntities(
             ResultSet resultSet,
             SubscribeableHashMap<Integer, V> subscribeableHashMap,
             LegalEntitiesTypesFilter legalEntitiesTypesFilter
     ) throws SQLException {
         while (resultSet.next()) {
 
-            // ai ramas aici
-            if (legalEntitiesTypesFilter.getLegalEntityType() == main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.DELEGAT) {
-                V legalEntity = (V) hydrateDelegat(resultSet, new Delegat());
+            LegalEntity toHydrate;
 
-                subscribeableHashMap.putInMap(legalEntity.getId(), legalEntity);
+            if (legalEntitiesTypesFilter.getLegalEntityType() == main.java.kontabill.mvc.model.db_model.model_filters.LegalEntityType.DELEGAT) {
+                toHydrate = new Delegat();
+
+            } else {
+                toHydrate = new Representative();
             }
+
+            V hydratedEntity = (V) hydrateLegalEntity(resultSet, toHydrate);
+            subscribeableHashMap.putInMap(hydratedEntity.getId(), hydratedEntity);
         }
 
         return subscribeableHashMap;
     }
 
-    private LegalEntity hydrateDelegat(ResultSet resultSet, LegalEntity legalEntity) throws SQLException
+    private LegalEntity hydrateLegalEntity(ResultSet resultSet, LegalEntity legalEntity) throws SQLException
     {
         legalEntity.setId(resultSet.getInt("LEGAL_ENTITY_ID"));
         legalEntity.setIdentifier(resultSet.getString("IDENTIFIER"));

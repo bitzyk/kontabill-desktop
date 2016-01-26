@@ -549,6 +549,19 @@ solutie2:
 
 
 
+---------
+what you did last time ?
+	- workerd on refactorization to acommodate legal representative
+
+what you gonna do today ?
+	- continue refactorization to acommodate legal representative
+
+
+any impediments ?
+	- no impediments
+
+--------
+
 	- refactorizare view
 
 

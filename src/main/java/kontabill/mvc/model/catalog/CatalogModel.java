@@ -4,6 +4,7 @@ import main.java.kontabill.mvc.model.BaseAbstractModel;
 import main.java.kontabill.mvc.model.db_model.LegalEntitiesTypes;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.entities.Delegat;
+import main.java.kontabill.mvc.model.entities.Representative;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,9 +30,9 @@ public class CatalogModel extends BaseAbstractModel {
         return subscribeableHashMap;
     }
 
-    public SubscribeableHashMap<Integer, Delegat> getLegalRepresentatives()
+    public SubscribeableHashMap<Integer, Representative> getLegalRepresentatives()
     {
-        SubscribeableHashMap<Integer, Delegat> subscribeableHashMap = new SubscribeableHashMap<>();
+        SubscribeableHashMap<Integer, Representative> subscribeableHashMap = new SubscribeableHashMap<>();
 
         try {
             subscribeableHashMap = legalEntitiesTypeDbTable.getLegalRepresentatives(subscribeableHashMap);
@@ -71,6 +72,39 @@ public class CatalogModel extends BaseAbstractModel {
         }
 
         Thread thread = new Thread(new GetDelegatesRunable(subscribeableHashMap));
+        thread.start();
+
+        return subscribeableHashMap;
+    }
+
+    public SubscribeableHashMap<Integer, Representative> getRepresentativeThread()
+    {
+        SubscribeableHashMap<Integer, Representative> subscribeableHashMap = new SubscribeableHashMap<>();
+
+
+        class GetRepresentativeRunable implements Runnable {
+
+            SubscribeableHashMap<Integer, Representative> subscribeableHashMap;
+
+            public GetRepresentativeRunable(SubscribeableHashMap<Integer, Representative> subscribeableHashMap) {
+                this.subscribeableHashMap = subscribeableHashMap;
+            }
+
+            @Override
+            public void run()
+            {
+                try {
+                    legalEntitiesTypeDbTable.getLegalRepresentatives(this.subscribeableHashMap);
+                    subscribeableHashMap.setThreadFinished(true);
+                } catch (SQLException e) {
+                    System.out.println("-- Error: sql exception --");
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+        }
+
+        Thread thread = new Thread(new GetRepresentativeRunable(subscribeableHashMap));
         thread.start();
 
         return subscribeableHashMap;
