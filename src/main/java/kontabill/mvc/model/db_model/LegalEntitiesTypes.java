@@ -24,7 +24,7 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         super(TABLE_NAME);
     }
 
-    public boolean addDelegat(Delegat delegat)
+    public boolean addLegalEntity(LegalEntity legalEntity)
     {
         boolean added = false;
 
@@ -32,13 +32,13 @@ public class LegalEntitiesTypes extends DbTableAbstract {
             // start transaction
             getConnection().setAutoCommit(false);
             // add legal entity
-            legalEntities.insertLegalEntity(((LegalEntity) delegat));
+            legalEntities.insertLegalEntity(((LegalEntity) legalEntity));
 
             // add detail
-            legalEntitiesDetail.insertLegalEntityDetail(delegat);
+            legalEntitiesDetail.insertLegalEntityDetail(legalEntity);
 
             // add specific legalEntityType with id of legalEntity in the specific column
-            insertLegalEntityType(delegat);
+            insertLegalEntityType(legalEntity);
 
             // end transaction
             getConnection().commit();
@@ -90,10 +90,14 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         PreparedStatement preparedStatement = getConnection().prepareStatement(insertPrepared, Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setNull(1, Types.INTEGER); //@todo insert for client
+        preparedStatement.setNull(2, Types.INTEGER);
+        preparedStatement.setNull(3, Types.INTEGER);
+
         if (legalEntity instanceof Delegat) {
             preparedStatement.setInt(2, legalEntity.getId());
+        } else if(legalEntity instanceof Representative) {
+            preparedStatement.setInt(3, legalEntity.getId());
         }
-        preparedStatement.setNull(3, Types.INTEGER); //@todo insert for representative
 
         return preparedStatement.executeUpdate();
     }

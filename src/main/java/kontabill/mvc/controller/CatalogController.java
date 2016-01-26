@@ -97,7 +97,7 @@ public class CatalogController extends BaseAbstractController {
             Representative entity = new Representative();
             ((RepresentativeForm)form).hydrateEntity(entity);
 
-            //model.addDelegat(delegatEntity);
+            model.addLegalRepresentative(entity);
 
             // if delegat has been edited set addedId in session
             if(entity.getId() > 0) {
@@ -106,8 +106,6 @@ public class CatalogController extends BaseAbstractController {
 
             // redirect
             getKontabill().getMVC().runController("catalogLegalRepresentativesAction", getRequest());
-
-            System.out.println("-- s-a adaugat virtual --");
         }
     }
 

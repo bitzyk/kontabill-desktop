@@ -539,30 +539,19 @@ solutie2:
 	- adaugare action - ok
 	- adaugare functionalitate similare delegati - ok
 
+	- refactorizare view
 	- refactorizare model
 		- refactorizeaza sql din LegalEntitiesTypes::getDelegates
 			- refactorizare sql intr o singura metoda - ok
 			- metoda primeste obiect filtru - ok
-
-			// ai ramas aici
 			- reafactorizare hydrateDelegates by using generics
 
+			-- refactorizare adaugare reprezentant legal - ok
+			-- modificare formular si adaugare doar pentru adaugare cnp in cazul reprezentantului legal - ok
+			-- afisare diferita tabel si view pt criteriul de mai sus - ok
 
-
----------
-what you did last time ?
-	- workerd on refactorization to acommodate legal representative
-
-what you gonna do today ?
-	- continue refactorization to acommodate legal representative
-
-
-any impediments ?
-	- no impediments
-
---------
-
-	- refactorizare view
+			--- ai ramas aici ---
+			- refactorizare sterge reprezentant legal
 
 
 

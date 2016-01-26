@@ -32,13 +32,7 @@ public class RepresentativeTableModel extends BaseAbstract {
                     "left",
             },
             {
-                    "Serie buletin",
-                    null,
-                    "20",
-                    "left",
-            },
-            {
-                    "Numar buletin",
+                    "Cnp",
                     null,
                     "20",
                     "left",
@@ -55,7 +49,6 @@ public class RepresentativeTableModel extends BaseAbstract {
             String.class,
             String.class,
             String.class,
-            String.class,
             Boolean.class,
     };
 
@@ -63,7 +56,7 @@ public class RepresentativeTableModel extends BaseAbstract {
         super(mapEntitiesCollection, COLUMN_DEFINITION, COLUMN_TYPES);
     }
 
-    protected static final int CHECKED_COLUMN_INDEX = 4;
+    protected static final int CHECKED_COLUMN_INDEX = 3;
 
 
     @Override
@@ -81,10 +74,7 @@ public class RepresentativeTableModel extends BaseAbstract {
                 value = representative.getName();
                 break;
             case 2:
-                value = ((LegalEntityDetailPerson) representative.getLegalEntityDetail()).getIdSerial();
-                break;
-            case 3:
-                value = ((LegalEntityDetailPerson) representative.getLegalEntityDetail()).getIdNo();;
+                value = representative.getIdentifier();
                 break;
             case CHECKED_COLUMN_INDEX:
                 value = checkedEntitiesArray[rowIndex];

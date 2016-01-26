@@ -130,10 +130,20 @@ public class CatalogModel extends BaseAbstractModel {
     {
         boolean added = false;
 
-        added = legalEntitiesTypeDbTable.addDelegat(delegat);
+        added = legalEntitiesTypeDbTable.addLegalEntity(delegat);
 
         return added;
     }
+
+    public boolean addLegalRepresentative(Representative entity)
+    {
+        boolean added = false;
+
+        added = legalEntitiesTypeDbTable.addLegalEntity(entity);
+
+        return added;
+    }
+
 
     public boolean editDelegat(Delegat delegat)
     {

@@ -17,9 +17,7 @@ import java.util.Map;
 public class RepresentativeForm extends BaseAbstractForm {
 
     private static final String KEY_REPRESENTATIVE_NAME = "representativeName";
-    private static final String KEY_ID_SERIAL = "idSerial";
-    private static final String KEY_ID_NO = "idNo";
-
+    private static final String KEY_IDENTIFIER = "cnp";
 
     /**
      * Definition :
@@ -36,13 +34,8 @@ public class RepresentativeForm extends BaseAbstractForm {
             },
             {
                     InputType.TEXT_FIELD.toString(),
-                    "Serie buletin",
-                    KEY_ID_SERIAL
-            },
-            {
-                    InputType.TEXT_FIELD.toString(),
-                    "Numar buletin",
-                    KEY_ID_NO
+                    "Cnp",
+                    KEY_IDENTIFIER
             }
     };
 
@@ -51,14 +44,14 @@ public class RepresentativeForm extends BaseAbstractForm {
 
     static {
         // add validators for representative name
-        ArrayList<ValidatorConfig> validators = new ArrayList<>();
+        ArrayList<ValidatorConfig> validatorsRepresentativeName = new ArrayList<>();
 
 
-        validators.add(new ValidatorConfig(
+        validatorsRepresentativeName.add(new ValidatorConfig(
                 ValidatorType.REQUIRED,
                 new String[]{}
         ));
-        validators.add(
+        validatorsRepresentativeName.add(
                 new ValidatorConfig(
                         ValidatorType.MIN_LENGTH,
                         new String[]{
@@ -66,69 +59,33 @@ public class RepresentativeForm extends BaseAbstractForm {
                         }
                 )
         );
-        validators.add(new ValidatorConfig(
+        validatorsRepresentativeName.add(new ValidatorConfig(
                 ValidatorType.MAX_LENGTH,
                 new String[]{
-                        "50" // numberOfChard
+                        "50" // number of chars
                 }
         ));
 
 
 
-        // add validator for id serial
-        ArrayList<ValidatorConfig> validatorsIdSerial = new ArrayList<>();
-        validatorsIdSerial.add(new ValidatorConfig(
+        // add validator for cnp
+        ArrayList<ValidatorConfig> validatorsCnp = new ArrayList<>();
+        validatorsCnp.add(new ValidatorConfig(
                 ValidatorType.REQUIRED,
                 new String[]{}
         ));
-        validatorsIdSerial.add(
-                new ValidatorConfig(
-                        ValidatorType.MAX_LENGTH,
-                        new String[]{
-                                "20", // number of chars
-                        }
-                )
-        );
-        validatorsIdSerial.add(
-                new ValidatorConfig(
-                        ValidatorType.ALPHA_NUMERIC,
-                        new String[]{}
-                )
-        );
 
-        // add validators for id no
-        ArrayList<ValidatorConfig> validatorsIdNo = new ArrayList<>();
-        validatorsIdNo.add(new ValidatorConfig(
-                ValidatorType.REQUIRED,
-                new String[]{}
-        ));
-        validatorsIdNo.add(
-                new ValidatorConfig(
-                        ValidatorType.MAX_LENGTH,
-                        new String[]{
-                                "20", // number of chars
-                        }
-                )
-        );
-        validatorsIdNo.add(
-                new ValidatorConfig(
-                        ValidatorType.DECIMAL,
-                        new String[]{}
-                )
-        );
+        // @todo -> add validator: exact length
+        // @todo -> add validator: cnp validator
 
         // add validators to ELEMENT_VALIDATORS
         ELEMENTS_VALIDATORS.put(
                 KEY_REPRESENTATIVE_NAME,
-                validators
+                validatorsRepresentativeName
         );
         ELEMENTS_VALIDATORS.put(
-                KEY_ID_SERIAL,
-                validatorsIdSerial
-        );
-        ELEMENTS_VALIDATORS.put(
-                KEY_ID_NO,
-                validatorsIdNo
+                KEY_IDENTIFIER,
+                validatorsCnp
         );
     }
     // END VALIDATORS DEFINITION
@@ -153,19 +110,18 @@ public class RepresentativeForm extends BaseAbstractForm {
         // hydrate
         Representative representative = (Representative)entity;
         representative
-                .setName(getFormElements().get(KEY_REPRESENTATIVE_NAME).getValue())
-                .setType(LegalEntity.TYPE_PF);
+                .setName(
+                        getFormElements().get(KEY_REPRESENTATIVE_NAME).getValue()
+                )
+                .setType(LegalEntity.TYPE_PF)
+                .setIdentifier(
+                        getFormElements().get(KEY_IDENTIFIER).getValue()
+                );
 
         // if LegalEntity does not already contain LegalEntityDetailPerson set a new object
         if(! (representative.getLegalEntityDetail() instanceof LegalEntityDetailPerson)) {
             representative.setLegalEntityDetail(new LegalEntityDetailPerson());
         }
-
-        LegalEntityDetailPerson legalEntityDetailPerson = representative.getLegalEntityDetail();
-
-        legalEntityDetailPerson
-                .setIdNo(getFormElements().get(KEY_ID_NO).getValue())
-                .setIdSerial(getFormElements().get(KEY_ID_SERIAL).getValue());
 
     }
 
@@ -173,8 +129,11 @@ public class RepresentativeForm extends BaseAbstractForm {
     {
         Representative representative = (Representative) entity;
 
-        getFormElement(KEY_REPRESENTATIVE_NAME).setValue(representative.getName());
-        getFormElement(KEY_ID_SERIAL).setValue(representative.getLegalEntityDetail().getIdSerial());
-        getFormElement(KEY_ID_NO).setValue(representative.getLegalEntityDetail().getIdNo());
+        getFormElement(KEY_REPRESENTATIVE_NAME).setValue(
+                representative.getName()
+        );
+        getFormElement(KEY_IDENTIFIER).setValue(
+                representative.getIdentifier()
+        );
     }
 }
