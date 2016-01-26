@@ -229,6 +229,18 @@ public class LegalEntitiesTypes extends DbTableAbstract {
         return deleted;
     }
 
+    public Boolean deleteRepresentative(Representative representative)
+    {
+        Boolean deleted = null;
+        try {
+            deleted = deleteLegalEntity(representative);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return deleted;
+    }
+
     public Boolean deleteClient()
     {
         // return deleteLegalEntity(client);

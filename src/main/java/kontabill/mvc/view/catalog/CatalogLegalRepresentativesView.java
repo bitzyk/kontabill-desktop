@@ -13,6 +13,7 @@ import main.java.kontabill.mvc.controller.CatalogController;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Delegat;
+import main.java.kontabill.mvc.model.entities.Representative;
 import main.java.kontabill.mvc.model.entities.table_models.RepresentativeTableModel;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.RepresentativeForm;
@@ -140,13 +141,13 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
     {
         // add row1 in panel table section
         JPanel panelTableRow1 = viewLayout.getPanelTable().addRowPanel(RowTypePanels.DEFAULT);
-        JButton deleteDelegatesButton = ButtonFactory.createButtonDeleteDefault("Sterge delegat/delegati");
-        JButton editDelegatButton = ButtonFactory.createButtonEditDefault("Editeaza delegat");
+        JButton deleteRepresentativeButton = ButtonFactory.createButtonDeleteDefault("Sterge reprezentant legal");
+        JButton editRepresentativeButton = ButtonFactory.createButtonEditDefault("Editeaza reprezentant legal");
 
         // add table control buttons to row panel
-        panelTableRow1.add(deleteDelegatesButton);
-        ViewUtils.addComponentPadding(deleteDelegatesButton, panelTableRow1);
-        panelTableRow1.add(editDelegatButton);
+        panelTableRow1.add(deleteRepresentativeButton);
+        ViewUtils.addComponentPadding(deleteRepresentativeButton, panelTableRow1);
+        panelTableRow1.add(editRepresentativeButton);
 
         // add row2 in panel table section
         JPanel panelTableRow2 = viewLayout.getPanelTable().addRowPanel(RowTypePanels.TABLE);
@@ -175,24 +176,23 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
 
                 // add listener to delete delegates button
-                deleteDelegatesButton.addActionListener(new ActionListener() {
+                deleteRepresentativeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // if no delegates was selected warn
-                        if (! representativeTableModel.hasSelectedRows()) {
+                        if (!representativeTableModel.hasSelectedRows()) {
                             JOptionPane.showMessageDialog(
                                     null,
-                                    "Nu ati selectat delegati pentru a fi stersi din baza de date!",
+                                    "Nu ati selectat reprezentanti legali pentru a fi stersi din baza de date!",
                                     "Comanda invalida",
                                     JOptionPane.WARNING_MESSAGE
                             );
-                        }
-                        else {
+                        } else {
                             int noSelectedRows = representativeTableModel.countSelectedRows();
 
                             int option = JOptionPane.showConfirmDialog(
                                     null,
-                                    "Ati selectat un numar de " + noSelectedRows + " delegati." +
+                                    "Ati selectat un numar de " + noSelectedRows + " reprezentanti legali." +
                                             "\nConfirmati stergerea ?",
                                     "Confirmati stergerea",
                                     JOptionPane.YES_NO_OPTION
@@ -200,21 +200,23 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
                             if (option == JOptionPane.YES_OPTION) {
                                 // call delete delegates for selected delegates
-                                ArrayList<Delegat> delegats = representativeTableModel.getSelectedEntities();
+                                ArrayList<Representative> representatives = representativeTableModel.getSelectedEntities();
 
                                 // reset checked values to not be auto-populated on future request (could be less rows that curently are)
                                 getRequest().addDataItem("checkedEntitiesRepresentantTableModel", null);
 
                                 // call method controller for deleting delegates
-                                ((CatalogController)getControllerForView()).deleteDelegatesAction(delegats);
+                                ((CatalogController) getControllerForView()).deleteLegalRepresentativesAction(
+                                        representatives
+                                );
                             }
                         }
                     }
                 });
 
 
-                editDelegatButton.addActionListener(e -> {
-                    if (! representativeTableModel.hasSelectedRows()) {
+                editRepresentativeButton.addActionListener(e -> {
+                    if (!representativeTableModel.hasSelectedRows()) {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Nu ati selectat delegati pentru a fi editati!",
@@ -225,15 +227,14 @@ public class CatalogLegalRepresentativesView extends BaseAbstractView  {
 
                         int noSelectedRows = representativeTableModel.countSelectedRows();
 
-                        if(noSelectedRows > 5) {
+                        if (noSelectedRows > 5) {
                             JOptionPane.showMessageDialog(
                                     null,
                                     "Puteti edita un numar de maxim 5 delegati simultan",
                                     "Comanda invalida",
                                     JOptionPane.WARNING_MESSAGE
                             );
-                        }
-                        else {
+                        } else {
                             ArrayList<Delegat> delegats = representativeTableModel.getSelectedEntities();
 
                             for (int i = 0; i < delegats.size(); i++) {

@@ -550,8 +550,9 @@ solutie2:
 			-- modificare formular si adaugare doar pentru adaugare cnp in cazul reprezentantului legal - ok
 			-- afisare diferita tabel si view pt criteriul de mai sus - ok
 
+			- refactorizare sterge reprezentant legal - ok
 			--- ai ramas aici ---
-			- refactorizare sterge reprezentant legal
+			- refactorizare editare reprezentant legal
 
 
 

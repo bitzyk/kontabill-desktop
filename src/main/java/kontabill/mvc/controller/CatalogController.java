@@ -51,10 +51,6 @@ public class CatalogController extends BaseAbstractController {
     {
         SubscribeableHashMap representativeHashMap = model.getRepresentativeThread();
 
-//        System.out.println(
-//                "size: " + delegatesHashMap.getObservedMap().size()
-//        );
-
         CatalogLegalRepresentativesView catalogLegalRepresentativesView
                 = new CatalogLegalRepresentativesView(this, representativeHashMap);
 
@@ -69,6 +65,18 @@ public class CatalogController extends BaseAbstractController {
 
         // redirect back to catalogDelegatesAction
         getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
+    }
+
+    public void deleteLegalRepresentativesAction(ArrayList<Representative> representatives)
+    {
+        // delete representatives
+        model.deleteRepresentativessAction(representatives);
+
+        // redirect back to catalogDelegatesAction
+        getKontabill().getMVC().runController(
+                "catalogLegalRepresentativesAction",
+                getRequest()
+        );
     }
 
     public void addDelegatAction(BaseAbstractForm form)

@@ -126,6 +126,22 @@ public class CatalogModel extends BaseAbstractModel {
         return delegatsDeleted;
     }
 
+    public int deleteRepresentativessAction(ArrayList<Representative> representatives)
+    {
+        int representativesDeleted = 0;
+
+        for (int i = 0; i < representatives.size(); i++) {
+            Representative representative = representatives.get(i);
+            Boolean deleted = legalEntitiesTypeDbTable.deleteRepresentative(representative);
+
+            if(deleted) {
+                representativesDeleted += 1;
+            }
+        }
+
+        return representativesDeleted;
+    }
+
     public boolean addDelegat(Delegat delegat)
     {
         boolean added = false;
