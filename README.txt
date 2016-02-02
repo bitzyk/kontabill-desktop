@@ -551,9 +551,40 @@ solutie2:
 			-- afisare diferita tabel si view pt criteriul de mai sus - ok
 
 			- refactorizare sterge reprezentant legal - ok
-			--- ai ramas aici ---
 			- refactorizare editare reprezentant legal
 
+
+			- ai finalizat reprezentanti legali
+			- catalog clienti
+				- optiune; unul sau doua formualare (pers fizica / pers juridica)
+					- inclin pentru solutia cu un formular
+						- va fi nevoie de adaugare/eliminare de validatoare pentru element in functie de selectie tip persoana (action event pentru
+						acel input)
+					- solutia cu 2 formulare are ca dezavantaj decuplarea primului element (tip persoana) de cele doua formulare desi logic apartine
+					entitatii de client
+
+			--- ai ramas aici ---
+			- ascundere elemente formular (e.g. pers fizica/juridica)
+				- algoritm:
+						- action listener adaugat pt elemente dropdown in BaseAbstractForm
+							- structura in copii: (e.g. ClientForm)
+								{
+									elementWithKey: 'tipPersoana',
+									withValue: 'persoanaJuridica',
+									showElements: { // ascunde toate celelates
+										'companyKey',
+										'bancaKey'
+									},
+									addValidators: true // or false -> when true add validators for all showElements, remove for others
+								}
+							- In BaseAbstractForm o noua metoda de init initDynamicChange
+									- verifica in copii daca exista structuraPtModificareDinamica
+									- daca exista adauga listener pe elementWithKey
+										- atunci cand un event este declansat si
+										valoare input-ului = withValue -> toggle elements -> toggle validators
+
+							- Afisarea, ascunderea elementelor in formular trebuie sa se face in FormLayoou (listener event tot aici)
+							- Afisarea, adaugarea conditionala a validatoarelo r se face in obiectul de FormValidator
 
 
 - export/import delegati

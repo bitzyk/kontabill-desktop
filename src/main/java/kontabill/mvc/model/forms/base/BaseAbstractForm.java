@@ -1,11 +1,16 @@
 package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.factories.FormElementFactory;
+import main.java.kontabill.layout.elements.forms.model.InputType;
+import main.java.kontabill.layout.elements.inputs.ComboBoxForm;
 import main.java.kontabill.layout.elements.inputs.FormElement;
 import main.java.kontabill.lib.core.functional_interfaces.BlockRunner;
 import main.java.kontabill.mvc.model.entities.Entity;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -65,11 +70,31 @@ abstract public class BaseAbstractForm {
             initInputElement(elementConfig);
         }
 
+
+        // begin test
+        iterator = keys.iterator();
+        while (iterator.hasNext()) {
+
+            ElementConfig elementConfig = elementConfigMap.get(iterator.next());
+
+            if(elementConfig.getInputType() == InputType.DROPDOWN) {
+                ComboBoxForm comboBoxForm = (ComboBoxForm) getFormElement(
+                        elementConfig.getInputKey()
+                );
+                comboBoxForm.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("-- test --");
+                    }
+                });
+            }
+        }
+        // end test
+
     }
 
     private void initInitialInputFocus()
     {
-        JTextField textField =  ((JTextField)getFormElement(getElementsDefinition()[0][BaseAbstractForm.ELEMENT_DEFINITION_KEY_KEYID]));
+        JComponent textField =  ((JComponent)getFormElement(getElementsDefinition()[0][BaseAbstractForm.ELEMENT_DEFINITION_KEY_KEYID]));
 
         SwingUtilities.invokeLater( new Runnable() {
 

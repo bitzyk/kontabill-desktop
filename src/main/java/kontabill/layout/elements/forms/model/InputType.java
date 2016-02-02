@@ -5,5 +5,6 @@ package main.java.kontabill.layout.elements.forms.model;
  */
 public enum InputType {
     TEXT_FIELD,
-    CHECKBOX;
+    CHECKBOX,
+    DROPDOWN;
 }

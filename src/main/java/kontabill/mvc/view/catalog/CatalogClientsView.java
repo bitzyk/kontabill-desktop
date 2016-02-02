@@ -1,13 +1,20 @@
 package main.java.kontabill.mvc.view.catalog;
 
+import main.java.kontabill.Kontabill;
 import main.java.kontabill.layout.ViewUtils;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
 import main.java.kontabill.layout.elements.forms.FormLayout;
+import main.java.kontabill.layout.elements.forms.FormLayoutBaseAbstract;
+import main.java.kontabill.layout.elements.forms.FormLayoutControlPanel;
 import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.model.RowTypePanels;
 import main.java.kontabill.lib.core.request.Request;
 import main.java.kontabill.mvc.controller.BaseAbstractController;
+import main.java.kontabill.mvc.controller.CatalogController;
+import main.java.kontabill.mvc.model.forms.ClientForm;
+import main.java.kontabill.mvc.model.forms.RepresentativeForm;
+import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -79,8 +86,13 @@ public class CatalogClientsView extends BaseAbstractView  {
         // add row panel form
         JPanel rowPanel3 = viewLayout.getPanelControl().addRowPanel(RowTypePanels.FORM);
 
+        JButton submitButton = null;
+
         // add search formular by default when showForm does not exist in request
         if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_CLIENTS)) {
+
+            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Cauta client");
+
             FormLayout searchClientForm = new FormLayout(rowPanel3);
 
             searchClientForm.addInputs(new String[][]{
@@ -88,21 +100,45 @@ public class CatalogClientsView extends BaseAbstractView  {
                     {InputType.TEXT_FIELD.toString(), "Cui/Cnp client:"},
             });
         } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_CLIENT)) {
-            FormLayout addClientForm = new FormLayout(rowPanel3);
-            addClientForm.addInputs(new String[][]{
-                    {InputType.TEXT_FIELD.toString(), "Nume"},
-                    {InputType.TEXT_FIELD.toString(), "Prenume"},
-                    {InputType.TEXT_FIELD.toString(), "Cnp"},
-                    {InputType.TEXT_FIELD.toString(), "Serie de buletin"},
-                    {InputType.TEXT_FIELD.toString(), "Nr buletin"},
-                    {InputType.TEXT_FIELD.toString(), "Adresa"},
+            BaseAbstractForm form = new ClientForm();
+            FormLayoutControlPanel formLayout = new FormLayoutControlPanel(form, rowPanel3);
+
+            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga client");
+
+            /* test */
+            JButton submitButton2 = ButtonFactory.createButtonGreenSubmitControlPanel("test2");
+
+            rowPanel3.add(submitButton2);
+
+            submitButton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    formLayout.testShow();
+                }
+            });
+
+            /* end test */
+
+            form.registerSubmitButton(submitButton, () -> {
+
+                /* test */
+                System.out.println(
+                        "-- test hide --"
+                );
+                formLayout.testHide();
+                /* end test */
+
+//                if (formLayout.validate() == true) {
+//                    getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
+//                    ((CatalogController) getControllerForView()).addLegalRepresentativeAction(form);
+//                }
             });
         }
 
 
         // add row panel 4 and submit button
         JPanel rowPanel4 = viewLayout.getPanelControl().addRowPanel(RowTypePanels.DEFAULT);
-        rowPanel4.add(ButtonFactory.createButtonGreenSubmitControlPanel("Cauta client"));
+        rowPanel4.add(submitButton);
     }
 
     private Boolean isViewButtonActive(String viewButtonIdentifier)
