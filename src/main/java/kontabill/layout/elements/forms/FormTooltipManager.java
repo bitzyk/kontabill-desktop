@@ -44,7 +44,6 @@ public class FormTooltipManager {
 
     public void closeAllTooltipsWarning()
     {
-        System.out.println("-- close all tooltip warnigs --");
         Set<String> keys = tooltipContainer.keySet();
         Iterator<String> iterator = keys.iterator();
 

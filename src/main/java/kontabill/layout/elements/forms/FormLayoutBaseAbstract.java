@@ -156,6 +156,9 @@ abstract public class FormLayoutBaseAbstract {
                                 }
                             }
 
+                            // 5. close previous tooltips warnings (the previous elements with errors could not be in current form layout)
+                            formTooltip.closeAllTooltipsWarning();
+
                             // repaint components in controller panel
                             Kontabill.getInstance().getLayout().getControllerPanel().repaintComponents();
                         }
@@ -281,7 +284,7 @@ abstract public class FormLayoutBaseAbstract {
             /**
              * algorithm:
              *  - when focus is gained on the current form element get opposite form element which lost focus
-             *      - if opposite form element is a form element for the current form (on multe form dialogs this could not be the case)
+             *      - if opposite form element is a form element for the current form (on multi form dialogs this could not be the case)
              *          - if opposite form element is not valid show errors for that opposite element
              */
             Component c = e.getOppositeComponent();
