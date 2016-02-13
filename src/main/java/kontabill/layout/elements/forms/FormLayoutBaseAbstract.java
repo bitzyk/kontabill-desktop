@@ -164,6 +164,9 @@ abstract public class FormLayoutBaseAbstract {
                         }
                     }
                 });
+
+                // trigger actionEvent for current formKey
+                ((JComboBox) formElement).setSelectedItem(formElement.getValue());
             }
         }
     }

@@ -594,8 +594,11 @@ solutie2:
 - bug elemente neordonate la toggle elemente - ok
 - dimensiune egala - text element/dropdown - ok
 - notificari eroare neafisate la toggle elemente - ok
-- toggle default la preselectare
+- toggle default la preselectare - ok
 - tooggle pentru `atElement` fara valoare (e.g. `Alege...`) + validare la valoare default- ok
+
+-- ai ramas aici --
+
 
 
 - export/import delegati

@@ -28,7 +28,7 @@ public class ClientTypeListModel extends AbstractComboListModel {
     @Override
     public void setInitialPreselection() {
         setSelectedItem(
-                AbstractComboListModel.INITIAL_PRESELECTED_KEY
+                PF_OPTION_VALUE
         );
     }
 }
