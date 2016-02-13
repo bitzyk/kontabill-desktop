@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by cbitoi on 02/02/16.
  */
-public class PfCountyListModel extends AbstractComboListModel {
+public class CountyListModel extends AbstractComboListModel {
 
     ArrayList<String> listOption = new ArrayList<>();
 

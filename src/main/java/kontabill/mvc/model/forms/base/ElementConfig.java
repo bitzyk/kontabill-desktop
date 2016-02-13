@@ -13,6 +13,8 @@ public class ElementConfig {
 
     private String inputKey;
 
+    private String groupKey;
+
 
     public InputType getInputType() {
         return inputType;
@@ -38,6 +40,15 @@ public class ElementConfig {
 
     public ElementConfig setInputKey(String inputKey) {
         this.inputKey = inputKey;
+        return this;
+    }
+
+    public String getGroupKey() {
+        return groupKey;
+    }
+
+    public ElementConfig setGroupKey(String groupKey) {
+        this.groupKey = groupKey;
         return this;
     }
 }

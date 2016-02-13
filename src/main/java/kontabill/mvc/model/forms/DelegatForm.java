@@ -27,6 +27,7 @@ public class DelegatForm extends BaseAbstractForm {
      *  - input type
      *  - input label
      *  - input key
+     *  - group key
      */
     private static final String[][] ELEMENTS_DEFINITION =
     {
@@ -34,16 +35,19 @@ public class DelegatForm extends BaseAbstractForm {
                     InputType.TEXT_FIELD.toString(),
                     "Nume delegat",
                     KEY_DELEGAT_NAME,
+                    "",
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Serie buletin",
-                    KEY_ID_SERIAL
+                    KEY_ID_SERIAL,
+                    "",
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Numar buletin",
-                    KEY_ID_NO
+                    KEY_ID_NO,
+                    "",
             }
     };
 

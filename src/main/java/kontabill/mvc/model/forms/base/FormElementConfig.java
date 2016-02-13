@@ -2,9 +2,7 @@ package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.forms.model.InputType;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -33,13 +31,36 @@ public class FormElementConfig {
                                     elementInitialConfig[BaseAbstractForm.ELEMENT_DEFINITION_KEY_INPUT_TYPE]
                             )
                     )
-                    .setInputLabel(elementInitialConfig[BaseAbstractForm.ELEMENT_DEFINITION_KEY_LABEL]);
+                    .setInputLabel(elementInitialConfig[BaseAbstractForm.ELEMENT_DEFINITION_KEY_LABEL])
+                    .setGroupKey(elementInitialConfig[BaseAbstractForm.ELEMENT_DEFINITION_GROUP_KEYID]);
 
             elementConfigMap.put(
                     elementConfig.getInputKey(),
                     elementConfig
             );
         }
+    }
+
+    /**
+     * Method for getting allformKeys as an array for the specified groupKey, for the current form
+     * @param groupKey
+     */
+    public List<String> getGroupedFormKeys(String groupKey)
+    {
+        List<String> grouped = new ArrayList<>();
+
+        for (int i = 0; i < initialElementsDefinition.length; i++) {
+            // if groupKey is equal with element groupKey
+            String currentElmGroupKeyDefinition = initialElementsDefinition[i][BaseAbstractForm.ELEMENT_DEFINITION_GROUP_KEYID];
+            String currentElmKeyId = initialElementsDefinition[i][BaseAbstractForm.ELEMENT_DEFINITION_KEY_KEYID];
+
+            if(currentElmGroupKeyDefinition.contains(groupKey)) {
+                // add keyId for formElement
+                grouped.add(currentElmKeyId);
+            }
+        }
+
+        return grouped;
     }
 
     /**

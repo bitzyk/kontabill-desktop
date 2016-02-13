@@ -53,6 +53,7 @@ public class SearchFormTable extends BaseAbstractForm {
      *  - input type
      *  - input label
      *  - input key
+     *  - group key- group key
      */
     private static String[][] ELEMENTS_DEFINITION =
     {
@@ -60,6 +61,7 @@ public class SearchFormTable extends BaseAbstractForm {
                     InputType.TEXT_FIELD.toString(),
                     "Identificator",
                     KEY_SEARCH_ELEMENT_NAME,
+                    "",
             },
     };
 

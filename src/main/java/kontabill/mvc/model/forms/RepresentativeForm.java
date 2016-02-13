@@ -24,6 +24,7 @@ public class RepresentativeForm extends BaseAbstractForm {
      *  - input type
      *  - input label
      *  - input key
+     *  - group key
      */
     private static final String[][] ELEMENTS_DEFINITION =
     {
@@ -31,11 +32,13 @@ public class RepresentativeForm extends BaseAbstractForm {
                     InputType.TEXT_FIELD.toString(),
                     "Nume reprezentant legal",
                     KEY_REPRESENTATIVE_NAME,
+                    "",
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Cnp",
-                    KEY_IDENTIFIER
+                    KEY_IDENTIFIER,
+                    "",
             }
     };
 

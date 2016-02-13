@@ -28,16 +28,20 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
     private static final String KEY_PJ_CIF = "pjCif";
     private static final String KEY_PJ_TRADE_REGISTER = "pjTradeRegister";
     private static final String KEY_PJ_BANK = "pjBank";
-    private static final String KEY_ADDRESS = "pfAddress";
-    private static final String KEY_COUNTY = "pfCounty";
-    private static final String KEY_IBAN = "pfIban";
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_COUNTY = "county";
+    private static final String KEY_IBAN = "iban";
 
+
+    private static final String GROUP_PF = "groupPf";
+    private static final String GROUP_PJ = "groupPJ";
 
     /**
      * Definition :
      *  - input type
      *  - input label
      *  - input key
+     *  - group key
      */
     private static final String[][] ELEMENTS_DEFINITION =
     {
@@ -45,62 +49,81 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
                     InputType.DROPDOWN.toString(),
                     "Tip client",
                     KEY_CLIENT_TYPE,
+                    GROUP_PF,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Nume",
-                    KEY_PF_NAME
+                    KEY_PF_NAME,
+                    GROUP_PF,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Prenume",
-                    KEY_PF_LASTNAME
+                    KEY_PF_LASTNAME,
+                    GROUP_PF,
+            },
+            {
+                    InputType.TEXT_FIELD.toString(),
+                    "Cnp",
+                    KEY_PF_CNP,
+                    GROUP_PF,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Serie buletin",
-                    KEY_PF_ID_SERIAL
+                    KEY_PF_ID_SERIAL,
+                    GROUP_PF,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Nr buletin",
-                    KEY_PF_ID_NO
-            },
-            {
-                    InputType.TEXT_FIELD.toString(),
-                    "Adresa",
-                    KEY_ADDRESS
-            },
-            {
-                    InputType.DROPDOWN.toString(),
-                    "Judet",
-                    KEY_COUNTY
-            },
-            {
-                    InputType.TEXT_FIELD.toString(),
-                    "IBAN",
-                    KEY_IBAN
+                    KEY_PF_ID_NO,
+                    GROUP_PF,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Companie",
-                    KEY_PJ_COMPANY
+                    KEY_PJ_COMPANY,
+                    GROUP_PJ,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "CIF",
-                    KEY_PJ_CIF
+                    KEY_PJ_CIF,
+                    GROUP_PJ,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Nr reg comert",
-                    KEY_PJ_TRADE_REGISTER
+                    KEY_PJ_TRADE_REGISTER,
+                    GROUP_PJ,
             },
             {
                     InputType.TEXT_FIELD.toString(),
                     "Banca",
-                    KEY_PJ_BANK
+                    KEY_PJ_BANK,
+                    GROUP_PJ,
             },
+            {
+                    InputType.TEXT_FIELD.toString(),
+                    "IBAN",
+                    KEY_IBAN,
+                    GROUP_PF + "|" + GROUP_PJ
+            },
+            {
+                    InputType.DROPDOWN.toString(),
+                    "Judet",
+                    KEY_COUNTY,
+                    GROUP_PF + "|" + GROUP_PJ
+            },
+            {
+                    InputType.TEXT_FIELD.toString(),
+                    "Adresa",
+                    KEY_ADDRESS,
+                    GROUP_PF + "|" + GROUP_PJ,
+            },
+
     };
 
     // VALIDATORS DEFINITION
@@ -185,26 +208,32 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
     public void setDynamicChangeConfiguration() {
         // set dynamic change config for element clientType with value pers fizica
         DynamicChangeConfig dynamicChangeConfigPf = new DynamicChangeConfig();
-
         dynamicChangeConfigPf.setForElementWithKey(KEY_CLIENT_TYPE);
         dynamicChangeConfigPf.setForElementWithValue(ClientTypeListModel.PF_OPTION_VALUE);
         dynamicChangeConfigPf.setRemoveValidatorsForHiddenElements(true);
 
-        dynamicChangeConfigPf.getShowElements().add(KEY_PF_NAME);
-        dynamicChangeConfigPf.getShowElements().add(KEY_PF_LASTNAME);
+        // add shown element for PF
+        dynamicChangeConfigPf.setShowElements(
+                getFormElementConfig().getGroupedFormKeys(GROUP_PF)
+        );
 
+        // add dynamic change for PF to the dynamic change config object
         this.dynamicChangeConfigMap.put("clientTypePf", dynamicChangeConfigPf);
+
+        // ###
 
         // set dynamic change config for element clientType with value pers juridica
         DynamicChangeConfig dynamicChangeConfigPj = new DynamicChangeConfig();
-
         dynamicChangeConfigPj.setForElementWithKey(KEY_CLIENT_TYPE);
         dynamicChangeConfigPj.setForElementWithValue(ClientTypeListModel.PJ_OPTION_VALUE);
-        dynamicChangeConfigPf.setRemoveValidatorsForHiddenElements(true);
+        dynamicChangeConfigPj.setRemoveValidatorsForHiddenElements(true);
 
-        dynamicChangeConfigPj.getShowElements().add(KEY_PJ_BANK);
-        dynamicChangeConfigPj.getShowElements().add(KEY_PJ_CIF);
+        // add shown element for PJ
+        dynamicChangeConfigPj.setShowElements(
+                getFormElementConfig().getGroupedFormKeys(GROUP_PJ)
+        );
 
+        // add dynamic change for PJ to the dynamic change config object
         this.dynamicChangeConfigMap.put("clientTypePj", dynamicChangeConfigPj);
     }
 

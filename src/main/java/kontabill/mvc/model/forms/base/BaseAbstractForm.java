@@ -31,6 +31,7 @@ abstract public class BaseAbstractForm {
     public static final int ELEMENT_DEFINITION_KEY_INPUT_TYPE = 0;
     public static final int ELEMENT_DEFINITION_KEY_LABEL = 1;
     public static final int ELEMENT_DEFINITION_KEY_KEYID = 2;
+    public static final int ELEMENT_DEFINITION_GROUP_KEYID = 3;
 
 
     public BaseAbstractForm() {
