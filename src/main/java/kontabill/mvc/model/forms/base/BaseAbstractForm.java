@@ -1,16 +1,11 @@
 package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.factories.FormElementFactory;
-import main.java.kontabill.layout.elements.forms.model.InputType;
-import main.java.kontabill.layout.elements.inputs.ComboBoxForm;
 import main.java.kontabill.layout.elements.inputs.FormElement;
 import main.java.kontabill.lib.core.functional_interfaces.BlockRunner;
 import main.java.kontabill.mvc.model.entities.Entity;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -28,10 +23,14 @@ abstract public class BaseAbstractForm {
 
     private BlockRunner submitBlockRunner;
 
+    /**
+     * variable to store dynamic change events configuration
+     */
+    protected Map<String, DynamicChangeConfig> dynamicChangeConfigMap = new HashMap<>();
+
     public static final int ELEMENT_DEFINITION_KEY_INPUT_TYPE = 0;
     public static final int ELEMENT_DEFINITION_KEY_LABEL = 1;
     public static final int ELEMENT_DEFINITION_KEY_KEYID = 2;
-
 
 
     public BaseAbstractForm() {
@@ -49,7 +48,9 @@ abstract public class BaseAbstractForm {
 
     private void initFormElementConfig()
     {
-        this.formElementConfig = new FormElementConfig(getElementsDefinition());
+        this.formElementConfig = new FormElementConfig(
+                getElementsDefinition()
+        );
     }
 
     private void initFormValidator()
@@ -69,26 +70,6 @@ abstract public class BaseAbstractForm {
             ElementConfig elementConfig = elementConfigMap.get(iterator.next());
             initInputElement(elementConfig);
         }
-
-
-        // begin test
-        iterator = keys.iterator();
-        while (iterator.hasNext()) {
-
-            ElementConfig elementConfig = elementConfigMap.get(iterator.next());
-
-            if(elementConfig.getInputType() == InputType.DROPDOWN) {
-                ComboBoxForm comboBoxForm = (ComboBoxForm) getFormElement(
-                        elementConfig.getInputKey()
-                );
-                comboBoxForm.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("-- test --");
-                    }
-                });
-            }
-        }
-        // end test
 
     }
 
@@ -130,7 +111,7 @@ abstract public class BaseAbstractForm {
             }
 
             // add validators to element -> delegate to form validator
-            getFormValidator().setValidatorsToElement(elementKeyId, validatorConfigs);
+            getFormValidator().setValidatorsForElement(elementKeyId, validatorConfigs);
         }
 
     }
@@ -225,6 +206,10 @@ abstract public class BaseAbstractForm {
         }
 
         return belong;
+    }
+
+    public Map<String, DynamicChangeConfig> getDynamicChangeConfigMap() {
+        return dynamicChangeConfigMap;
     }
 
     public BlockRunner getSubmitBlockRunner() {

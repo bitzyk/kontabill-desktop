@@ -14,11 +14,15 @@ public class ClientTypeListModel extends AbstractComboListModel {
         return listOption;
     }
 
+    public static final String PF_OPTION_VALUE  = "Persoana fizica";
+
+    public static final String PJ_OPTION_VALUE  = "Persoana juridica";
+
     @Override
     public void setListOption() {
         listOption.add("Alege...");
-        listOption.add("Persoana fizica");
-        listOption.add("Persoana juridica");
+        listOption.add(PF_OPTION_VALUE);
+        listOption.add(PJ_OPTION_VALUE);
     }
 
     @Override

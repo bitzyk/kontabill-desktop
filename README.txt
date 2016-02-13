@@ -587,6 +587,15 @@ solutie2:
 							- Afisarea, adaugarea conditionala a validatoarelo r se face in obiectul de FormValidator
 
 
+			-- ai ramas aici --: main/java/kontabill/layout/elements/forms/FormLayoutBaseAbstract.java:103
+
+-- ai ramas aici --
+
+
+
+
+
+
 - export/import delegati
 	- write to a buffer
 	- save to specified directory

@@ -28,7 +28,7 @@ public class FormValidator {
 
     }
 
-    public void setValidatorsToElement(String key, List<ValidatorConfig> validatorConfigs)
+    public void setValidatorsForElement(String key, List<ValidatorConfig> validatorConfigs)
     {
         List<Validator> validatorsList = new ArrayList<>();
 
@@ -43,6 +43,24 @@ public class FormValidator {
         }
 
         this.validators.put(key, validatorsList);
+
+        // attach validators to formElement object
+        form.getFormElements().get(key).setValidators(validatorsList);
+    }
+
+    /**
+     *
+     * Method to be called when validators exist in FormElement object, but has been remove
+     * from FormValidator object
+     *
+     * @param key
+     */
+    public void setValidatorsForElement(String key)
+    {
+        this.validators.put(
+                key,
+                form.getFormElements().get(key).getValidators()
+        );
     }
 
     /**
@@ -137,6 +155,16 @@ public class FormValidator {
     {
         // clear by rewritting with an empty list
         validationErrors.put(key, new ArrayList<String>());
+    }
+
+    /**
+     * Remove validators form element with formKey
+     * @param formKey
+     */
+    public void removeValidatorsForElement(String formKey)
+    {
+        this.validators.remove(formKey);
+        this.validators.put(formKey, new ArrayList<>());
     }
 
     public void clearAllValidationErrors()

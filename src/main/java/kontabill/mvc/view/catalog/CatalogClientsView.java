@@ -105,33 +105,14 @@ public class CatalogClientsView extends BaseAbstractView  {
 
             submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga client");
 
-            /* test */
-            JButton submitButton2 = ButtonFactory.createButtonGreenSubmitControlPanel("test2");
-
-            rowPanel3.add(submitButton2);
-
-            submitButton2.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    formLayout.testShow();
-                }
-            });
-
-            /* end test */
-
             form.registerSubmitButton(submitButton, () -> {
-
-                /* test */
-                System.out.println(
-                        "-- test hide --"
-                );
-                formLayout.testHide();
-                /* end test */
-
-//                if (formLayout.validate() == true) {
+                if (formLayout.validate() == true) {
+                    System.out.println(
+                            "-- validare cu success --"
+                    );
 //                    getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
 //                    ((CatalogController) getControllerForView()).addLegalRepresentativeAction(form);
-//                }
+                }
             });
         }
 

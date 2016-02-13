@@ -5,9 +5,8 @@ import main.java.kontabill.mvc.model.entities.Entity;
 import main.java.kontabill.mvc.model.entities.LegalEntity;
 import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
 import main.java.kontabill.mvc.model.entities.Representative;
-import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
-import main.java.kontabill.mvc.model.forms.base.ValidatorConfig;
-import main.java.kontabill.mvc.model.forms.base.ValidatorType;
+import main.java.kontabill.mvc.model.forms.base.*;
+import main.java.kontabill.mvc.model.forms.base.list_model.ClientTypeListModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  *
  */
-public class ClientForm extends BaseAbstractForm {
+public class ClientForm extends BaseAbstractForm implements DynamicChangeableForm {
 
     private static final String KEY_CLIENT_TYPE = "clientType";
     private static final String KEY_PF_LASTNAME = "pfLastName";
@@ -111,6 +110,7 @@ public class ClientForm extends BaseAbstractForm {
         // add validators for representative name
         ArrayList<ValidatorConfig> validatorsName = new ArrayList<>();
         ArrayList<ValidatorConfig> validatorsCompany = new ArrayList<>();
+        ArrayList<ValidatorConfig> validatorsCif = new ArrayList<>();
 
 
         validatorsName.add(new ValidatorConfig(
@@ -145,6 +145,11 @@ public class ClientForm extends BaseAbstractForm {
                 new String[]{}
         ));
 
+        validatorsCif.add(new ValidatorConfig(
+                ValidatorType.REQUIRED,
+                new String[]{}
+        ));
+
         // @todo -> add validator: exact length
         // @todo -> add validator: cnp validator
 
@@ -163,8 +168,45 @@ public class ClientForm extends BaseAbstractForm {
                 KEY_PF_CNP,
                 validatorsCnp
         );
+
+        ELEMENTS_VALIDATORS.put(
+                KEY_PJ_CIF,
+                validatorsCif
+        );
     }
     // END VALIDATORS DEFINITION
+
+    public ClientForm() {
+        super();
+        setDynamicChangeConfiguration();
+    }
+
+    @Override
+    public void setDynamicChangeConfiguration() {
+        // set dynamic change config for element clientType with value pers fizica
+        DynamicChangeConfig dynamicChangeConfigPf = new DynamicChangeConfig();
+
+        dynamicChangeConfigPf.setForElementWithKey(KEY_CLIENT_TYPE);
+        dynamicChangeConfigPf.setForElementWithValue(ClientTypeListModel.PF_OPTION_VALUE);
+        dynamicChangeConfigPf.setRemoveValidatorsForHiddenElements(true);
+
+        dynamicChangeConfigPf.getShowElements().add(KEY_PF_NAME);
+        dynamicChangeConfigPf.getShowElements().add(KEY_PF_LASTNAME);
+
+        this.dynamicChangeConfigMap.put("clientTypePf", dynamicChangeConfigPf);
+
+        // set dynamic change config for element clientType with value pers juridica
+        DynamicChangeConfig dynamicChangeConfigPj = new DynamicChangeConfig();
+
+        dynamicChangeConfigPj.setForElementWithKey(KEY_CLIENT_TYPE);
+        dynamicChangeConfigPj.setForElementWithValue(ClientTypeListModel.PJ_OPTION_VALUE);
+        dynamicChangeConfigPf.setRemoveValidatorsForHiddenElements(true);
+
+        dynamicChangeConfigPj.getShowElements().add(KEY_PJ_BANK);
+        dynamicChangeConfigPj.getShowElements().add(KEY_PJ_CIF);
+
+        this.dynamicChangeConfigMap.put("clientTypePj", dynamicChangeConfigPj);
+    }
 
     @Override
     public String[][] getElementsDefinition() {

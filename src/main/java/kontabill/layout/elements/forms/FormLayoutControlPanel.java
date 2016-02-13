@@ -39,9 +39,8 @@ public class FormLayoutControlPanel extends FormLayoutBaseAbstract {
                 constaints = "wrap, gap bottom 13";
             }
 
-            getPanel().add(new LabelForm(label));
-            getPanel().add(formElement, constaints);
-
+            addElementsInPanel(elementKeyId, new LabelForm(label));
+            addElementsInPanel(elementKeyId, formElement, constaints);
         }
     }
 

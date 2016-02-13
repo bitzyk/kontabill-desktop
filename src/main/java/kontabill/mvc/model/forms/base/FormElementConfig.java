@@ -2,6 +2,7 @@ package main.java.kontabill.mvc.model.forms.base;
 
 import main.java.kontabill.layout.elements.forms.model.InputType;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class FormElementConfig {
     }
 
     /**
-     * @todo implement thiss
+     * @todo implement this
      * @param key
      */
     public void getTypeOfElement(String key)
@@ -64,5 +65,29 @@ public class FormElementConfig {
 
     public Map<String, ElementConfig> getElementConfigMap() {
         return elementConfigMap;
+    }
+
+
+    /**
+     * Return all form keys as an array
+     * @return
+     */
+    public String[] getAllFormKeys()
+    {
+        String[] allFormKeys = new String[elementConfigMap.size()];
+
+        Iterator<String> iterator = elementConfigMap.keySet().iterator();
+
+        int i = 0;
+        while (iterator.hasNext()) {
+            ElementConfig elementConfig = elementConfigMap.get(
+                    iterator.next()
+            );
+
+            allFormKeys[i] = elementConfig.getInputKey();
+            i++;
+        }
+
+        return allFormKeys;
     }
 }
