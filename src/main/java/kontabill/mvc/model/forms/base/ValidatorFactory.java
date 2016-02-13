@@ -18,6 +18,8 @@ abstract public class ValidatorFactory {
             validator = new MinLengthValidator(validatorConfig, formElement);
         } else if (validatorConfig.getValidatorType() == ValidatorType.REQUIRED) {
             validator = new RequiredValidator(validatorConfig, formElement);
+        } else if (validatorConfig.getValidatorType() == ValidatorType.REQUIRED_DROPDOWN) {
+            validator = new RequiredDropdownValidator(validatorConfig, formElement);
         } else if (validatorConfig.getValidatorType() == ValidatorType.DECIMAL) {
             validator = new DecimalValidator(validatorConfig, formElement);
         } else if (validatorConfig.getValidatorType() == ValidatorType.ALPHA_NUMERIC) {

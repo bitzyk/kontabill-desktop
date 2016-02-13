@@ -48,7 +48,7 @@ public class ComboBoxForm extends JComboBox implements UIElement, FormElement
 
     @Override
     public String getValue() {
-        return "";
+        return (String) getSelectedItem();
     }
 
 

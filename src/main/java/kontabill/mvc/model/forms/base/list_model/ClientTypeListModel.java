@@ -20,7 +20,7 @@ public class ClientTypeListModel extends AbstractComboListModel {
 
     @Override
     public void setListOption() {
-        listOption.add("Alege...");
+        listOption.add(AbstractComboListModel.INITIAL_PRESELECTED_KEY);
         listOption.add(PF_OPTION_VALUE);
         listOption.add(PJ_OPTION_VALUE);
     }

@@ -134,10 +134,17 @@ abstract public class FormLayoutBaseAbstract {
                                 }
                             }
 
-                            // when remove validators for hidden elementg is set to true (default behaviour)
+                            // when remove validators for hidden elements is set to true (default behaviour)
                             if(true == dynamicChangeConfig.isRemoveValidatorsForHiddenElements()) {
-                                // 3. remove all validators
+                                // 3. remove all validators -> less the validator for current dynamicChange trigger
                                 for (String formKey : form.getFormElementConfig().getAllFormKeys()) {
+
+                                    // do not remove validator for current dynamicChange trigger
+                                    if(dynamicChangeConfig.getForElementWithKey() == formKey) {
+                                        continue;
+                                    }
+
+                                    // remove validator for formKey
                                     form.getFormValidator().removeValidatorsForElement(formKey);
                                 }
 

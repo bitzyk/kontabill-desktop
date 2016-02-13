@@ -6,6 +6,7 @@ import main.java.kontabill.mvc.model.entities.LegalEntity;
 import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
 import main.java.kontabill.mvc.model.entities.Representative;
 import main.java.kontabill.mvc.model.forms.base.*;
+import main.java.kontabill.mvc.model.forms.base.list_model.AbstractComboListModel;
 import main.java.kontabill.mvc.model.forms.base.list_model.ClientTypeListModel;
 
 import java.util.ArrayList;
@@ -134,7 +135,12 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
         ArrayList<ValidatorConfig> validatorsName = new ArrayList<>();
         ArrayList<ValidatorConfig> validatorsCompany = new ArrayList<>();
         ArrayList<ValidatorConfig> validatorsCif = new ArrayList<>();
+        ArrayList<ValidatorConfig> validatorsClientType = new ArrayList<>();
 
+        validatorsClientType.add(new ValidatorConfig(
+                ValidatorType.REQUIRED_DROPDOWN,
+                new String[]{}
+        ));
 
         validatorsName.add(new ValidatorConfig(
                 ValidatorType.REQUIRED,
@@ -196,6 +202,11 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
                 KEY_PJ_CIF,
                 validatorsCif
         );
+
+        ELEMENTS_VALIDATORS.put(
+                KEY_CLIENT_TYPE,
+                validatorsClientType
+        );
     }
     // END VALIDATORS DEFINITION
 
@@ -235,6 +246,15 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
 
         // add dynamic change for PJ to the dynamic change config object
         this.dynamicChangeConfigMap.put("clientTypePj", dynamicChangeConfigPj);
+
+
+        // add dymaic change for clientyType for initial preselect key (default: Alege...)
+        DynamicChangeConfig dynamicChangeConfigChoose = new DynamicChangeConfig();
+        dynamicChangeConfigChoose.setForElementWithKey(KEY_CLIENT_TYPE);
+        dynamicChangeConfigChoose.setForElementWithValue(AbstractComboListModel.INITIAL_PRESELECTED_KEY);
+        dynamicChangeConfigChoose.setRemoveValidatorsForHiddenElements(true);
+
+        this.dynamicChangeConfigMap.put(AbstractComboListModel.INITIAL_PRESELECTED_KEY, dynamicChangeConfigChoose);
     }
 
     @Override
