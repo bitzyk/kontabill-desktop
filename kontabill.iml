@@ -12,5 +12,6 @@
     <orderEntry type="library" name="derby" level="project" />
     <orderEntry type="library" name="balloontip-1.2.4.1" level="project" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="library" name="guice-3.0" level="project" />
   </component>
 </module>

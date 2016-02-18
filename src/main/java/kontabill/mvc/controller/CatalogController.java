@@ -4,16 +4,23 @@ import main.java.kontabill.Kontabill;
 import main.java.kontabill.lib.core.request.RequestSessionKey;
 import main.java.kontabill.mvc.model.catalog.CatalogModel;
 import main.java.kontabill.mvc.model.core.SubscribeableHashMap;
+import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
+import main.java.kontabill.mvc.model.entities.Client;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.Representative;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.RepresentativeForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
+import main.java.kontabill.mvc.model.repository.RepositoryFactory;
+import main.java.kontabill.mvc.model.repository.interfaces.LegalEntitiesRepository;
 import main.java.kontabill.mvc.view.catalog.CatalogClientsView;
 import main.java.kontabill.mvc.view.catalog.CatalogDelegatesView;
 import main.java.kontabill.mvc.view.catalog.CatalogLegalRepresentativesView;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 // delete
 //import org.apache.derby.jdbc.EmbeddedDriver;
@@ -34,7 +41,21 @@ public class CatalogController extends BaseAbstractController {
 
     public void catalogClientsAction()
     {
-        CatalogClientsView catalogClientsView = new CatalogClientsView(this);
+        SubscribeableHashMap<Integer, Client> clientSubscribeableHashMap = new SubscribeableHashMap<>();
+
+        // query the clients in a thread (non blocking)
+        new Thread(() -> {
+            SwingUtilities.invokeLater(() -> {
+                LegalEntitiesRepository repository = RepositoryFactory.getLegalEntitiesRepositoryInstance();
+                Map<Integer, Client> clients = repository.getAllClients();
+
+                clientSubscribeableHashMap.putAll(clients);
+                clientSubscribeableHashMap.setThreadFinished(true);
+            });
+        }).start();
+
+
+        CatalogClientsView catalogClientsView = new CatalogClientsView(this, clientSubscribeableHashMap);
         catalogClientsView.render();
 
     }

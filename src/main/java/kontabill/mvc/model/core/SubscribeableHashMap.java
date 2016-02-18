@@ -25,6 +25,13 @@ public class SubscribeableHashMap<K,V> extends HashMap {
     }
 
     @Override
+    public void putAll(Map m) {
+        observedMap.putAll(m);
+    }
+
+//public V setMap()
+
+    @Override
     public Object get(Object key) {
         return observedMap.get(key);
     }
@@ -63,5 +70,10 @@ public class SubscribeableHashMap<K,V> extends HashMap {
 
     public HashMap<K, V> getObservedMap() {
         return observedMap;
+    }
+
+    @Override
+    public int size() {
+        return observedMap.size();
     }
 }

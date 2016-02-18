@@ -599,6 +599,9 @@ solutie2:
 
 -- ai ramas aici --
 
+- foloseste Repository Pattern pentru a selecta clientii din D.B. (sau implementare la nomenclator Produse)
+- adauga client
+
 
 
 - export/import delegati
