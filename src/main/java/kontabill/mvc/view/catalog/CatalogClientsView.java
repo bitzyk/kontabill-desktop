@@ -1,13 +1,10 @@
 package main.java.kontabill.mvc.view.catalog;
 
-import main.java.kontabill.Kontabill;
 import main.java.kontabill.layout.ViewUtils;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
-import main.java.kontabill.layout.elements.forms.FormLayout;
 import main.java.kontabill.layout.elements.forms.FormLayoutBaseAbstract;
 import main.java.kontabill.layout.elements.forms.FormLayoutControlPanel;
 import main.java.kontabill.layout.elements.forms.FormLayoutDialog;
-import main.java.kontabill.layout.elements.forms.model.InputType;
 import main.java.kontabill.layout.elements.tables.TableDefault;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.model.RowTypePanels;
@@ -19,10 +16,8 @@ import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Client;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.table_models.ClientTableModel;
-import main.java.kontabill.mvc.model.entities.table_models.DelegatTableModel;
 import main.java.kontabill.mvc.model.forms.ClientForm;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
-import main.java.kontabill.mvc.model.forms.RepresentativeForm;
 import main.java.kontabill.mvc.model.forms.SearchFormTable;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
@@ -131,8 +126,8 @@ public class CatalogClientsView extends BaseAbstractView  {
 
             form.registerSubmitButton(submitButton, () -> {
                 if (formLayout.validate() == true) {
-//                    getRequest().removeDataItem("checkedEntitiesRepresentantTableModel");
-//                    ((CatalogController) getControllerForView()).addLegalRepresentativeAction(form);
+                    getRequest().removeDataItem("checkedEntitiesClientTableModel");
+                    ((CatalogController) getControllerForView()).addClientAction(form);
                 }
             });
         }
@@ -165,10 +160,6 @@ public class CatalogClientsView extends BaseAbstractView  {
             @Override
             public void run(HashMap<Integer, Client> clientsHashMap) {
 
-                System.out.println(
-                        "-- client hash map --"
-                );
-
                 // set table with model
                 ClientTableModel clientTableModel = new ClientTableModel(clientsHashMap);
                 clientTableModel.initTableModelActivityListener(request);
@@ -193,7 +184,7 @@ public class CatalogClientsView extends BaseAbstractView  {
                         if (!clientTableModel.hasSelectedRows()) {
                             JOptionPane.showMessageDialog(
                                     null,
-                                    "Nu ati selectat delegati pentru a fi stersi din baza de date!",
+                                    "Nu ati selectat clienti pentru a fi stersi din baza de date!",
                                     "Comanda invalida",
                                     JOptionPane.WARNING_MESSAGE
                             );
@@ -202,7 +193,7 @@ public class CatalogClientsView extends BaseAbstractView  {
 
                             int option = JOptionPane.showConfirmDialog(
                                     null,
-                                    "Ati selectat un numar de " + noSelectedRows + " delegati." +
+                                    "Ati selectat un numar de " + noSelectedRows + " clienti." +
                                             "\nConfirmati stergerea ?",
                                     "Confirmati stergerea",
                                     JOptionPane.YES_NO_OPTION
@@ -210,13 +201,13 @@ public class CatalogClientsView extends BaseAbstractView  {
 
                             if (option == JOptionPane.YES_OPTION) {
                                 // call delete delegates for selected delegates
-                                ArrayList<Delegat> delegats = clientTableModel.getSelectedEntities();
+                                ArrayList<Client> clients = clientTableModel.getSelectedEntities();
 
                                 // reset checked values to not be auto-populated on future request (could be less rows that curently are)
                                 getRequest().addDataItem("checkedEntitiesClientTableModel", null);
 
                                 // call method controller for deleting delegates
-                                ((CatalogController) getControllerForView()).deleteDelegatesAction(delegats);
+                                ((CatalogController) getControllerForView()).deleteClientsAction(clients);
                             }
                         }
                     }
@@ -227,7 +218,7 @@ public class CatalogClientsView extends BaseAbstractView  {
                     if (!clientTableModel.hasSelectedRows()) {
                         JOptionPane.showMessageDialog(
                                 null,
-                                "Nu ati selectat delegati pentru a fi editati!",
+                                "Nu ati selectat clienti pentru a fi editati!",
                                 "Comanda invalida",
                                 JOptionPane.WARNING_MESSAGE
                         );
@@ -238,33 +229,33 @@ public class CatalogClientsView extends BaseAbstractView  {
                         if (noSelectedRows > 5) {
                             JOptionPane.showMessageDialog(
                                     null,
-                                    "Puteti edita un numar de maxim 5 delegati simultan",
+                                    "Puteti edita un numar de maxim 5 clienti simultan",
                                     "Comanda invalida",
                                     JOptionPane.WARNING_MESSAGE
                             );
                         } else {
-                            ArrayList<Delegat> delegats = clientTableModel.getSelectedEntities();
+                            ArrayList<Client> clients = clientTableModel.getSelectedEntities();
 
-                            for (int i = 0; i < delegats.size(); i++) {
+                            for (int i = 0; i < clients.size(); i++) {
 
-                                Delegat delegat = delegats.get(i);
+                                Client client = clients.get(i);
 
-                                BaseAbstractForm form = new DelegatForm();
-                                form.hydrateForm(delegat);
+                                BaseAbstractForm form = new ClientForm();
+                                form.hydrateForm(client);
 
                                 FormLayoutDialog formLayout = new FormLayoutDialog(
                                         form,
                                         new JPanel(),
                                         i,
                                         "Editare",
-                                        "Editeaza delegat `" + delegat.getName() + "`"
+                                        "Editeaza client `" + client.getName() + "`"
                                 );
                                 formLayout.showForm();
 
                                 formLayout.registerSubmitButtonRunner(() -> {
                                     if (formLayout.validate() == true) {
                                         getRequest().removeDataItem("checkedEntitiesClientTableModel");
-                                        ((CatalogController) getControllerForView()).editDelegatAction(delegat, form);
+                                        ((CatalogController) getControllerForView()).editClientAction(client, form);
                                     }
                                 });
                             }

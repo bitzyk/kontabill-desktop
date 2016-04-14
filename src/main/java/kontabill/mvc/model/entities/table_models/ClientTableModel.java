@@ -1,7 +1,6 @@
 package main.java.kontabill.mvc.model.entities.table_models;
 
-import main.java.kontabill.mvc.model.entities.Delegat;
-import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
+import main.java.kontabill.mvc.model.entities.Client;
 import main.java.kontabill.mvc.model.entities.table_models.base.BaseAbstract;
 
 import java.util.HashMap;
@@ -32,13 +31,13 @@ public class ClientTableModel extends BaseAbstract {
                     "left",
             },
             {
-                    "Serie buletin",
+                    "Tip client",
                     null,
                     "20",
                     "left",
             },
             {
-                    "Numar buletin",
+                    "Identificator client / CUI - CNP",
                     null,
                     "20",
                     "left",
@@ -69,7 +68,7 @@ public class ClientTableModel extends BaseAbstract {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Delegat delegat = (Delegat)listEntitiesCollection.get(rowIndex);
+        Client client = (Client)listEntitiesCollection.get(rowIndex);
 
         Object value = null;
 
@@ -78,13 +77,13 @@ public class ClientTableModel extends BaseAbstract {
                 value = rowIndex + 1;
                 break;
             case 1:
-                value = delegat.getName();
+                value = client.getName();
                 break;
             case 2:
-                value = ((LegalEntityDetailPerson) delegat.getLegalEntityDetail()).getIdSerial();
+                value = client.getType();
                 break;
             case 3:
-                value = ((LegalEntityDetailPerson) delegat.getLegalEntityDetail()).getIdNo();;
+                value = client.getIdentifier();
                 break;
             case CHECKED_COLUMN_INDEX:
                 value = checkedEntitiesArray[rowIndex];

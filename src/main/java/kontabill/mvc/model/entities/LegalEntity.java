@@ -1,5 +1,6 @@
 package main.java.kontabill.mvc.model.entities;
 
+import com.google.inject.Inject;
 import main.java.kontabill.mvc.model.db_model.LegalEntitiesTypes;
 import main.java.kontabill.mvc.model.entities.base.FilterableEntity;
 
@@ -74,6 +75,7 @@ public class LegalEntity extends Entity implements FilterableEntity {
         return legalEntityDetail;
     }
 
+    @Inject
     public void setLegalEntityDetail(LegalEntityDetail legalEntityDetail) {
         this.legalEntityDetail = legalEntityDetail;
     }

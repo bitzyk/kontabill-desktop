@@ -4,15 +4,19 @@ import main.java.kontabill.mvc.model.entities.Client;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.LegalEntity;
 import main.java.kontabill.mvc.model.entities.Representative;
+import main.java.kontabill.mvc.model.repository.entity_mock_generator.EntityGenerator;
 import main.java.kontabill.mvc.model.repository.interfaces.LegalEntitiesRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by cbitoi on 16/02/16.
  */
 public class LegalEntitiesInMemoryRepository implements LegalEntitiesRepository {
+
+    private Map<Integer, Client> clients = new HashMap<>();
 
     @Override
     public Client getClientById(int id) {
@@ -41,29 +45,44 @@ public class LegalEntitiesInMemoryRepository implements LegalEntitiesRepository 
 
     @Override
     public Map<Integer, Client> getAllClients() {
-        Map<Integer, Client> clientMap = new HashMap<>();
 
-        return clientMap;
+        // if no clients in memory then generate mock clients
+        if(clients.size() == 0) {
+            EntityGenerator generator = new EntityGenerator<Client>(Client.class, 10);
+            clients = generator.generate();
+        }
+
+        return clients;
     }
 
     @Override
-    public int add(Delegat delegat) {
-        return 0;
+    public boolean add(Delegat delegat) {
+        return true;
     }
 
     @Override
-    public int add(Representative representative) {
-        return 0;
+    public boolean add(Representative representative) {
+        return true;
     }
 
     @Override
-    public int add(Client client) {
-        return 0;
+    public boolean add(Client client) {
+
+        // generate a mock id
+        int generatedId = 500 + (int)(Math.random() * (1000 - 500)); // between [500 -1000)
+
+        // add client to memory
+        clients.put(generatedId, client);
+
+        // set id to entity (this usually happens after db insert, so this is the reason for positioning after clients.put())
+        client.setId(generatedId);
+
+        return true;
     }
 
     @Override
-    public int add(LegalEntity legalEntity) {
-        return 0;
+    public boolean add(LegalEntity legalEntity) {
+        return true;
     }
 
     @Override
@@ -77,13 +96,34 @@ public class LegalEntitiesInMemoryRepository implements LegalEntitiesRepository 
     }
 
     @Override
-    public boolean remove(Client client) {
-        return false;
+    public boolean remove(Client client)
+    {
+        // remove client from memory
+        Object result = clients.remove(client.getId());
+
+        if(result != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean remove(LegalEntity legalEntity) {
         return false;
+    }
+
+    @Override
+    public int removeAll(List<Client> clients)
+    {
+        int deleted = 0;
+        for (Client client : clients) {
+            if ( remove(client) ) {
+                deleted += 1;
+            }
+        }
+
+        return deleted;
     }
 
     @Override

@@ -94,6 +94,10 @@ abstract public class FormLayoutBaseAbstract {
                     public void actionPerformed(ActionEvent e) {
                         String selectedItem = (String) ((JComboBox) e.getSource()).getSelectedItem();
 
+                        System.out.println(
+                                "panel components size " + panelComponents.size()
+                        );
+
                         if(selectedItem == dynamicChangeConfig.getForElementWithValue()) {
 
                             // 1. hide all elements, less the current form element that trigers dynamic change

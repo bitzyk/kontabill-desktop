@@ -41,8 +41,7 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
 
     private JPanel headerPanel;
-
-    private JPanel formPanel;
+    private JPanel formPanel = new JPanel(new MigLayout()); // set migLayout to form panel
 
     private JPanel footerPanel;
 
@@ -137,7 +136,6 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
 
     private void initFormSection()
     {
-        this.formPanel = new JPanel(new MigLayout()); // set migLayout to form panel
         this.formPanel.setBackground(Color.WHITE);
 
         Map<String, ElementConfig> elementConfigMap = getForm().getFormElementConfig().getElementConfigMap();
@@ -147,13 +145,19 @@ public class FormLayoutDialog extends FormLayoutBaseAbstract {
         while (iterator.hasNext()) {
             ElementConfig elementConfig = elementConfigMap.get(iterator.next());
 
-            //System.out.println("elements: " + elementConfig.getInputKey());
-
+            // define formElement and JLabel
             JComponent formElement = (JComponent) getForm().getFormElements().get(elementConfig.getInputKey());
-            String label = elementConfig.getInputLabel();
+            JLabel jLabel = new LabelForm(elementConfig.getInputLabel());
 
-            this.formPanel.add(new LabelForm(label), "gapleft 100, gapright 30");
-            this.formPanel.add(formElement, "wrap, gap bottom 13, gapright 100");
+            // define constraint label and formElement
+            String constaintLabel = "gapleft 100, gapright 30";
+            String constaintFormElem = "wrap, gap bottom 13, gapright 100";
+
+            this.formPanel.add(jLabel, constaintLabel);
+            this.formPanel.add(formElement, constaintFormElem);
+
+            //addElementsInPanel(elementConfig.getInputKey(), jLabel, constaintLabel);
+            //addElementsInPanel(elementConfig.getInputKey(), formElement, constaintFormElem);
         }
     }
 

@@ -603,6 +603,24 @@ solutie2:
 - adauga client
 
 
+-- ai ramas aici --
+main/java/kontabill/mvc/model/repository/entity_mock_generator/EntitiGenerator.java:38
+	// populate the entity with mock values
+
+-- ai ramas aici --
+
+-- editare client (In memory repository)
+-- implementare Database repository
+-- implementare buton vizulizare client (window tab detalii pf/pj)
+
+
+
+	- listare clienti
+		- model table
+		- implementare LegalEntitiesInMemoryRepository
+			- mock entities creator extern
+			- folosire Guice DIC pt get instance de client (vezi detail person, type) -> inject methods
+
 
 - export/import delegati
 	- write to a buffer

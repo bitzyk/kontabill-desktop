@@ -5,6 +5,7 @@ import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.LegalEntity;
 import main.java.kontabill.mvc.model.entities.Representative;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,13 +25,13 @@ public interface LegalEntitiesRepository extends Repository {
 
     public Map<Integer, Client> getAllClients();
 
-    public int add(Delegat delegat);
+    public boolean add(Delegat delegat);
 
-    public int add(Representative representative);
+    public boolean add(Representative representative);
 
-    public int add(Client client);
+    public boolean add(Client client);
 
-    public int add(LegalEntity legalEntity);
+    public boolean add(LegalEntity legalEntity);
 
     public boolean remove(Delegat delegat);
 
@@ -39,5 +40,7 @@ public interface LegalEntitiesRepository extends Repository {
     public boolean remove(Client client);
 
     public boolean remove(LegalEntity legalEntity);
+
+    public int removeAll(List<Client> clients);
 
 }

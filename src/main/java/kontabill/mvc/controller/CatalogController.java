@@ -1,5 +1,6 @@
 package main.java.kontabill.mvc.controller;
 
+import com.google.inject.Guice;
 import main.java.kontabill.Kontabill;
 import main.java.kontabill.lib.core.request.RequestSessionKey;
 import main.java.kontabill.mvc.model.catalog.CatalogModel;
@@ -8,6 +9,7 @@ import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Client;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.Representative;
+import main.java.kontabill.mvc.model.forms.ClientForm;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
 import main.java.kontabill.mvc.model.forms.RepresentativeForm;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
@@ -34,9 +36,13 @@ public class CatalogController extends BaseAbstractController {
 
     protected CatalogModel model;
 
+    protected LegalEntitiesRepository legalEntitiesRepository;
+
 
     public CatalogController(Kontabill kontabill) {
         super(kontabill);
+
+        legalEntitiesRepository = RepositoryFactory.getLegalEntitiesRepositoryInstance();
     }
 
     public void catalogClientsAction()
@@ -46,14 +52,12 @@ public class CatalogController extends BaseAbstractController {
         // query the clients in a thread (non blocking)
         new Thread(() -> {
             SwingUtilities.invokeLater(() -> {
-                LegalEntitiesRepository repository = RepositoryFactory.getLegalEntitiesRepositoryInstance();
-                Map<Integer, Client> clients = repository.getAllClients();
+                Map<Integer, Client> clients = legalEntitiesRepository.getAllClients();
 
                 clientSubscribeableHashMap.putAll(clients);
                 clientSubscribeableHashMap.setThreadFinished(true);
             });
         }).start();
-
 
         CatalogClientsView catalogClientsView = new CatalogClientsView(this, clientSubscribeableHashMap);
         catalogClientsView.render();
@@ -88,6 +92,20 @@ public class CatalogController extends BaseAbstractController {
         getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
     }
 
+
+    public void deleteClientsAction(ArrayList<Client> clients)
+    {
+        // delete clients
+        int deleted = legalEntitiesRepository.removeAll(clients);
+
+        System.out.println(
+                "deleted: " + deleted
+        );
+
+        // redirect
+        getKontabill().getMVC().runController("catalogClientsAction", getRequest());
+    }
+
     public void deleteLegalRepresentativesAction(ArrayList<Representative> representatives)
     {
         // delete representatives
@@ -119,6 +137,29 @@ public class CatalogController extends BaseAbstractController {
         }
     }
 
+    public void addClientAction(BaseAbstractForm form)
+    {
+        if(form.validate()) {
+            // deal with the form
+            Client client = Guice.createInjector().getInstance(Client.class);
+
+            ((ClientForm)form).hydrateEntity(client);
+
+            legalEntitiesRepository.add(client);
+
+            // if entity has been edited set addedId in session
+            if(client.getId() > 0) {
+                System.out.println(
+                        "adddedId: "+ client.getId()
+                );
+                getRequest().getSessionPayload().addDataItem(RequestSessionKey.ADDED_KEY, client.getId());
+            }
+
+            // redirect
+            getKontabill().getMVC().runController("catalogClientsAction", getRequest());
+        }
+    }
+
     public void addLegalRepresentativeAction(BaseAbstractForm form)
     {
         if(form.validate()) {
@@ -136,6 +177,28 @@ public class CatalogController extends BaseAbstractController {
             // redirect
             getKontabill().getMVC().runController("catalogLegalRepresentativesAction", getRequest());
         }
+    }
+
+    public void editClientAction(Client clientEntity, BaseAbstractForm form)
+    {
+        System.out.println(
+                "-- editeza client"
+        );
+
+//        if (form.validate()) {
+//            // rewrite entity with values from form (except the id)
+//            ((DelegatForm)form).hydrateEntity(clientEntity);
+//
+//            boolean edited = model.editDelegat(clientEntity);
+//
+//            // if delegat has been edited set editedId in session
+//            if(edited == true) {
+//                getRequest().getSessionPayload().addDataItem(RequestSessionKey.EDITED_KEY, clientEntity.getId());
+//            }
+//
+//            // redirect back to catalogDelegatesAction
+//            getKontabill().getMVC().runController("catalogDelegatesAction", getRequest());
+//        }
     }
 
     public void editDelegatAction(Delegat delegatEntity, BaseAbstractForm form)

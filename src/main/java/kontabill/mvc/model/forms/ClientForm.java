@@ -1,10 +1,7 @@
 package main.java.kontabill.mvc.model.forms;
 
 import main.java.kontabill.layout.elements.forms.model.InputType;
-import main.java.kontabill.mvc.model.entities.Entity;
-import main.java.kontabill.mvc.model.entities.LegalEntity;
-import main.java.kontabill.mvc.model.entities.LegalEntityDetailPerson;
-import main.java.kontabill.mvc.model.entities.Representative;
+import main.java.kontabill.mvc.model.entities.*;
 import main.java.kontabill.mvc.model.forms.base.*;
 import main.java.kontabill.mvc.model.forms.base.list_model.AbstractComboListModel;
 import main.java.kontabill.mvc.model.forms.base.list_model.ClientTypeListModel;
@@ -270,25 +267,26 @@ public class ClientForm extends BaseAbstractForm implements DynamicChangeableFor
     @Override
     public void hydrateEntity(Entity entity) {
         // validate entity to hydrate
-//        if(! (entity instanceof Representative)) {
-//            throw new RuntimeException("Hydrate invalid entity.");
-//        }
-//
-//        // hydrate
-//        Representative representative = (Representative)entity;
-//        representative
-//                .setName(
-//                        getFormElements().get(KEY_REPRESENTATIVE_NAME).getValue()
-//                )
-//                .setType(LegalEntity.TYPE_PF)
-//                .setIdentifier(
-//                        getFormElements().get(KEY_IDENTIFIER).getValue()
-//                );
-//
-//        // if LegalEntity does not already contain LegalEntityDetailPerson set a new object
-//        if(! (representative.getLegalEntityDetail() instanceof LegalEntityDetailPerson)) {
-//            representative.setLegalEntityDetail(new LegalEntityDetailPerson());
-//        }
+        if(! (entity instanceof Client)) {
+            throw new RuntimeException("Hydrate invalid entity.");
+        }
+
+        // hydrate
+        Client client = (Client)entity;
+        client
+                .setName(
+                        getFormElements().get(KEY_PF_NAME).getValue() +
+                                " " +
+                                getFormElements().get(KEY_PF_LASTNAME).getValue()
+                )
+                .setType(getFormElements().get(KEY_CLIENT_TYPE).getValue())
+
+                // @todo -> check type to set identifier
+                .setIdentifier(
+                        getFormElements().get(KEY_PF_CNP).getValue()
+                );
+
+        // @todo -> hydrate all possible values
 
     }
 

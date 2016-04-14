@@ -2,8 +2,6 @@ package main.java.kontabill.mvc.view.catalog;
 
 import main.java.kontabill.layout.ViewUtils;
 import main.java.kontabill.layout.elements.factories.ButtonFactory;
-import main.java.kontabill.layout.elements.forms.FormLayoutBaseAbstract;
-import main.java.kontabill.layout.elements.forms.FormLayoutControlPanel;
 import main.java.kontabill.layout.elements.forms.FormLayoutDialog;
 import main.java.kontabill.layout.elements.tables.TableDefault;
 import main.java.kontabill.layout.view_layouts.panel_control_panel_table.ViewLayout;
@@ -15,9 +13,12 @@ import main.java.kontabill.mvc.model.core.SubscribeableHashMapListener;
 import main.java.kontabill.mvc.model.entities.Delegat;
 import main.java.kontabill.mvc.model.entities.table_models.DelegatTableModel;
 import main.java.kontabill.mvc.model.forms.DelegatForm;
-import main.java.kontabill.mvc.model.forms.SearchFormTable;
 import main.java.kontabill.mvc.model.forms.base.BaseAbstractForm;
 import main.java.kontabill.mvc.view.BaseAbstractView;
+import main.java.kontabill.mvc.view.view_commands.Command;
+import main.java.kontabill.mvc.view.view_commands.CommandRegistry;
+import main.java.kontabill.mvc.view.view_commands.concrete.ShowAddDelegatFormCommand;
+import main.java.kontabill.mvc.view.view_commands.concrete.ShowSearchDelegatFormCommand;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -63,6 +64,11 @@ public class CatalogDelegatesView extends BaseAbstractView  {
             }
     };
 
+    private JPanel panelForm;
+
+    private JButton submitButtonForm;
+
+
 
     public CatalogDelegatesView(BaseAbstractController controller, SubscribeableHashMap delegatesHashMap) {
         super(controller);
@@ -101,36 +107,42 @@ public class CatalogDelegatesView extends BaseAbstractView  {
         }
 
         // add row panel form
-        JPanel rowPanel3 = viewLayout.getPanelControl().addRowPanel(RowTypePanels.FORM);
+        panelForm = viewLayout.getPanelControl().addRowPanel(RowTypePanels.FORM);
 
-
-        JButton submitButton = null;
-
-        // add search formular by default when showForm does not exist in request
-        if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_DELEGATES)) {
-            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Cauta delegat");
-            BaseAbstractForm form = new SearchFormTable("Nume delegat", tableDelegates, submitButton);
-
-            FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
-
-        } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_DELEGAT)) {
-            BaseAbstractForm form = new DelegatForm();
-            FormLayoutBaseAbstract formLayout = new FormLayoutControlPanel(form, rowPanel3);
-
-            submitButton = ButtonFactory.createButtonGreenSubmitControlPanel("Adauga delegat");
-
-            form.registerSubmitButton(submitButton,  () -> {
-                if (formLayout.validate() == true) {
-                    getRequest().removeDataItem("checkedEntitiesDelegatTableModel");
-                    ((CatalogController) getControllerForView()).addDelegatAction(form);
-                }
-            });
-        }
+        // create submit button for form in panel3
+        submitButtonForm = ButtonFactory.createButtonGreenSubmitControlPanel("");; // buton label to be set
+        showRenderPanelForm();
 
         // add row panel 4 and submit button
         JPanel rowPanel4 = viewLayout.getPanelControl().addRowPanel(RowTypePanels.DEFAULT);
 
-        rowPanel4.add(submitButton);
+        rowPanel4.add(submitButtonForm);
+    }
+
+    private void  showRenderPanelForm()
+    {
+        // if form to show has been specified show the correct form
+        if (getRequest().hasDataItem(getShowFormKeyRequest())) {
+            if (this.isViewButtonActive(VIEW_BUTTON_SEARCH_DELEGATES)) {
+                Command showSearchDelegatFormCommand = new ShowSearchDelegatFormCommand();
+                showSearchDelegatFormCommand.execute(this);
+
+                CommandRegistry.addCommand(getShowFormKeyRequest(), showSearchDelegatFormCommand);
+            } else if (this.isViewButtonActive(VIEW_BUTTON_ADD_DELEGAT)) {
+                Command showAddDelegatFormCommand = new ShowAddDelegatFormCommand();
+                showAddDelegatFormCommand.execute(this);
+
+                CommandRegistry.addCommand(getShowFormKeyRequest(), showAddDelegatFormCommand);
+            }
+        } else if (CommandRegistry.getCommand(getShowFormKeyRequest()) != null) {
+            CommandRegistry.getCommand(getShowFormKeyRequest()).execute(this);
+        } else {
+            // show default form
+            Command showSearchDelegatFormCommand = new ShowSearchDelegatFormCommand();
+            showSearchDelegatFormCommand.execute(this);
+
+            CommandRegistry.addCommand(getShowFormKeyRequest(), showSearchDelegatFormCommand);
+        }
     }
 
     private void renderPanelTable()
@@ -296,12 +308,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
 
     private Boolean isViewButtonActive(String viewButtonIdentifier)
     {
-        if(! getRequest().hasDataItem("showForm")
-                && viewButtonIdentifier.equals(VIEW_BUTTON_SEARCH_DELEGATES)) {
-            return true;
-        }
-
-        if(viewButtonIdentifier.equals(getRequest().getDataItem("showForm"))) {
+        if(viewButtonIdentifier.equals(getRequest().getDataItem(getShowFormKeyRequest()))) {
             return true;
         }
 
@@ -317,7 +324,7 @@ public class CatalogDelegatesView extends BaseAbstractView  {
                     e.getActionCommand() == VIEW_BUTTON_ADD_DELEGAT ||
                     e.getActionCommand() == VIEW_BUTTON_SEARCH_DELEGATES
             ) {
-                getRequest().addDataItem("showForm", e.getActionCommand());
+                getRequest().addDataItem(getShowFormKeyRequest(), e.getActionCommand());
                 getMvc().runController("catalogDelegatesAction", request);
             }
 
@@ -326,5 +333,24 @@ public class CatalogDelegatesView extends BaseAbstractView  {
     }
 
 
+    private String getShowFormKeyRequest()
+    {
+        String key = getControllerForView().getControllerName() +
+                "ShowForm" +
+                "PanelControl";
 
+        return key;
+    }
+
+    public JPanel getPanelForm() {
+        return panelForm;
+    }
+
+    public JButton getSubmitButtonForm() {
+        return submitButtonForm;
+    }
+
+    public TableDefault getTableDelegates() {
+        return tableDelegates;
+    }
 }

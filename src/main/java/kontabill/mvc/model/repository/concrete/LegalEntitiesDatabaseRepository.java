@@ -7,6 +7,7 @@ import main.java.kontabill.mvc.model.entities.Representative;
 import main.java.kontabill.mvc.model.repository.interfaces.LegalEntitiesRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,23 +49,23 @@ public class LegalEntitiesDatabaseRepository implements LegalEntitiesRepository 
     }
 
     @Override
-    public int add(Delegat delegat) {
-        return 0;
+    public boolean add(Delegat delegat) {
+        return true;
     }
 
     @Override
-    public int add(Representative representative) {
-        return 0;
+    public boolean add(Representative representative) {
+        return true;
     }
 
     @Override
-    public int add(Client client) {
-        return 0;
+    public boolean add(Client client) {
+        return true;
     }
 
     @Override
-    public int add(LegalEntity legalEntity) {
-        return 0;
+    public boolean add(LegalEntity legalEntity) {
+        return true;
     }
 
     @Override
@@ -85,6 +86,11 @@ public class LegalEntitiesDatabaseRepository implements LegalEntitiesRepository 
     @Override
     public boolean remove(LegalEntity legalEntity) {
         return false;
+    }
+
+    @Override
+    public int removeAll(List<Client> clients) {
+        return 0;
     }
 
     @Override
